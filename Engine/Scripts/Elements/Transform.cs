@@ -1,0 +1,154 @@
+using System;
+using System.Collections.Generic;
+
+namespace UltimateEngine{
+	/*
+	* This class mananges positions and parenting/children of objects in
+	* the scene.
+	*/
+	public class Transform{
+		public static readonly Transform Origin = new Transform{
+			Parent = null,
+			GameObject = null
+		};
+
+		//the transform that changes where this transform is
+		public Transform Parent { get; private set; }
+
+		//the GameObject that the Transform is connected to
+		public GameObject GameObject { get; private set; }
+
+		//the children of this Transform
+		public List<Transform> Children { get; private set; } = new List<Transform>();
+
+		//position is not mananged by the transform, only local position is
+		public Point Position {
+			get => GetPosition();
+			set => SetPosition(value);
+		}
+		public double X => Position.X;
+		public double Y => Position.Y;
+
+		//determines where the Transform falls when being drawn
+		//higher number = 'on top'
+		private double layer = 0;
+		public double Z {
+			get {
+				return layer;
+			}
+			set {
+				SetZ(value);
+			}
+		}
+
+		//local position is the position based on the parenting
+		//if no parent, the transform is based on the origin: (0, 0)
+		public Point LocalPosition { get; set; } = new Point(0, 0);
+		public double LocalX => LocalPosition.X;
+		public double LocalY => LocalPosition.Y;
+
+		public Transform(GameObject go = null){
+			GameObject = go;
+		}
+
+		//sets the position
+		//inputs a world position, adjusts based on the parent
+		public void SetPosition(Point p){
+			LocalPosition = p - Parent.Position;
+		}
+
+		//returns the world position based on the parent
+		public Point GetPosition(){
+			if(Parent == null){//parent does not exist
+				return LocalPosition;
+			}
+			//parent exists
+			return Parent.Position + LocalPosition;
+		}
+
+		//sets the new layer and adjusts position in parent list
+		public void SetZ(double z){
+			layer = z;
+
+			Parent.UpdateChild(this);
+		}
+
+		//sets a new parent, removes self from parent's children
+		//function redoes the local position so that even when a new parent is set,
+		//it still reflects the same world position
+		public void SetParent(Transform t){
+			//if parent is null, make it not null
+			if(Parent == null){
+				Parent = Origin;
+			}
+
+			//get the world position
+			Point w = LocalPosition - Parent.Position;
+
+			//remove self from old parent
+			Parent.Children.Remove(this);
+
+			//set the parent
+			//if the new parent is null, set to the origin
+			Parent = t ?? Origin;
+
+			//add self to new parent
+			Parent.AddChild(this);
+
+			//fix the local position based on the new parent
+			LocalPosition = w - Parent.Position;
+		}
+
+		//separates self from current Parent
+		public void RemoveFromParent(){
+			if(Parent != null){
+				Parent.Children.Remove(this);
+			}
+		}
+
+		//adds a child in the right location for drawing
+		public void AddChild(Transform child){
+			if(Children.Count <= 0){//if list is empty
+				Children.Add(child);
+				return;
+			}
+
+			//list is not empty:
+			for(int i = 0; i < Children.Count; i++){
+				if(child.Z >= Children[i].Z){
+					Children.Insert(i, child);
+					return;
+				}
+			}
+
+			//made it this far, then the new transform goes at the end
+			Children.Add(child);
+		}
+
+		//removes a child
+		public void RemoveChild(Transform child){
+			Children.Remove(child);
+		}
+
+		//updates a child when Z changes
+		public void UpdateChild(Transform child){
+			RemoveChild(child);
+			AddChild(child);
+		}
+		
+		//gets all children of this Transform, and the children's children, and so on
+		public Transform[] GetAllChildren(){
+			List<Transform> trans = new List<Transform>(Children);
+
+			foreach(Transform child in Children){
+				trans.AddRange(child.GetAllChildren());
+			}
+
+			return trans.ToArray();
+		}
+
+		public override string ToString(){
+			return Position.ToString();
+		}
+	}
+}
