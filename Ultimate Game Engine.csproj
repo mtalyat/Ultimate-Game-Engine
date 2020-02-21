@@ -1,0 +1,150 @@
+﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{63ECA426-7DD1-4759-8B31-AA83FE5E82B0}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <NoStandardLibraries>false</NoStandardLibraries>
+    <AssemblyName>ConsoleApplication</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>Ultimate_Game_Engine</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Engine\Scripts\Components\Animator.cs" />
+    <Compile Include="Engine\Scripts\Components\Collider.cs" />
+    <Compile Include="Engine\Scripts\Components\Component.cs" />
+    <Compile Include="Engine\Scripts\Components\RigidBody.cs" />
+    <Compile Include="Engine\Scripts\Debug.cs" />
+    <Compile Include="Engine\Scripts\Elements\Animation.cs" />
+    <Compile Include="Engine\Scripts\Elements\Camera.cs" />
+    <Compile Include="Engine\Scripts\Elements\GameObject.cs" />
+    <Compile Include="Engine\Scripts\Elements\Image.cs" />
+    <Compile Include="Engine\Scripts\Elements\Point.cs" />
+    <Compile Include="Engine\Scripts\Elements\Rect.cs" />
+    <Compile Include="Engine\Scripts\Elements\Size.cs" />
+    <Compile Include="Engine\Scripts\Elements\Transform.cs" />
+    <Compile Include="Engine\Scripts\Scene.cs" />
+    <Compile Include="Engine\Scripts\Screen\Input.cs" />
+    <Compile Include="Engine\Scripts\Screen\ScreenBuffer.cs" />
+    <Compile Include="Engine\Scripts\Screen\ScreenKey.cs" />
+    <Compile Include="Engine\Scripts\Text.cs" />
+    <Compile Include="Game\Scripts\Collectable.cs" />
+    <Compile Include="Game\Scripts\Player.cs" />
+    <Compile Include="main.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".git\config" />
+    <None Include=".git\description" />
+    <None Include=".git\HEAD" />
+    <None Include=".git\hooks\applypatch-msg.sample" />
+    <None Include=".git\hooks\commit-msg.sample" />
+    <None Include=".git\hooks\fsmonitor-watchman.sample" />
+    <None Include=".git\hooks\post-update.sample" />
+    <None Include=".git\hooks\pre-applypatch.sample" />
+    <None Include=".git\hooks\pre-commit.sample" />
+    <None Include=".git\hooks\pre-push.sample" />
+    <None Include=".git\hooks\pre-rebase.sample" />
+    <None Include=".git\hooks\pre-receive.sample" />
+    <None Include=".git\hooks\prepare-commit-msg.sample" />
+    <None Include=".git\hooks\update.sample" />
+    <None Include=".git\index" />
+    <None Include=".git\info\exclude" />
+    <None Include=".git\logs\HEAD" />
+    <None Include=".git\logs\refs\heads\master" />
+    <None Include=".git\logs\refs\remotes\origin\HEAD" />
+    <None Include=".git\objects\08\744a1bdfb78feb3febd1e58d1cbff462e7f663" />
+    <None Include=".git\objects\17\1bb2ca87d9f26cee9307d6e3ecb64c40980043" />
+    <None Include=".git\objects\1e\0abddf650852fcc7210651cc2f3636fe25025a" />
+    <None Include=".git\objects\31\bd2ec3f95a8a9391391d5bb0490cd903d1c36e" />
+    <None Include=".git\objects\35\651d61af1ecc94fb7c4d4747c1573890d4206b" />
+    <None Include=".git\objects\3d\61cac71fa51002c39c9709e716497b40b55516" />
+    <None Include=".git\objects\3e\51e6ad9d02f769ea2178c135bbcb1c1451994a" />
+    <None Include=".git\objects\43\41afdcf3e84532643219a4fa62c82b1baffb60" />
+    <None Include=".git\objects\47\9a1518792888d52ecc7d1ca80fcc0535b35e4f" />
+    <None Include=".git\objects\47\a5007d96b3b2111a4a85d932074f303edb3f40" />
+    <None Include=".git\objects\58\ddbda5d07f12873f3a50b523829541f967d785" />
+    <None Include=".git\objects\62\73cde07ed5a94dc0d646e632e87ff54e2b7fb0" />
+    <None Include=".git\objects\65\8edb9993a887e4400c0eda4732fadca2201df7" />
+    <None Include=".git\objects\66\9f4b6f58a7ce67db0fc5501d4fc38b752d8cf1" />
+    <None Include=".git\objects\68\cd84798ee90c4b399e1e8bb5a67437a98ad028" />
+    <None Include=".git\objects\6a\cc5a79d1216b6b70b2943ce9614bdd8b9d7cb4" />
+    <None Include=".git\objects\77\98da1a602751118e145c30846f39b756163403" />
+    <None Include=".git\objects\79\be09820157b3191c90cf1cd9189d366bc2c6f5" />
+    <None Include=".git\objects\7a\3e92b395a3a3a2111f63d97acfd59f2650195b" />
+    <None Include=".git\objects\82\732edf686dd05e1b6a31c8b74626938d78b634" />
+    <None Include=".git\objects\8e\771c3f187e6810005e6a9e6e705d856c677efb" />
+    <None Include=".git\objects\91\b0c99fc094c9e7d830863c2debba184e426af8" />
+    <None Include=".git\objects\95\18316004797abd9f70274bfa3472b9d93420b7" />
+    <None Include=".git\objects\98\87dbc40a23c0c0a160df273916d8a95d531668" />
+    <None Include=".git\objects\99\b2e77bc1bc0047a05cd4daab4a7da422bdf59f" />
+    <None Include=".git\objects\9b\c2a94deab47438060830867eaea91ca7161d5e" />
+    <None Include=".git\objects\9e\ee37f03a307ba1a478165df4ab0fe0c4a5403d" />
+    <None Include=".git\objects\a5\9de8d1fe0913a3d1772fb9dd45dee6c86f53e0" />
+    <None Include=".git\objects\ab\9f05fea145d812dbff3e12b7a5776eabc33698" />
+    <None Include=".git\objects\b5\f5dea2a26f01ef3dda25d8013dbc20efd6d2a4" />
+    <None Include=".git\objects\ba\9a19a3bb3a2d21f33f1ff2aa2310cc0074f6eb" />
+    <None Include=".git\objects\bc\c77b9efb832a68f77e4e1338389bcf5635af64" />
+    <None Include=".git\objects\c8\b89169a868abba6899d11947d5a5409672e2b5" />
+    <None Include=".git\objects\cb\6587696da328b7948808e0c87cd1915ac99e7f" />
+    <None Include=".git\objects\cb\e4f8c926bd4e3175f41dcda87845075fd0095b" />
+    <None Include=".git\objects\da\b82bba6eec244331b93277dc886e2d6892098a" />
+    <None Include=".git\objects\da\c94997641132c0827101d95d34424a30965654" />
+    <None Include=".git\objects\ee\fd7758be30611757fdb8195fe8e13bc3c43f08" />
+    <None Include=".git\objects\f7\9f80ec8b081be33ba362099b42029a9735c7b9" />
+    <None Include=".git\packed-refs" />
+    <None Include=".git\refs\heads\master" />
+    <None Include=".git\refs\remotes\origin\HEAD" />
+    <None Include=".vs\ProjectSettings.json" />
+    <None Include=".vs\slnx.sqlite" />
+    <None Include=".vs\Ultimate-Game-Engine\v16\.suo" />
+    <None Include=".vs\VSWorkspaceState.json" />
+    <None Include="Engine\Log" />
+    <None Include="Engine\TODO" />
+    <None Include="Game\Animations\Idle.anim" />
+    <None Include="Game\Animations\Jumping.anim" />
+    <None Include="Game\Animations\Running.anim" />
+    <None Include="Game\Images\Coin" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include=".git\objects\info\" />
+    <Folder Include=".git\objects\pack\" />
+    <Folder Include=".git\refs\tags\" />
+    <Folder Include=".vs\Ultimate Game Engine\v16\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
+  <ProjectExtensions>
+    <VisualStudio AllowExistingFolder="true" />
+  </ProjectExtensions>
+</Project>

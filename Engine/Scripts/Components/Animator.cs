@@ -21,6 +21,8 @@ namespace UltimateEngine{
 			updateTimer = new Timer(speed);
 			updateTimer.Elapsed += OnElapsedEvent;
 			updateTimer.Start();
+
+			Set(0);
 		}
 
 		//called by the updateTimer to change Images
@@ -34,17 +36,25 @@ namespace UltimateEngine{
 
 		//updates the Image of the GameObject
 		public override void Update(){
-			GameObject.Image = Current.Current;
+			if(Current != null)
+				GameObject.Image = Current.Current;
 		}
 
 		//advances to the Next Image of the Current Animation
 		public void Next(){
-			Current.Next();
+			if(Current != null)
+				Current.Next();
 		}
 
 		//adds an Animation
 		public void Add(Animation anim){
 			animations.Add(anim);
+
+			//set Current if first animation in the Animator
+			if(animations.Count == 1)
+			{
+				Set(0);
+			}
 		}
 
 		//gets an animation by Index

@@ -13,7 +13,6 @@ namespace UltimateEngine{
 		public int DeltaTime { get; private set; } = 0;
 
 		Thread updateThread;
-		Thread drawingThread;
 		Thread collisionsThread;
 
 		public bool Active { get; private set; } = false;
@@ -23,6 +22,13 @@ namespace UltimateEngine{
 		//for debugging
 		public bool DebugMode { get; set; } = false;
 		public int FPS { get; set; } = 30;
+
+		public Scene(int width = 100, int height = 20)
+		{
+			ScreenBuffer.Initialize(new Size(width, height));
+
+			Current = this;
+		}
 
 		public Scene(Size s){
 			ScreenBuffer.Initialize(s);
@@ -62,13 +68,16 @@ namespace UltimateEngine{
 			collisionsThread = new Thread(new ThreadStart(() => {
 				while(Active){
 					for(int i = 0; i < InScene.Count; i++){
-						Collider one = InScene[i].GetComponent<Collider>();
+						GameObject go = InScene[i];
+						if (go == null) continue;
+
+						Collider one = go.GetComponent<Collider>();
 
 						if(one == null) continue;
 						if(!one.IsMoving()) continue;
 
 						for(int j = 0; j < InScene.Count; j++){
-							Collider two = InScene[j].GetComponent<Collider>();
+							Collider two = go.GetComponent<Collider>();
 
 							if(two == null) continue;
 							
@@ -104,8 +113,15 @@ namespace UltimateEngine{
 			Instantiate(g, position, Origin);
 		}
 
+		public void Instantiate(GameObject g, Transform parent)
+		{
+			Instantiate(g, new Point(0, 0), parent);
+		}
+
 		//spawns a new object in the scene with a new position and parent
 		public void Instantiate(GameObject g, Point position, Transform parent){
+			if (g == null) return;
+
 			g.Transform.SetParent(parent);
 			g.Transform.SetPosition(position);
 
@@ -142,12 +158,13 @@ namespace UltimateEngine{
 			if(t == null) return;
 
 			GameObject go = t.GameObject;
+
 			//update the GameObject
 			if(go != null){
 				go.Start(this);
 
 				foreach(Transform child in t.Children){
-					Start(t);
+					Start(child);
 				}
 			}
 		}

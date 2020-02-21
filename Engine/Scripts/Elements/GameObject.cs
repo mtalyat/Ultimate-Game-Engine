@@ -79,12 +79,15 @@ namespace UltimateEngine{
 
 		//gets a component based 
 		public T GetComponent<T>(){
-			foreach(Component c in components){
-				if(c is T t){
+			foreach(Component comp in components)
+			{
+				if(comp is T t)
+				{
+					//found a match, so, return it
 					return t;
 				}
 			}
-			return default(T);//typically null if nothing found
+			return default;//typically null if nothing found
 		}
 
 		#endregion

@@ -30,9 +30,19 @@ namespace UltimateEngine{
 		//prints and resets the data array
 		public static void Print(){
 			string output = "";
-			for(int i = Size.Height - 1; i >= 0; i--){
-				output += new string(data[i]) + "\n";
-				data[i] = new string(' ', Size.Width).ToCharArray();
+
+			//need a Camera to display stuff
+			if(Camera.MainCamera != null)
+			{
+				for (int i = Size.Height - 1; i >= 0; i--)
+				{
+					output += new string(data[i]) + "\n";
+					data[i] = new string(' ', Size.Width).ToCharArray();
+				}
+				Offset = Camera.MainCamera.Position;
+			} else
+			{
+				output = "No Main Camera found!";
 			}
 
 			Console.SetCursorPosition(0, 0);
@@ -55,19 +65,22 @@ namespace UltimateEngine{
 
 		//draws an object as a string at a given position
 		public static void Draw(object o, int x, int y){
+			int xx = x - (int)Offset.X;
+			int yy = y - (int)Offset.Y;
+
 			//the index used to access the array
-			int top = Size.Height - 1 - y;
+			int top = Size.Height - 1 - yy;
 
 			//the string used to draw
 			string str = o.ToString();
 
 			//if not in view
-			if(!IsInView(x, y, str.Length)){
+			if(!IsInView(xx, yy, str.Length)){
 				return;//do not copy
 			}
 
 			//copy from the string to the data array
-			Array.Copy(str.ToCharArray(), 0, data[top], Math.Max(0, x), Math.Min(str.Length, data[top].Length - 1 - x));
+			Array.Copy(str.ToCharArray(), 0, data[top], Math.Max(0, xx), Math.Min(str.Length, data[top].Length - 1 - xx));
 		}
 
 		public static void Draw(char[][] array, Size s, Point p){
@@ -77,8 +90,8 @@ namespace UltimateEngine{
 		//draws a char array onto the screen
 		public static void Draw(char[][] array, Size s, int x, int y){
 			//adjust to whatever the offset is
-			int xx = x + (int)Offset.X;
-			int yy = y + (int)Offset.Y;
+			int xx = x - (int)Offset.X;
+			int yy = y - (int)Offset.Y;
 
 			if(!IsInView(xx, yy, s.Width, s.Height)){
 				return;//do not copy
@@ -97,11 +110,6 @@ namespace UltimateEngine{
 		//returns true if any part of a string will be in view when drawn
 		private static bool IsInView(int x, int y, int xlength, int ylength = 1){
 			return x + xlength >= 0 && x < Size.Width && y + ylength >= 0 && y < Size.Height;
-		}
-
-		//checks if a point is in view
-		private static bool IsValid(int x, int y){
-			return x >= 0 && x < Size.Width && y >= 0 && y < Size.Height;
 		}
 	}
 }

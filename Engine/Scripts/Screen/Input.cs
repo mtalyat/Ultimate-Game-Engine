@@ -13,12 +13,10 @@ namespace UltimateEngine{
 
 		private static Stopwatch watch = new Stopwatch();
 
-		private const int KEYDOWNFRESH = 20;
+		//the amount of frames it waits after the initial key press
+		private const int KEYDOWNFRESH = 16;
+		//the amount of frames it waits after the first key press
 		private const int KEYDOWNREFRESH = 3;
-
-		static Input(){
-
-		}
 
 		public static void Start(){
 			Active = true;

@@ -6,7 +6,7 @@ namespace UltimateEngine{
 		static string path = "";
 
 		static Debug(){
-			path = Path.Combine(Directory.GetCurrentDirectory(), "Engine/Log");
+			path = Path.Combine(new string[] { Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName, "Engine", "Log" });
 
 			Reset();
 		}
@@ -18,6 +18,11 @@ namespace UltimateEngine{
 
 		public static void Log(object o){
 			File.AppendAllText(path, o.ToString() + "\n");
+		}
+
+		public static void LogError(object o)
+		{
+			Log("[ERROR] " + o.ToString());
 		}
 	}
 }
