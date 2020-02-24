@@ -4,8 +4,12 @@ struct Point
 A 2 dimensional structure representing a point in space.
   
   Constructors:
+    Point(double x, double y)
+    
+    Point(Size s)
   
   Fields:
+    Zero
   
   Properties:
   
