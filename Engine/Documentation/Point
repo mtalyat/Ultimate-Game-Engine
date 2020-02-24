@@ -1,0 +1,14 @@
+struct Point
+
+  Summary:
+A 2 dimensional structure representing a point in space.
+  
+  Constructors:
+  
+  Fields:
+  
+  Properties:
+  
+  Methods:
+  
+  Operators:
