@@ -20,7 +20,7 @@ namespace UltimateEngine{
 		List<GameObject> InScene = new List<GameObject>();
 
 		//for debugging
-		public bool DebugMode { get; set; } = false;
+		public bool DebugMode { get; set; } = true;
 		public int FPS { get; set; } = 30;
 
 		public Scene(int width = 100, int height = 20)
@@ -68,19 +68,15 @@ namespace UltimateEngine{
 			collisionsThread = new Thread(new ThreadStart(() => {
 				while(Active){
 					for(int i = 0; i < InScene.Count; i++){
-						GameObject go = InScene[i];
-						if (go == null) continue;
-
-						Collider one = go.GetComponent<Collider>();
+						Collider one = InScene[i].GetComponent<Collider>();
 
 						if(one == null) continue;
 						if(!one.IsMoving()) continue;
 
 						for(int j = 0; j < InScene.Count; j++){
-							Collider two = go.GetComponent<Collider>();
+							Collider two = InScene[j].GetComponent<Collider>();
 
 							if(two == null) continue;
-							
 							if((two.IsMoving() && j < i) || j == i) continue;//don't check self or any that has been checked
 
 							//check if the collision will occur in the next frame
@@ -92,7 +88,10 @@ namespace UltimateEngine{
 
 			StartAll();
 
+			updateThread.Name = "Update";
 			updateThread.Start();
+
+			collisionsThread.Name = "Collisions";
 			collisionsThread.Start();
 		}
 

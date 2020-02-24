@@ -1,5 +1,5 @@
 BringToFront() and SendToBack()
-Cameras
 Drawing? Animator? Why glitchy
 Animate Next in Update, not own timer?
 Text GameObjects
+Adjust Camera offset when updating, not in the ScreenBuffer class

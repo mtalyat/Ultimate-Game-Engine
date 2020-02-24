@@ -8,7 +8,7 @@ namespace UltimateEngine {
 		public double X => Transform.X;
 		public double Y => Transform.Y;
 
-		public Camera(string name = "") : base(name){
+		public Camera(string name = "Camera") : base(name){
 			if(MainCamera == null) MainCamera = this;
 		}
 	}

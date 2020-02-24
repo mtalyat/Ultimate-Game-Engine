@@ -5,6 +5,13 @@ namespace UltimateEngine {
 	//components are elements that can be added to GameObjects
 	public abstract class Component{
 		public abstract GameObject GameObject { get; set; }
+		public string Name
+		{
+			get
+			{
+				return GameObject.Name;
+			}
+		}
 
 		public Component(){
 
@@ -15,5 +22,10 @@ namespace UltimateEngine {
 
 		//called on the GameObject's update
 		public abstract void Update();
+
+		public override string ToString()
+		{
+			return Name;
+		}
 	}
 }

@@ -24,9 +24,11 @@ namespace UltimateEngine{
 			//set up the thread that gets input from the user
 			keyInputThread = new Thread(new ThreadStart(() => {
 
-				while(Active){
+				while (Active)
+				{
 					//wait until a key is pressed
-					while(!Console.KeyAvailable){
+					while (!Console.KeyAvailable)
+					{
 						Thread.Sleep(1);
 					}
 
@@ -35,11 +37,7 @@ namespace UltimateEngine{
 					string name = info.Key.ToString();
 					ScreenKey key = new ScreenKey(name, info.KeyChar);
 
-					if(AddKey(key)){
-						OnKeyDown(name);
-					} else {
-						OnKeyPress(name);
-					}
+					AddKey(key);
 				}
 			}));
 			
@@ -59,7 +57,10 @@ namespace UltimateEngine{
 			}));
 
 			//start both of the threads
+			keyInputThread.Name = "KeyInput";
 			keyInputThread.Start();
+
+			keyEventManagerThread.Name = "KeyEventManager";
 			keyEventManagerThread.Start();
 		}
 
@@ -86,23 +87,9 @@ namespace UltimateEngine{
 		//removes a key
 		private static void RemoveKey(ScreenKey key){
 			Keys.Remove(key);
-
-			OnKeyUp(key.Name);
 		}
 
 		#region Key Events
-
-		private static void OnKeyDown(string name){
-			
-		}
-
-		private static void OnKeyPress(string name){
-
-		}
-
-		private static void OnKeyUp(string name){
-
-		}
 
 		//returns true if a key was just pressed
 		public static bool IsKeyDown(string name){

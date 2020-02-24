@@ -57,6 +57,12 @@ namespace UltimateEngine{
 			LocalPosition = p - Parent.Position;
 		}
 
+		//adjusts the current position
+		public void Move(Point p)
+		{
+			LocalPosition += p;
+		}
+
 		//returns the world position based on the parent
 		public Point GetPosition(){
 			if(Parent == null){//parent does not exist

@@ -14,8 +14,6 @@ class MainClass {
 	public static void Main (string[] args) {
 		Scene scene = new Scene(100, 20);
 
-		scene.Run();
-
 		Player p = new Player();
 
 		Animator animator = p.Animator;
@@ -28,13 +26,13 @@ class MainClass {
 		ground.AddComponent(new Collider());
 		ground.Tag = "Ground";
 
-		scene.Instantiate(p, new Point(20, 1));//Stack Overflow caused here
+		scene.Instantiate(p, new Point(20, 10));
 
 		scene.Instantiate(ground, new Point(0, 0));
 
-		scene.Instantiate(new Camera(), p.Transform);
+		scene.Instantiate(new Camera());
 
-		//scene.Run();
+		scene.Run();
 
 		//Ensure that the program does not end any time soon
 		Thread.Sleep(int.MaxValue);

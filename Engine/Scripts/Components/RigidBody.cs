@@ -16,14 +16,11 @@ namespace UltimateEngine {
 		}
 
 		public override void Update(){
-			//get the Transform of the GameObject
-			Transform t = GameObject.Transform;
-
 			//update the velocity
 			Velocity += Acceleration;
 
 			//update the position
-			t.Position += Velocity;
+			GameObject.Transform.Move(Velocity);
 		}
 
 		//checks if the GameObject is moving at all

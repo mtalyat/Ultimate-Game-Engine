@@ -90,6 +90,19 @@ namespace UltimateEngine{
 			return default;//typically null if nothing found
 		}
 
+		//removes the first instance of a type of Component
+		public void RemoveComponent<T>()
+		{
+			for(int i = 0; i < components.Count; i++)
+			{
+				if(components[i] is T)
+				{
+					components.Remove(components[i]);
+					return;
+				}
+			}
+		}
+
 		#endregion
 
 		public override string ToString(){

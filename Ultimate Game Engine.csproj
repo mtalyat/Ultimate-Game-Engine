@@ -143,6 +143,9 @@
     <Folder Include=".git\refs\tags\" />
     <Folder Include=".vs\Ultimate Game Engine\v16\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Engine\Documentation.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
     <VisualStudio AllowExistingFolder="true" />
