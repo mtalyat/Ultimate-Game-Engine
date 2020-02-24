@@ -6,14 +6,15 @@ namespace UltimateEngine{
 		private static char[][] data;
 
 		public static Size Size { get; set; } = new Size(0, 0);
-		public static Point Offset { get; set; } = new Point(0, 0);
 		public static bool Active { get; set; } = false;
 
 		static ScreenBuffer(){
 			Initialize(new Size(0, 0));
 		}
 
-		public static void Initialize(Size s){
+		public static void Initialize(Size s, string title = "Ultimate Game Engine"){
+			Console.Title = title;
+
 			Console.Clear();//get rid of the warnings and info
 
 			Size = s;
@@ -24,6 +25,12 @@ namespace UltimateEngine{
 				for(int j = 0; j < s.Width; j++){
 					data[i][j] = ' ';
 				}
+			}
+
+			if(s.Width > 0 && s.Height > 0)
+			{
+				Console.SetWindowSize(s.Width + 1, s.Height + 1);
+				Console.SetBufferSize(s.Width + 1, s.Height + 1);
 			}
 		}
 
@@ -39,7 +46,6 @@ namespace UltimateEngine{
 					output += new string(data[i]) + "\n";
 					data[i] = new string(' ', Size.Width).ToCharArray();
 				}
-				Offset = Camera.MainCamera.Position;
 			} else
 			{
 				output = "No Main Camera found!";
@@ -65,22 +71,19 @@ namespace UltimateEngine{
 
 		//draws an object as a string at a given position
 		public static void Draw(object o, int x, int y){
-			int xx = x - (int)Offset.X;
-			int yy = y - (int)Offset.Y;
-
 			//the index used to access the array
-			int top = Size.Height - 1 - yy;
+			int top = Size.Height - 1 - y;
 
 			//the string used to draw
 			string str = o.ToString();
 
 			//if not in view
-			if(!IsInView(xx, yy, str.Length)){
+			if(!IsInView(x, y, str.Length)){
 				return;//do not copy
 			}
 
 			//copy from the string to the data array
-			Array.Copy(str.ToCharArray(), 0, data[top], Math.Max(0, xx), Math.Min(str.Length, data[top].Length - 1 - xx));
+			Array.Copy(str.ToCharArray(), 0, data[top], Math.Max(0, x), Math.Min(str.Length, data[top].Length - 1 - x));
 		}
 
 		public static void Draw(char[][] array, Size s, Point p){
@@ -90,20 +93,17 @@ namespace UltimateEngine{
 		//draws a char array onto the screen
 		public static void Draw(char[][] array, Size s, int x, int y){
 			//adjust to whatever the offset is
-			int xx = x - (int)Offset.X;
-			int yy = y - (int)Offset.Y;
-
-			if(!IsInView(xx, yy, s.Width, s.Height)){
+			if(!IsInView(x, y, s.Width, s.Height)){
 				return;//do not copy
 			}
 
 			for(int i = 0; i < s.Height; i++){
-				if(i + yy < 0 || i + yy >= Size.Height) continue;
+				if(i + y < 0 || i + y >= Size.Height) continue;
 
-				int fromIndex = Math.Max(0, xx * -1);
-				int toIndex = Math.Max(0, xx);
+				int fromIndex = Math.Max(0, x * -1);
+				int toIndex = Math.Max(0, x);
 
-				Array.Copy(array[s.Height - 1 - i], fromIndex, data[yy + i], toIndex, Math.Min(s.Width - fromIndex, Size.Width - 1 - toIndex));
+				Array.Copy(array[s.Height - 1 - i], fromIndex, data[y + i], toIndex, Math.Min(s.Width - fromIndex, Size.Width - 1 - toIndex));
 			}
 		}
 

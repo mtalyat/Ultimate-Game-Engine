@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace UltimateEngine {
 	//this whole class just manages strings and such that may be useful
-	public static class Text {
+	public static class Words {
 
 		#region Conversions
 

@@ -22,15 +22,21 @@ class MainClass {
 		animator.Add(Animation.FromFile("C:\\Users\\Me\\source\\repos\\Ultimate-Game-Engine\\Game\\Animations\\Jumping.anim"));
 		animator.Add(Animation.FromFile("C:\\Users\\Me\\source\\repos\\Ultimate-Game-Engine\\Game\\Animations\\Idle.anim"));
 
-		GameObject ground = new GameObject("Ground", new Image(new string('^', 100)));
+		GameObject ground = new GameObject("Ground", new Image(new string[] { new string('^', 100) }));
 		ground.AddComponent(new Collider());
 		ground.Tag = "Ground";
+
+		Camera cam = new Camera();
+
+		Text t = new Text(p.Transform);
 
 		scene.Instantiate(p, new Point(20, 10));
 
 		scene.Instantiate(ground, new Point(0, 0));
 
-		scene.Instantiate(new Camera());
+		scene.Instantiate(t, new Point(20, 10), p.Transform);
+
+		scene.Instantiate(cam);
 
 		scene.Run();
 

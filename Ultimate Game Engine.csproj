@@ -54,12 +54,13 @@
     <Compile Include="Engine\Scripts\Elements\Point.cs" />
     <Compile Include="Engine\Scripts\Elements\Rect.cs" />
     <Compile Include="Engine\Scripts\Elements\Size.cs" />
+    <Compile Include="Engine\Scripts\Elements\Text.cs" />
     <Compile Include="Engine\Scripts\Elements\Transform.cs" />
     <Compile Include="Engine\Scripts\Scene.cs" />
     <Compile Include="Engine\Scripts\Screen\Input.cs" />
     <Compile Include="Engine\Scripts\Screen\ScreenBuffer.cs" />
     <Compile Include="Engine\Scripts\Screen\ScreenKey.cs" />
-    <Compile Include="Engine\Scripts\Text.cs" />
+    <Compile Include="Engine\Scripts\Words.cs" />
     <Compile Include="Game\Scripts\Collectable.cs" />
     <Compile Include="Game\Scripts\Player.cs" />
     <Compile Include="main.cs" />

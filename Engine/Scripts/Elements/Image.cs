@@ -23,11 +23,6 @@ namespace UltimateEngine{
 			Array.Copy(i.RawData, 0, data, 0, Size.Height);
 		}
 
-		//splits the string into a string[]
-		public Image(string str){
-			SetData(Text.StringToStringArray(str));
-		}
-
 		public Image(string[] strs){
 			SetData(strs);
 		}
@@ -46,7 +41,7 @@ namespace UltimateEngine{
 
 			//set each part of data to the string
 			for(int i = 0; i < strs.Length; i++){
-				data[i] = Text.Fill(strs[i], ' ', maxWidth).ToCharArray();
+				data[i] = Words.Fill(strs[i], ' ', maxWidth).ToCharArray();
 			}
 
 			//set the size

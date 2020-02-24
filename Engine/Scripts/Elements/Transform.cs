@@ -54,7 +54,13 @@ namespace UltimateEngine{
 		//sets the position
 		//inputs a world position, adjusts based on the parent
 		public void SetPosition(Point p){
-			LocalPosition = p - Parent.Position;
+			if(Parent == null)
+			{
+				LocalPosition = p;
+			} else
+			{
+				LocalPosition = p - Parent.Position;
+			}
 		}
 
 		//adjusts the current position

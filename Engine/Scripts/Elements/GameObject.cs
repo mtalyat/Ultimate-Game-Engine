@@ -28,7 +28,7 @@ namespace UltimateEngine{
 
 		private List<Component> components = new List<Component>();
 
-		public GameObject(string name = "", Image image = null){
+		public GameObject(string name = "GameObject", Image image = null){
 			Name = name;
 			Image = image ?? new Image();
 			Transform = new Transform(this);

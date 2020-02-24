@@ -7,6 +7,8 @@ namespace UltimateEngine{
 	public class Scene{
 		public static Scene Current;
 
+		public string Name { get; set; } = "";
+
 		private Transform Origin => Transform.Origin;
 		
 		private Stopwatch watch = new Stopwatch();
@@ -23,15 +25,29 @@ namespace UltimateEngine{
 		public bool DebugMode { get; set; } = true;
 		public int FPS { get; set; } = 30;
 
-		public Scene(int width = 100, int height = 20)
+		public Scene(string name = "Untitled Scene")
 		{
-			ScreenBuffer.Initialize(new Size(width, height));
+			Name = name;
+
+			ScreenBuffer.Initialize(new Size(100, 20), Name);
 
 			Current = this;
 		}
 
-		public Scene(Size s){
-			ScreenBuffer.Initialize(s);
+		public Scene(int width, int height, string name = "Untitled Scene")
+		{
+			Name = name;
+
+			ScreenBuffer.Initialize(new Size(width, height), Name);
+
+			Current = this;
+		}
+
+		public Scene(Size s, string name = "Untitled Scene")
+		{
+			Name = name;
+
+			ScreenBuffer.Initialize(s, Name);
 
 			Current = this;
 		}
@@ -171,23 +187,27 @@ namespace UltimateEngine{
 		//updates all of the GameObjects and their children
 		//also draws them
 		private void UpdateAll(){
+			if (Camera.MainCamera == null) return;
+
+			Point offset = Camera.MainCamera.Position;
+
 			for(int i = 0; i < Origin.Children.Count; i++){
-				Update(Origin.Children[i]);
+				Update(Origin.Children[i], offset);
 			}
 		}
 
 		//updates one object
-		private void Update(Transform t){
+		private void Update(Transform t, Point offset){
 			if(t == null) return;
 
 			GameObject go = t.GameObject;
 			//update the GameObject
 			if(go != null){
 				go.Update();
-				ScreenBuffer.Draw(go.Image.ToJaggedArray(), go.Image.Size, t.Position);
+				ScreenBuffer.Draw(go.Image.ToJaggedArray(), go.Image.Size, t.Position - offset);
 
 				foreach(Transform child in t.Children){
-					Update(t);
+					Update(child, offset);
 				}
 			}
 		}
