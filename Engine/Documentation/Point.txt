@@ -21,6 +21,15 @@
       None.
 
   Methods:
+  
+      Point Round()
+        Returns: A new Point with the X and Y values rounded to the nearesr whole number.
+        
+      Point Ceiling()
+        Returns: A new Point with the X and Y values rounded up.
+        
+      Point Floor()
+        Returns: A new Point with the X and Y values rounded down.
 
       double Magnitude()
         Returns: The magnitude of a Point.
