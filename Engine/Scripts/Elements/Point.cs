@@ -12,7 +12,9 @@ namespace UltimateEngine{
 		public double X { get; set; }
 		public double Y { get; set; }
 
-		public Point(double x, double y){
+        #region Constructors
+
+        public Point(double x, double y){
 			X = x;
 			Y = y;
 		}
@@ -22,9 +24,49 @@ namespace UltimateEngine{
 			Y = s.Height;
 		}
 
-		#region Operators
+        #endregion
 
-		public static Point operator+(Point one, Point two){
+        #region Methods
+
+		//Gets the magnitude of the Point
+		public double Magnitude()
+		{
+			return Math.Sqrt(Math.Pow(X, 2) + Math.Pow(Y, 2));
+		}
+
+		//Gets the result of a Dot Product between two Points
+		public static double DotProduct(Point one, Point two)
+		{
+			return (one.X * two.X) + (one.Y * two.Y);
+		}
+
+		//Finds the distance between two Points
+		public static double Distance(Point one, Point two)
+		{
+			return Math.Sqrt(Math.Pow(one.X - two.X, 2) + Math.Pow(one.Y + two.Y, 2));
+		}
+
+		//Finds the angle in radians from the first Point to the second Point
+		public static double Angle(Point one, Point two)
+		{
+			return Math.Acos(DegreesToRadians(DotProduct(one, two) / (one.Magnitude() * two.Magnitude())));
+		}
+
+		private static double RadiansToDegrees(double rad)
+		{
+			return rad * 180 / Math.PI;
+		}
+
+		private static double DegreesToRadians(double deg)
+		{
+			return deg * Math.PI / 180;
+		}
+
+        #endregion
+
+        #region Operators
+
+        public static Point operator+(Point one, Point two){
 			return new Point(one.X + two.X, one.Y + two.Y);
 		}
 

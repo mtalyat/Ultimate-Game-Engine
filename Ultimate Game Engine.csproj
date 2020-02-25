@@ -145,7 +145,14 @@
     <Folder Include=".vs\Ultimate Game Engine\v16\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Engine\Documentation.txt" />
+    <Content Include="Engine\Documentation\Animation.txt" />
+    <Content Include="Engine\Documentation\Camera.txt" />
+    <Content Include="Engine\Documentation\GameObject.txt" />
+    <Content Include="Engine\Documentation\Image.txt" />
+    <Content Include="Engine\Documentation\Point.txt" />
+    <Content Include="Engine\Documentation\Rect.txt" />
+    <Content Include="Engine\Documentation\Size.txt" />
+    <Content Include="Engine\Documentation\Text.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
