@@ -75,7 +75,7 @@ namespace UltimateEngine{
 				return LocalPosition;
 			}
 			//parent exists
-			return LocalPosition;
+			return Parent.Position + LocalPosition;
 		}
 
 		//sets the new layer and adjusts position in parent list

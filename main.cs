@@ -34,7 +34,7 @@ class MainClass {
 
 		scene.Instantiate(ground, new Point(0, 0));
 
-		scene.Instantiate(t, new Point(20, 10), p.Transform);
+		scene.Instantiate(t, new Point(0, 5), p.Transform);
 
 		scene.Instantiate(cam);
 

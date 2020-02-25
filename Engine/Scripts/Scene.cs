@@ -138,7 +138,7 @@ namespace UltimateEngine{
 			if (g == null) return;
 
 			g.Transform.SetParent(parent);
-			g.Transform.SetPosition(position);
+			g.Transform.LocalPosition = position; 
 
 			InScene.Add(g);
 

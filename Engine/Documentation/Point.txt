@@ -22,7 +22,17 @@
 
   Methods:
 
-      None.
+      double Magnitude()
+        Returns: The magnitude of a Point.
+
+      static double DotProduct(Point one, Point two)
+        Returns: The Dot Product of two Points.
+
+      static double Distance(Point one, Point two)
+        Returns: The distance between the two Points.
+
+      stati double Angle(Point one, Point two)
+        Returns: The angle, in radians, from the first Point to the second Point.
 
   Operators:
 
