@@ -14,6 +14,8 @@ class MainClass {
 	public static void Main (string[] args) {
 		Scene scene = new Scene(100, 20);
 
+		Camera cam = new Camera();
+
 		Player p = new Player();
 
 		Animator animator = p.Animator;
@@ -26,16 +28,26 @@ class MainClass {
 		ground.AddComponent(new Collider());
 		ground.Tag = "Ground";
 
-		Camera cam = new Camera();
+		GameObject plat1 = new GameObject("Platform1", new Image(new string[] { new string('^', 20) }));
+		plat1.AddComponent(new Collider());
+		plat1.Tag = "Ground";
 
-		Text t = new Text(p.Transform);
+		GameObject plat2 = new GameObject("Platform2", new Image(new string[] { new string('^', 20) }));
+		plat2.AddComponent(new Collider());
+		plat2.Tag = "Ground";
 
-		scene.Instantiate(p, new Point(20, 10));
+		GameObject plat3 = new GameObject("Platform3", new Image(new string[] { new string('^', 20) }));
+		plat3.AddComponent(new Collider());
+		plat3.Tag = "Ground";
+
+		scene.Instantiate(p, new Point(2, 1));
 
 		scene.Instantiate(ground, new Point(0, 0));
+		scene.Instantiate(plat1, new Point(20, 7));
+		scene.Instantiate(plat2, new Point(40, 14));
+		scene.Instantiate(plat3, new Point(70, 14));
 
-		scene.Instantiate(t, new Point(0, 5), p.Transform);
-
+		//scene.Instantiate(cam, new Point(-25, -10), p.Transform);
 		scene.Instantiate(cam);
 
 		scene.Run();

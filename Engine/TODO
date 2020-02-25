@@ -1,3 +1,4 @@
 BringToFront() and SendToBack()
 Drawing? Animator? Why glitchy
 Animate Next in Update, not own timer?
+Stabilize objects

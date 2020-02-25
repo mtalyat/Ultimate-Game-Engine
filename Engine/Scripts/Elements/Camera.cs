@@ -1,8 +1,12 @@
 using System;
+using System.Collections.Generic;
 
 namespace UltimateEngine {
 	public class Camera : GameObject {
 		public static Camera MainCamera;
+
+		static List<Camera> allCameras = new List<Camera>();
+		public static int CameraCount => allCameras.Count;
 
 		public Point Position => Transform.Position;
 		public double X => Transform.X;
@@ -10,6 +14,30 @@ namespace UltimateEngine {
 
 		public Camera(string name = "Camera") : base(name){
 			if(MainCamera == null) MainCamera = this;
+
+			allCameras.Add(this);
+		}
+
+		//when the Camera deletes itself, automatically remove it from the list
+		~Camera()
+		{
+			allCameras.Remove(this);
+		}
+
+		//moves to the next Camera in the scene
+		public static void NextCamera()
+		{
+			if (CameraCount <= 0) return;
+
+			int index = allCameras.IndexOf(MainCamera);
+
+			if(index < 0)
+			{
+				MainCamera = allCameras[0];
+			} else
+			{
+				MainCamera = allCameras[(index + 1) % CameraCount];
+			}
 		}
 	}
 }

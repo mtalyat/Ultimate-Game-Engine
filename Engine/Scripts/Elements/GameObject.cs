@@ -12,6 +12,8 @@ namespace UltimateEngine{
 		//Position
 		public Transform Transform { get; private set; }
 
+		public Point ScreenPosition => Transform.Position.Ceiling();
+
 		//Image
 		public Image Image { get; set; }
 

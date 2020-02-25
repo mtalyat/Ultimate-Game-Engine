@@ -28,6 +28,21 @@ namespace UltimateEngine{
 
         #region Methods
 
+		public Point Round()
+		{
+			return new Point(Math.Round(X), Math.Round(Y));
+		}
+
+		public Point Ceiling()
+		{
+			return new Point(Math.Ceiling(X), Math.Ceiling(Y));
+		}
+
+		public Point Floor()
+		{
+			return new Point(Math.Floor(X), Math.Floor(Y));
+		}
+
 		//Gets the magnitude of the Point
 		public double Magnitude()
 		{

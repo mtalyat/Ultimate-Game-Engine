@@ -74,7 +74,7 @@ namespace UltimateEngine{
 		private static bool AddKey(ScreenKey key){
 			int index = Keys.FindIndex(k => k.Name == key.Name);
 
-			if(index >= 0){//the key has been pressed before
+			if(index >= 0 && index < Keys.Count){//the key has been pressed before
 				Keys[index].KeyDownState = KEYDOWNREFRESH;
 				return false;
 			} else {//'new' key

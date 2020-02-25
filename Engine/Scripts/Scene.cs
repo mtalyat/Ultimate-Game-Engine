@@ -17,6 +17,8 @@ namespace UltimateEngine{
 		Thread updateThread;
 		Thread collisionsThread;
 
+		const int PredictionFrames = 1;
+
 		public bool Active { get; private set; } = false;
 
 		List<GameObject> InScene = new List<GameObject>();
@@ -25,7 +27,9 @@ namespace UltimateEngine{
 		public bool DebugMode { get; set; } = true;
 		public int FPS { get; set; } = 30;
 
-		public Scene(string name = "Untitled Scene")
+        #region Constructors
+
+        public Scene(string name = "Untitled Scene")
 		{
 			Name = name;
 
@@ -52,8 +56,10 @@ namespace UltimateEngine{
 			Current = this;
 		}
 
-		//starts the Scene
-		public void Run(){
+        #endregion
+
+        //starts the Scene
+        public void Run(){
 			Input.Start();
 
 			Active = true;
@@ -96,7 +102,7 @@ namespace UltimateEngine{
 							if((two.IsMoving() && j < i) || j == i) continue;//don't check self or any that has been checked
 
 							//check if the collision will occur in the next frame
-							one.CheckCollision(two, 4);
+							one.CheckCollision(two, PredictionFrames);
 						}
 					}
 				}
@@ -189,7 +195,7 @@ namespace UltimateEngine{
 		private void UpdateAll(){
 			if (Camera.MainCamera == null) return;
 
-			Point offset = Camera.MainCamera.Position;
+			Point offset = Camera.MainCamera.ScreenPosition;
 
 			for(int i = 0; i < Origin.Children.Count; i++){
 				Update(Origin.Children[i], offset);
@@ -204,7 +210,7 @@ namespace UltimateEngine{
 			//update the GameObject
 			if(go != null){
 				go.Update();
-				ScreenBuffer.Draw(go.Image.ToJaggedArray(), go.Image.Size, t.Position - offset);
+				ScreenBuffer.Draw(go.Image.ToJaggedArray(), go.Image.Size, go.ScreenPosition - offset);
 
 				foreach(Transform child in t.Children){
 					Update(child, offset);

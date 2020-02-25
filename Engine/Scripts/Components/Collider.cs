@@ -9,6 +9,8 @@ namespace UltimateEngine {
 
 		protected RigidBody body { get; private set; }
 
+		const double CollisionBuffer = 0.0;
+
 		public Collider(){
 
 		}
@@ -70,16 +72,16 @@ namespace UltimateEngine {
 
 				switch(side){
 					case 0: //right
-						GameObject.Transform.Position = new Point(two.Right + 0.5, one.Y);
+						GameObject.Transform.Position = new Point(two.Right + CollisionBuffer, one.Y);
 						break;
 					case 1: //top
-						GameObject.Transform.Position = new Point(one.X, two.Top + 0.5);
+						GameObject.Transform.Position = new Point(one.X, two.Top + CollisionBuffer);
 						break;
 					case 2: //left
-						GameObject.Transform.Position = new Point(two.X - one.Width - 0.5, one.Y);
+						GameObject.Transform.Position = new Point(two.X - one.Width - CollisionBuffer, one.Y);
 						break;
 					case 3: //bottom
-						GameObject.Transform.Position = new Point(one.X, two.Y - one.Height - 0.5);
+						GameObject.Transform.Position = new Point(one.X, two.Y - one.Height - CollisionBuffer);
 						break;
 				}
 

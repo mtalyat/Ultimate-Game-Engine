@@ -7,6 +7,8 @@ namespace Game {
 		public Collider Collider { get; set; }
 		public RigidBody Body { get; set; }
 
+		Camera camera;
+
 		int jumpLevel = 0;
 		int maxJumps = 1;
 
@@ -20,11 +22,14 @@ namespace Game {
 			Animator = GetComponent<Animator>();
 			Collider = GetComponent<Collider>();
 			Body = GetComponent<RigidBody>();
+
+			camera = new Camera();
+			Scene.Current.Instantiate(camera, new Point(-48, -7), Transform);
 		}
 
 		public override void OnStart()
 		{
-			Body.Acceleration = new Point(0, -0.05);
+			Body.Acceleration = new Point(0, -0.1);
 		}
 
 		public override void OnUpdate()
@@ -57,7 +62,7 @@ namespace Game {
 
 				if (jumpLevel++ < maxJumps)
 				{
-					Body.Velocity = new Point(0, 1);
+					Body.Velocity = new Point(0, 1.5);
 				}
 			}
 			else
@@ -67,13 +72,22 @@ namespace Game {
 					Animator.Set("Idle");
 				}
 			}
+
+			//Camera toggle
+			if (Input.IsKeyUp("C"))
+			{
+				Camera.NextCamera();
+			}
 		}
 
 		public override void OnCollision(GameObject other, int side){
 			if(other.Tag == "Ground" && side == 1){//top collision
 				//reset the jump
 				jumpLevel = 0;
-				Body.Velocity = new Point(Body.Velocity.X, 0);
+				if(Body.Velocity.Y < 0)
+				{
+					Body.Velocity = new Point(Body.Velocity.X, 0);
+				}
 			}
 		}
 	}
