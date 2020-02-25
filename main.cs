@@ -47,7 +47,6 @@ class MainClass {
 		scene.Instantiate(plat2, new Point(40, 14));
 		scene.Instantiate(plat3, new Point(70, 14));
 
-		//scene.Instantiate(cam, new Point(-25, -10), p.Transform);
 		scene.Instantiate(cam);
 
 		scene.Run();

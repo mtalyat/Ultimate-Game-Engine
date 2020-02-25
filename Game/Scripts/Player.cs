@@ -7,7 +7,7 @@ namespace Game {
 		public Collider Collider { get; set; }
 		public RigidBody Body { get; set; }
 
-		Camera camera;
+		public Camera Camera { get; private set; }
 
 		int jumpLevel = 0;
 		int maxJumps = 1;
@@ -23,13 +23,15 @@ namespace Game {
 			Collider = GetComponent<Collider>();
 			Body = GetComponent<RigidBody>();
 
-			camera = new Camera();
-			Scene.Current.Instantiate(camera, new Point(-48, -7), Transform);
+			Camera = new Camera();
+			InstantiateChild(Camera, new Point(-48, -7));//kind of centers the player
 		}
 
 		public override void OnStart()
 		{
 			Body.Acceleration = new Point(0, -0.1);
+
+			Camera.MainCamera = Camera;
 		}
 
 		public override void OnUpdate()
@@ -71,12 +73,6 @@ namespace Game {
 				{
 					Animator.Set("Idle");
 				}
-			}
-
-			//Camera toggle
-			if (Input.IsKeyUp("C"))
-			{
-				Camera.NextCamera();
 			}
 		}
 

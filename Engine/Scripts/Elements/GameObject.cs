@@ -34,6 +34,8 @@ namespace UltimateEngine{
 			Name = name;
 			Image = image ?? new Image();
 			Transform = new Transform(this);
+
+			Scene = Scene.Current;
 		}
 
 		#region Starting and Updating
@@ -106,6 +108,19 @@ namespace UltimateEngine{
 		}
 
 		#endregion
+
+		protected void InstantiateChild(GameObject child)
+		{
+			InstantiateChild(child, new Point(0, 0));
+		}
+
+		//Instantiates a child GameObject with this GameObject as the parent, into the scene
+		protected void InstantiateChild(GameObject child, Point position)
+		{
+			if (Scene == null) return;
+
+			Scene.Instantiate(child, position, this.Transform);
+		}
 
 		public override string ToString(){
 			return Name;
