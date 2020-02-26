@@ -15,7 +15,9 @@ namespace UltimateEngine{
 		public Point ScreenPosition => Transform.Position.Ceiling();
 
 		//Image
-		public Image Image { get; set; }
+		public virtual Image Image { get; set; }
+
+		//Used for drawing
 
 		public Rect Bounds {
 			get {

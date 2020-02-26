@@ -47,7 +47,10 @@ class MainClass {
 			"XXX"
 		}));
 
+		Text text = new Text(p.Transform);
+
 		scene.Instantiate(p, new Point(2, 1));
+		scene.Instantiate(text, p.Transform, new Point(0, 5));
 
 		scene.Instantiate(ground, new Point(-50, 0));
 		scene.Instantiate(plat1, new Point(20, 7));

@@ -11,20 +11,22 @@ namespace UltimateEngine
         public object Reference { get; set; }
         public string String { get; set; }
 
+        public override Image Image { get => new Image(GetVisual()); }
+
         public Text(object r, string s = "")
         {
             Reference = r;
             String = s;
         }
 
-        public override void OnUpdate()
+        private string GetVisual()
         {
             if (string.IsNullOrEmpty(String))
             {
-                Image = new Image(new string[] { Reference.ToString() });
+                return Reference.ToString();
             } else
             {
-                Image = new Image(new string[] { string.Format(String, Reference) });
+                return string.Format(String, Reference);
             }
         }
     }

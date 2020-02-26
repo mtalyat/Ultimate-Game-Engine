@@ -139,6 +139,11 @@ namespace UltimateEngine{
 			Instantiate(g, new Point(0, 0), parent);
 		}
 
+		public void Instantiate(GameObject g, Transform parent, Point position)
+		{
+			Instantiate(g, position, parent);
+		}
+
 		//spawns a new object in the scene with a new position and parent
 		public void Instantiate(GameObject g, Point position, Transform parent){
 			if (g == null) return;
@@ -210,7 +215,7 @@ namespace UltimateEngine{
 			//update the GameObject
 			if(go != null){
 				go.Update();
-				ScreenBuffer.Draw(go.Image.ToJaggedArray(), go.Image.Size, go.ScreenPosition - offset);
+				ScreenBuffer.Draw(go.Image.RawData, go.Image.Size, go.ScreenPosition - offset);
 
 				foreach(Transform child in t.Children){
 					Update(child, offset);

@@ -23,6 +23,12 @@ namespace UltimateEngine{
 			Array.Copy(i.RawData, 0, data, 0, Size.Height);
 		}
 
+		public Image(string str)
+		{
+			Size = new Size(str.Length, 1);
+			data = new char[1][] { str.ToCharArray() };
+		}
+
 		public Image(string[] strs){
 			SetData(strs);
 		}
@@ -110,10 +116,6 @@ namespace UltimateEngine{
 			}
 			//char was not in the list
 			return c;
-		}
-
-		public char[][] ToJaggedArray(){
-			return data;
 		}
 
 		public override string ToString(){
