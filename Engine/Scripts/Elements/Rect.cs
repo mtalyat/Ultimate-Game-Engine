@@ -56,7 +56,24 @@ namespace UltimateEngine{
 			}
 		}
 
-		public static Rect operator +(Rect one, Point two){
+		public double Paremeter()
+		{
+			return (Width * 2) + (Height * 2);
+		}
+
+		public double Area()
+		{
+			return (Width * Height);
+		}
+
+		public double Diagonal()
+		{
+			return Math.Sqrt(Math.Pow(Width, 2) + Math.Pow(Height, 2));
+		}
+
+        #region Operators
+
+        public static Rect operator +(Rect one, Point two){
 			return new Rect(one.Position + two, one.Size);
 		}
 
@@ -64,7 +81,9 @@ namespace UltimateEngine{
 			return new Rect(one.Position - two, one.Size);
 		}
 
-		public override string ToString(){
+        #endregion
+
+        public override string ToString(){
 			return $"({X}, {Y}, {Width}, {Height})";
 		}
 	}

@@ -51,9 +51,11 @@ namespace UltimateEngine{
 			GameObject = go;
 		}
 
-		//sets the position
-		//inputs a world position, adjusts based on the parent
-		public void SetPosition(Point p){
+        #region Positioning
+
+        //sets the position
+        //inputs a world position, adjusts based on the parent
+        public void SetPosition(Point p){
 			if(Parent == null)
 			{
 				LocalPosition = p;
@@ -78,17 +80,37 @@ namespace UltimateEngine{
 			return Parent.Position + LocalPosition;
 		}
 
-		//sets the new layer and adjusts position in parent list
-		public void SetZ(double z){
+        #endregion
+
+        #region Layers
+
+        //sets the new layer and adjusts position in parent list
+        public void SetZ(double z){
 			layer = z;
 
 			Parent.UpdateChild(this);
 		}
 
-		//sets a new parent, removes self from parent's children
-		//function redoes the local position so that even when a new parent is set,
-		//it still reflects the same world position
-		public void SetParent(Transform t){
+		//Brings this Transform to the front of the drawing order
+		public void BringToFront()
+		{
+			Z = Parent.Children[Parent.Children.Count - 1].Z + 1;
+		}
+
+		//Pushes this Transform to the back of the drawing order
+		public void SendToBack()
+		{
+			Z = Parent.Children[0].Z - 1;
+		}
+
+        #endregion
+
+        #region Parenting
+
+        //sets a new parent, removes self from parent's children
+        //function redoes the local position so that even when a new parent is set,
+        //it still reflects the same world position
+        public void SetParent(Transform t){
 			//if parent is null, make it not null
 			if(Parent == null){
 				Parent = Origin;
@@ -118,7 +140,7 @@ namespace UltimateEngine{
 			}
 		}
 
-		//adds a child in the right location for drawing
+		//inserts a child into the correct location in the Children array for drawing
 		public void AddChild(Transform child){
 			if(Children.Count <= 0){//if list is empty
 				Children.Add(child);
@@ -127,7 +149,7 @@ namespace UltimateEngine{
 
 			//list is not empty:
 			for(int i = 0; i < Children.Count; i++){
-				if(child.Z >= Children[i].Z){
+				if(child.Z <= Children[i].Z){
 					Children.Insert(i, child);
 					return;
 				}
@@ -159,7 +181,9 @@ namespace UltimateEngine{
 			return trans.ToArray();
 		}
 
-		public override string ToString(){
+        #endregion
+
+        public override string ToString(){
 			return Position.ToString();
 		}
 	}

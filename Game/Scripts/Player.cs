@@ -74,6 +74,14 @@ namespace Game {
 					Animator.Set("Idle");
 				}
 			}
+
+			if(Input.IsKeyDown("UpArrow"))
+			{
+				Transform.BringToFront();
+			} else if(Input.IsKeyDown("DownArrow"))
+			{
+				Transform.SendToBack();
+			}
 		}
 
 		public override void OnCollision(GameObject other, int side){
@@ -84,6 +92,23 @@ namespace Game {
 				{
 					Body.Velocity = new Point(Body.Velocity.X, 0);
 				}
+			}
+			if(other.Name == "Ground")
+			{
+				Console.BackgroundColor = ConsoleColor.Black;
+				Console.ForegroundColor = ConsoleColor.White;
+			} else if (other.Name == "Platform 1")
+			{
+				Console.BackgroundColor = ConsoleColor.Red;
+				Console.ForegroundColor = ConsoleColor.Yellow;
+			} else if (other.Name == "Platform 2")
+			{
+				Console.BackgroundColor = ConsoleColor.Blue;
+				Console.ForegroundColor = ConsoleColor.DarkBlue;
+			} else if (other.Name == "Platform 3")
+			{
+				Console.BackgroundColor = ConsoleColor.Green;
+				Console.ForegroundColor = ConsoleColor.Magenta;
 			}
 		}
 	}
