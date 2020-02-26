@@ -107,6 +107,12 @@ namespace UltimateEngine{
 			}
 		}
 
+		public static void SetColors(ConsoleColor fg, ConsoleColor bg)
+		{
+			Console.ForegroundColor = fg;
+			Console.BackgroundColor = bg;
+		}
+
 		//returns true if any part of a string will be in view when drawn
 		private static bool IsInView(int x, int y, int xlength, int ylength = 1){
 			return x + xlength >= 0 && x < Size.Width && y + ylength >= 0 && y < Size.Height;

@@ -12,7 +12,11 @@ class MainClass {
 	}
 
 	public static void Main (string[] args) {
-		Scene scene = new Scene(100, 20);
+
+		////////////////////////SCENE 1
+
+		Scene scene = new Scene("Scene 1");
+		scene.DebugMode = true;
 
 		Camera cam = new Camera();
 
@@ -62,6 +66,19 @@ class MainClass {
 		scene.Instantiate(cam);
 
 		scene.Run();
+
+		Thread.Sleep(10000);//switch scenes after 10 seconds
+
+		///////////////////////////SCENE 2
+
+		GameObject test = new GameObject("Test", new Image("Test GameObject"));
+
+		Scene scene2 = new Scene("Scene 2");
+		scene2.SetColors(ConsoleColor.White, ConsoleColor.Blue);
+
+		scene2.Instantiate(test, new Point(0, 19));
+
+		Scene.Current = scene2;
 
 		//Ensure that the program does not end any time soon
 		Thread.Sleep(int.MaxValue);

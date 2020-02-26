@@ -32,6 +32,9 @@
   <PropertyGroup>
     <RootNamespace>Ultimate_Game_Engine</RootNamespace>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -153,6 +156,7 @@
     <Content Include="Engine\Documentation\Rect.txt" />
     <Content Include="Engine\Documentation\Size.txt" />
     <Content Include="Engine\Documentation\Text.txt" />
+    <Content Include="favicon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>

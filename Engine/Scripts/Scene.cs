@@ -5,17 +5,32 @@ using System.Diagnostics;
 
 namespace UltimateEngine{
 	public class Scene{
-		public static Scene Current;
+		private static Scene current;
+		public static Scene Current
+		{
+			get
+			{
+				return current;
+			}
+			set
+			{
+				SetCurrentScene(value);
+			}
+		}
 
 		public string Name { get; set; } = "";
 
 		private Transform Origin => Transform.Origin;
+		private Size screenSize;
 		
 		private Stopwatch watch = new Stopwatch();
 		public int DeltaTime { get; private set; } = 0;
 
 		Thread updateThread;
 		Thread collisionsThread;
+
+		ConsoleColor backgroundColor;
+		ConsoleColor foregroundColor;
 
 		const int PredictionFrames = 1;
 
@@ -24,7 +39,7 @@ namespace UltimateEngine{
 		List<GameObject> InScene = new List<GameObject>();
 
 		//for debugging
-		public bool DebugMode { get; set; } = true;
+		public bool DebugMode { get; set; } = false;
 		public int FPS { get; set; } = 30;
 
         #region Constructors
@@ -32,28 +47,25 @@ namespace UltimateEngine{
         public Scene(string name = "Untitled Scene")
 		{
 			Name = name;
+			screenSize = new Size(100, 20);
 
-			ScreenBuffer.Initialize(new Size(100, 20), Name);
-
-			Current = this;
+			if (current == null) SetCurrentScene(this);
 		}
 
 		public Scene(int width, int height, string name = "Untitled Scene")
 		{
 			Name = name;
+			screenSize = new Size(width, height);
 
-			ScreenBuffer.Initialize(new Size(width, height), Name);
-
-			Current = this;
+			if (current == null) SetCurrentScene(this);
 		}
 
 		public Scene(Size s, string name = "Untitled Scene")
 		{
 			Name = name;
+			screenSize = s;
 
-			ScreenBuffer.Initialize(s, Name);
-
-			Current = this;
+			if (current == null) SetCurrentScene(this);
 		}
 
         #endregion
@@ -120,6 +132,15 @@ namespace UltimateEngine{
 		public void Stop(){
 			Active = false;
 			updateThread = null;
+			collisionsThread = null;
+		}
+
+		public void SetColors(ConsoleColor fg, ConsoleColor bg)
+		{
+			foregroundColor = fg;
+			backgroundColor = bg;
+
+			ScreenBuffer.SetColors(fg, bg);
 		}
 
 		#region Management
@@ -223,6 +244,22 @@ namespace UltimateEngine{
 			}
 		}
 
-		#endregion
-	}
+        #endregion
+
+        #region Statics
+
+		private static void SetCurrentScene(Scene scene)
+		{
+			if (current == scene) return;
+
+			if(current != null) current.Stop();
+
+			current = scene;
+
+			ScreenBuffer.Initialize(current.screenSize, current.Name);
+			ScreenBuffer.SetColors(current.foregroundColor, current.backgroundColor);
+		}
+
+        #endregion
+    }
 }
