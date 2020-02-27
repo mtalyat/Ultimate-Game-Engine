@@ -51,6 +51,14 @@ namespace UltimateEngine{
 			GameObject = go;
 		}
 
+		//makes a copy of the transform
+		public Transform(Transform t, GameObject go = null)
+		{
+			LocalPosition = t.LocalPosition;
+			//Don't set parent
+			GameObject = go;
+		}
+
         #region Positioning
 
         //sets the position

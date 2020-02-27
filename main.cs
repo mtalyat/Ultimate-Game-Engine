@@ -15,7 +15,7 @@ class MainClass {
 
 		////////////////////////SCENE 1
 
-		Scene scene = new Scene("Scene 1");
+		Scene scene = new Scene(100, 20, "Scene 1");
 		scene.DebugMode = true;
 
 		Camera cam = new Camera();
@@ -44,24 +44,13 @@ class MainClass {
 		plat3.AddComponent(new Collider());
 		plat3.Tag = "Ground";
 
-		GameObject box = new GameObject("Box", new Image(new string[]
-		{
-			"XXX",
-			"XXX",
-			"XXX"
-		}));
-
-		Text text = new Text(p.Transform);
-
 		scene.Instantiate(p, new Point(2, 1));
-		scene.Instantiate(text, p.Transform, new Point(0, 5));
 
 		scene.Instantiate(ground, new Point(-50, 0));
+		scene.Instantiate(ground.Clone(), new Point(-50, -1));
 		scene.Instantiate(plat1, new Point(20, 7));
 		scene.Instantiate(plat2, new Point(40, 14));
 		scene.Instantiate(plat3, new Point(70, 14));
-
-		scene.Instantiate(box, new Point(13, 1));
 
 		scene.Instantiate(cam);
 

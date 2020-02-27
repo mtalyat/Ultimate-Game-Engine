@@ -26,7 +26,7 @@ namespace UltimateEngine{
 		}
 
 		//GameObjects with a higher layer are printed 'on top'
-		public int Layer { get; set; } = 0;
+		public double Layer => Transform.Z;
 
 		private bool started = false;
 
@@ -67,6 +67,22 @@ namespace UltimateEngine{
 		public virtual void OnUpdate(){}
 		public virtual void OnCollision(GameObject go, int side){}
 		public virtual void OnTrigger(GameObject go, int side){}
+
+		public virtual GameObject Clone()
+		{
+			GameObject go = new GameObject();
+
+			go.Name = Name;
+			go.Tag = Tag;
+			go.Image = new Image(Image);
+			go.Transform = new Transform(Transform, go);
+			go.Transform.Position = Transform.Position;
+			go.Scene = Scene;
+
+			go.components = new List<Component>(components);
+
+			return go;
+		}
 
 		#endregion
 

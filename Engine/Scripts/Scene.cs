@@ -164,39 +164,41 @@ namespace UltimateEngine{
 				Math.Min(height, Console.LargestWindowHeight - 1));
 		}
 
-		#region Management
+		#region GameObject Management
 
 		//spawns a new object in the scene
-		public void Instantiate(GameObject g){
-			Instantiate(g, g.Transform.Position);
+		public GameObject Instantiate(GameObject g){
+			return Instantiate(g, g.Transform.Position);
 		}
 
 		//spawns a new object in the scene with a new position
-		public void Instantiate(GameObject g, Point position){
-			Instantiate(g, position, origin);
+		public GameObject Instantiate(GameObject g, Point position){
+			return Instantiate(g, position, origin);
 		}
 
-		public void Instantiate(GameObject g, Transform parent)
+		public GameObject Instantiate(GameObject g, Transform parent)
 		{
-			Instantiate(g, new Point(0, 0), parent);
+			return Instantiate(g, new Point(0, 0), parent);
 		}
 
-		public void Instantiate(GameObject g, Transform parent, Point position)
+		public GameObject Instantiate(GameObject g, Transform parent, Point position)
 		{
-			Instantiate(g, position, parent);
+			return Instantiate(g, position, parent);
 		}
 
 		//spawns a new object in the scene with a new position and parent
-		public void Instantiate(GameObject g, Point position, Transform parent){
-			if (g == null) return;
+		public GameObject Instantiate(GameObject g, Point position, Transform parent){
+			if (g == null) return null;
 
 			g.Transform.SetParent(parent);
-			g.Transform.LocalPosition = position; 
+			g.Transform.LocalPosition = position;
 
 			InScene.Add(g);
 
 			if(Active)
 				Start(g.Transform);
+
+			return g;
 		}
 
 		//removes a GameObject from the scene
