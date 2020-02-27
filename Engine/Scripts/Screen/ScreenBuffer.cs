@@ -137,9 +137,9 @@ namespace UltimateEngine{
 			}
 		}
 
+		//Clears the screen, without using Console.Clear()
 		public static void Clear()
 		{
-			
 			Console.SetCursorPosition(0, 0);
 			Console.Write(clearString);
 		}
@@ -154,9 +154,11 @@ namespace UltimateEngine{
 			clearString = sb.ToString();
 		}
 
+		//Sets the WindowSize and BufferSize to the values of Size, + 1
 		private static void SetBufferToSize()
 		{
-			Console.SetWindowSize(Size.Width + 1, Size.Height + 1);
+			Console.SetWindowSize(Math.Min(Size.Width + 1, Console.LargestWindowWidth),
+				Math.Min(Size.Height + 1, Console.LargestWindowHeight));
 			Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
 		}
 

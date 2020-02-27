@@ -67,21 +67,6 @@ class MainClass {
 
 		scene.Run();
 
-		Thread.Sleep(5000);//switch scenes after 10 seconds
-
-		///////////////////////////SCENE 2
-		///
-
-		Scene scene2 = new Scene("Scene 2");
-
-		scene2.SetColors(ConsoleColor.White, ConsoleColor.Blue);
-
-		Scene.SwitchScenes(scene2);
-
-		Thread.Sleep(2000);
-
-		Scene.SwitchScenes(scene);
-
 		//Ensure that the program does not end any time soon
 		Thread.Sleep(int.MaxValue);
 	}

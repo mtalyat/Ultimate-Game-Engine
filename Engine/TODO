@@ -2,3 +2,4 @@ BringToFront() and SendToBack()
 Drawing? Animator? Why glitchy
 Animate Next in Update, not own timer?
 Custom colors
+Camera center position based on screen size... camera bounds = screen size

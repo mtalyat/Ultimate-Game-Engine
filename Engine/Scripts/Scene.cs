@@ -47,7 +47,7 @@ namespace UltimateEngine{
         public Scene(string name = "Untitled Scene")
 		{
 			Name = name;
-			screenSize = new Size(100, 20);
+			SetScreenSize(1000, 1000);//ensure largest size possibe
 
 			if (current == null) SetCurrentScene(this);
 		}
@@ -55,7 +55,7 @@ namespace UltimateEngine{
 		public Scene(int width, int height, string name = "Untitled Scene")
 		{
 			Name = name;
-			screenSize = new Size(width, height);
+			SetScreenSize(width, height);
 
 			if (current == null) SetCurrentScene(this);
 		}
@@ -63,7 +63,7 @@ namespace UltimateEngine{
 		public Scene(Size s, string name = "Untitled Scene")
 		{
 			Name = name;
-			screenSize = s;
+			SetScreenSize(s.Width, s.Height);
 
 			if (current == null) SetCurrentScene(this);
 		}
@@ -156,6 +156,12 @@ namespace UltimateEngine{
 			backgroundColor = bg;
 
 			ScreenBuffer.SetColors(fg, bg);
+		}
+
+		private void SetScreenSize(int width, int height)
+		{
+			screenSize = new Size(Math.Min(width, Console.LargestWindowWidth - 1),
+				Math.Min(height, Console.LargestWindowHeight - 1));
 		}
 
 		#region Management
