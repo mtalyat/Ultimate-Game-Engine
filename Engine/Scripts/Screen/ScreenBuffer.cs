@@ -5,6 +5,17 @@ namespace UltimateEngine{
 	static class ScreenBuffer{
 		private static char[][] data;
 
+		public static string Title
+		{
+			get
+			{
+				return Console.Title;
+			}
+			set
+			{
+				Console.Title = value;
+			}
+		}
 		public static Size Size { get; set; } = new Size(0, 0);
 		public static bool Active { get; set; } = false;
 
@@ -13,7 +24,7 @@ namespace UltimateEngine{
 		}
 
 		public static void Initialize(Size s, string title = "Ultimate Game Engine"){
-			Console.Title = title;
+			Title = title;
 
 			Console.Clear();//get rid of the warnings and info
 
@@ -111,6 +122,11 @@ namespace UltimateEngine{
 		{
 			Console.ForegroundColor = fg;
 			Console.BackgroundColor = bg;
+		}
+
+		public static void Clear()
+		{
+			Initialize(Size, Title);
 		}
 
 		//returns true if any part of a string will be in view when drawn

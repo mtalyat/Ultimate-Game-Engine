@@ -19,6 +19,8 @@ namespace UltimateEngine{
 		private const int KEYDOWNREFRESH = 3;
 
 		public static void Start(){
+			if (Active) return;
+
 			Active = true;
 
 			//set up the thread that gets input from the user

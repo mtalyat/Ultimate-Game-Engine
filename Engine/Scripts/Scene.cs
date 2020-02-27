@@ -20,7 +20,7 @@ namespace UltimateEngine{
 
 		public string Name { get; set; } = "";
 
-		private Transform Origin => Transform.Origin;
+		private Transform origin = new Transform();
 		private Size screenSize;
 		
 		private Stopwatch watch = new Stopwatch();
@@ -100,7 +100,7 @@ namespace UltimateEngine{
 
 			//putting collisions in its own thread so it does not slow down update when there are many objects in the Scene
 			collisionsThread = new Thread(new ThreadStart(() => {
-				while(Active){
+				while (Active){
 					for(int i = 0; i < InScene.Count; i++){
 						Collider one = InScene[i].GetComponent<Collider>();
 
@@ -131,8 +131,23 @@ namespace UltimateEngine{
 
 		public void Stop(){
 			Active = false;
-			updateThread = null;
-			collisionsThread = null;
+
+			if(updateThread != null)
+			{
+				while (updateThread.ThreadState != System.Threading.ThreadState.Stopped)
+				{
+					Thread.Sleep(1);
+				}
+				updateThread = null;
+			}
+			if(collisionsThread != null)
+			{
+				while (collisionsThread.ThreadState != System.Threading.ThreadState.Stopped)
+				{
+					Thread.Sleep(1);
+				}
+				collisionsThread = null;
+			}
 		}
 
 		public void SetColors(ConsoleColor fg, ConsoleColor bg)
@@ -152,7 +167,7 @@ namespace UltimateEngine{
 
 		//spawns a new object in the scene with a new position
 		public void Instantiate(GameObject g, Point position){
-			Instantiate(g, position, Origin);
+			Instantiate(g, position, origin);
 		}
 
 		public void Instantiate(GameObject g, Transform parent)
@@ -195,7 +210,7 @@ namespace UltimateEngine{
 
 		//starts all of the GameObjects already in the Scene before the program is ran
 		private void StartAll(){
-			foreach(Transform t in Origin.GetAllChildren()){
+			foreach(Transform t in origin.GetAllChildren()){
 				Start(t);
 			}
 		}
@@ -223,8 +238,8 @@ namespace UltimateEngine{
 
 			Point offset = Camera.MainCamera.ScreenPosition;
 
-			for(int i = 0; i < Origin.Children.Count; i++){
-				Update(Origin.Children[i], offset);
+			for(int i = 0; i < origin.Children.Count; i++){
+				Update(origin.Children[i], offset);
 			}
 		}
 
@@ -258,6 +273,23 @@ namespace UltimateEngine{
 
 			ScreenBuffer.Initialize(current.screenSize, current.Name);
 			ScreenBuffer.SetColors(current.foregroundColor, current.backgroundColor);
+		}
+
+		public static void SwitchScenes(Scene newScene)
+		{
+			if (current == newScene) return;
+
+			if(current != null)
+			{
+				current.Stop();
+			}
+
+			current = newScene;
+
+			ScreenBuffer.Initialize(current.screenSize, current.Name);
+			ScreenBuffer.SetColors(current.foregroundColor, current.backgroundColor);
+
+			current.Run();
 		}
 
         #endregion
