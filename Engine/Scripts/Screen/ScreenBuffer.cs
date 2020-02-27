@@ -1,5 +1,5 @@
 using System;
-using System.Threading;
+using System.Text;
 
 namespace UltimateEngine{
 	static class ScreenBuffer{
@@ -18,6 +18,8 @@ namespace UltimateEngine{
 		}
 		public static Size Size { get; set; } = new Size(0, 0);
 		public static bool Active { get; set; } = false;
+
+		private static string clearString = "";
 
 		static ScreenBuffer(){
 			Initialize(new Size(0, 0));
@@ -40,8 +42,8 @@ namespace UltimateEngine{
 
 			if(s.Width > 0 && s.Height > 0)
 			{
-				Console.SetWindowSize(s.Width + 1, s.Height + 1);
-				Console.SetBufferSize(s.Width + 1, s.Height + 1);
+				SetBufferToSize();
+				SetClearString();
 			}
 		}
 
@@ -54,7 +56,10 @@ namespace UltimateEngine{
 			{
 				for (int i = Size.Height - 1; i >= 0; i--)
 				{
+					//update the display for the current frame
 					output += new string(data[i]) + "\n";
+
+					//reset the display for the next frame
 					data[i] = new string(' ', Size.Width).ToCharArray();
 				}
 			} else
@@ -120,13 +125,39 @@ namespace UltimateEngine{
 
 		public static void SetColors(ConsoleColor fg, ConsoleColor bg)
 		{
+			//always change the foreground, it only shows when the screen is printed anyways
 			Console.ForegroundColor = fg;
-			Console.BackgroundColor = bg;
+
+			//only change background when the color changes
+			if(Console.BackgroundColor != bg)
+			{
+				Console.BackgroundColor = bg;
+				//clearing shows changes but glitches screen when used in succession
+				Clear();
+			}
 		}
 
 		public static void Clear()
 		{
-			Initialize(Size, Title);
+			
+			Console.SetCursorPosition(0, 0);
+			Console.Write(clearString);
+		}
+
+		private static void SetClearString()
+		{
+			StringBuilder sb = new StringBuilder();
+			string line = new string(' ', Size.Width + 1);
+			for (int i = 0; i < Size.Height + 1; i++)
+				sb.AppendLine(line);
+
+			clearString = sb.ToString();
+		}
+
+		private static void SetBufferToSize()
+		{
+			Console.SetWindowSize(Size.Width + 1, Size.Height + 1);
+			Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
 		}
 
 		//returns true if any part of a string will be in view when drawn

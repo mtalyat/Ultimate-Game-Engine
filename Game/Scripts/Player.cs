@@ -95,20 +95,16 @@ namespace Game {
 			}
 			if(other.Name == "Ground")
 			{
-				Console.BackgroundColor = ConsoleColor.Black;
-				Console.ForegroundColor = ConsoleColor.White;
+				ScreenBuffer.SetColors(ConsoleColor.White, ConsoleColor.Black);
 			} else if (other.Name == "Platform 1")
 			{
-				Console.BackgroundColor = ConsoleColor.Red;
-				Console.ForegroundColor = ConsoleColor.Yellow;
+				ScreenBuffer.SetColors(ConsoleColor.Yellow, ConsoleColor.Red);
 			} else if (other.Name == "Platform 2")
 			{
-				Console.BackgroundColor = ConsoleColor.Blue;
-				Console.ForegroundColor = ConsoleColor.DarkBlue;
+				ScreenBuffer.SetColors(ConsoleColor.DarkBlue, ConsoleColor.Blue);
 			} else if (other.Name == "Platform 3")
 			{
-				Console.BackgroundColor = ConsoleColor.Green;
-				Console.ForegroundColor = ConsoleColor.Magenta;
+				ScreenBuffer.SetColors(ConsoleColor.Black, ConsoleColor.DarkYellow);
 			}
 		}
 	}
