@@ -47,7 +47,6 @@ class MainClass {
 		scene.Instantiate(p, new Point(2, 1));
 
 		scene.Instantiate(ground, new Point(-50, 0));
-		scene.Instantiate(ground.Clone(), new Point(-50, -1));
 		scene.Instantiate(plat1, new Point(20, 7));
 		scene.Instantiate(plat2, new Point(40, 14));
 		scene.Instantiate(plat3, new Point(70, 14));

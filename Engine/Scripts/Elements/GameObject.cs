@@ -16,10 +16,7 @@ namespace UltimateEngine{
 
 		//Image
 		public virtual Image Image { get; set; }
-
-		//Used for drawing
-
-		public Rect Bounds {
+		public virtual Rect Bounds {
 			get {
 				return new Rect(Transform.Position, Image.Size);
 			}

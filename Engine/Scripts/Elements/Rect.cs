@@ -12,6 +12,8 @@ namespace UltimateEngine{
 
 		public double Top => Position.Y + Size.Height;
 		public double Right => Position.X + Size.Width;
+
+		public Point Center => new Point(CenterX, CenterY);
 		public double CenterX => Position.X + Size.Width / 2;
 		public double CenterY => Position.Y + Size.Height / 2;
 

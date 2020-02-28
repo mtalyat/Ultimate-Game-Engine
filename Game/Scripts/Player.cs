@@ -24,7 +24,9 @@ namespace Game {
 			Body = GetComponent<RigidBody>();
 
 			Camera = new Camera();
-			InstantiateChild(Camera, new Point(-48, -7));//kind of centers the player
+
+			///////////////////////////////FIX THIS
+			InstantiateChild(Camera, (Camera.Bounds.Center * -1) + new Point(3, 3));//kind of centers the player
 		}
 
 		public override void OnStart()

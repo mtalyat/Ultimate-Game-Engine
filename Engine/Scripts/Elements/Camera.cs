@@ -8,9 +8,13 @@ namespace UltimateEngine {
 		static List<Camera> allCameras = new List<Camera>();
 		public static int CameraCount => allCameras.Count;
 
-		public Point Position => Transform.Position;
-		public double X => Transform.X;
-		public double Y => Transform.Y;
+		public override Rect Bounds
+		{
+			get
+			{
+				return new Rect(Transform.Position, ScreenBuffer.Size);
+			}
+		}
 
 		public Camera(string name = "Camera") : base(name){
 			if(MainCamera == null) MainCamera = this;
