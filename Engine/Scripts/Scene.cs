@@ -47,6 +47,10 @@ namespace UltimateEngine{
 		private int framesPassed = 0;
 		private System.Timers.Timer FPSTimer;
 
+		//gravity stuff
+		public double Gravity { get; set; } = 9.8;
+		public double AdjustedGravity => Gravity / GoalFPS;
+
         #region Constructors
 
         public Scene(string name = "Untitled Scene")
@@ -74,6 +78,8 @@ namespace UltimateEngine{
 		}
 
         #endregion
+
+        #region Running
 
         //starts the Scene
         public void Run(){
@@ -176,7 +182,11 @@ namespace UltimateEngine{
 			}
 		}
 
-		public void SetColors(ConsoleColor fg, ConsoleColor bg)
+        #endregion
+
+        #region Display
+
+        public void SetColors(ConsoleColor fg, ConsoleColor bg)
 		{
 			foregroundColor = fg;
 			backgroundColor = bg;
@@ -190,10 +200,12 @@ namespace UltimateEngine{
 				Math.Min(height, Console.LargestWindowHeight - 1));
 		}
 
-		#region GameObject Management
+        #endregion
 
-		//spawns a new object in the scene
-		public GameObject Instantiate(GameObject g){
+        #region GameObject Management
+
+        //spawns a new object in the scene
+        public GameObject Instantiate(GameObject g){
 			return Instantiate(g, g.Transform.Position);
 		}
 

@@ -15,7 +15,7 @@ class MainClass {
 
 		////////////////////////SCENE 1
 
-		Scene scene = new Scene("Scene 1");
+		Scene scene = new Scene(100, 20, "Scene 1");
 		scene.DebugMode = true;
 
 		Camera cam = new Camera();
