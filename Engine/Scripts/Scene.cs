@@ -40,7 +40,12 @@ namespace UltimateEngine{
 
 		//for debugging
 		public bool DebugMode { get; set; } = false;
-		public int FPS { get; set; } = 30;
+
+		//FPS stuff
+		public int GoalFPS { get; set; } = 30;
+		public int ActualFPS { get; private set; } = -1;
+		private int framesPassed = 0;
+		private System.Timers.Timer FPSTimer;
 
         #region Constructors
 
@@ -76,6 +81,10 @@ namespace UltimateEngine{
 
 			Active = true;
 
+			FPSTimer = new System.Timers.Timer();
+			FPSTimer.Elapsed += FPSTimer_Elapsed;
+			FPSTimer.Interval = 1000;//1 second
+
 			updateThread = new Thread(new ThreadStart(() => {
 				while(Active){
 					watch.Start();
@@ -83,17 +92,21 @@ namespace UltimateEngine{
 					//update all objects, then update the screen to reflect changes
 					UpdateAll();
 
-					//draw Debug stuff
+					//draw Debug stuff on top of Scene
 					if(DebugMode){
 						ScreenBuffer.Draw("dT: " + DeltaTime, 0, 0);
-						ScreenBuffer.Draw("FPS: " + FPS, 0, 1);
+						ScreenBuffer.Draw("GoalFPS: " + GoalFPS, 0, 1);
+						ScreenBuffer.Draw("ActualFPS: " + ActualFPS, 0, 2);
 					}
-
+					
 					ScreenBuffer.Print();
+
+					//A frame has passed, so update that for the FPS
+					framesPassed++;
 
 					watch.Stop();
 					DeltaTime = watch.Elapsed.Milliseconds;
-					Thread.Sleep(Math.Max(0, (1000 / FPS) - DeltaTime));//try to make up for when it takes longer to draw objects
+					Thread.Sleep(Math.Max(0, (1000 / (GoalFPS * 2)) - DeltaTime));//try to make up for when it takes longer to draw objects
 					watch.Reset();
 				}
 			}));
@@ -127,11 +140,24 @@ namespace UltimateEngine{
 
 			collisionsThread.Name = "Collisions";
 			collisionsThread.Start();
+
+			FPSTimer.Start();
+		}
+
+		private void FPSTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+		{
+			ActualFPS = framesPassed;
+			framesPassed = 0;
 		}
 
 		public void Stop(){
 			Active = false;
 
+			if(FPSTimer != null)
+			{
+				FPSTimer.Stop();
+				FPSTimer = null;
+			}
 			if(updateThread != null)
 			{
 				while (updateThread.ThreadState != System.Threading.ThreadState.Stopped)

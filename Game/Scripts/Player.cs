@@ -25,7 +25,6 @@ namespace Game {
 
 			Camera = new Camera();
 
-			///////////////////////////////FIX THIS
 			InstantiateChild(Camera, (Camera.Bounds.Center * -1) + new Point(3, 3));//kind of centers the player
 		}
 
