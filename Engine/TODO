@@ -1,8 +1,6 @@
-BringToFront() and SendToBack()
-Drawing? Animator? Why glitchy
-Animate Next in Update, not own timer?
+Drawing? Animator? Why glitchy... Animate Next in Update, not own timer?
 Custom colors
-Camera center position based on screen size... camera bounds = screen size
+Camera center position based on screen size... camera bounds = screen size... WIP
 Fix FPS
 Cloning GameObjects in Instantiation
 RigidBody -> PhysicsBody, and make more physics like
