@@ -29,8 +29,8 @@ namespace UltimateEngine{
 		Thread updateThread;
 		Thread collisionsThread;
 
-		ConsoleColor backgroundColor;
-		ConsoleColor foregroundColor;
+		ConsoleColor backgroundColor = ConsoleColor.Black;
+		ConsoleColor foregroundColor = ConsoleColor.White;
 
 		const int PredictionFrames = 1;
 
@@ -311,8 +311,6 @@ namespace UltimateEngine{
 
 		private static void SetCurrentScene(Scene scene)
 		{
-			if (current == scene) return;
-
 			if(current != null) current.Stop();
 
 			current = scene;
@@ -323,7 +321,7 @@ namespace UltimateEngine{
 
 		public static void SwitchScenes(Scene newScene)
 		{
-			if (current == newScene) return;
+			if (newScene == current) return;
 
 			if(current != null)
 			{
