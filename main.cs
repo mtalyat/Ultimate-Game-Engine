@@ -21,6 +21,8 @@ class MainClass {
 
 		Player p = new Player();
 
+		p.Body.Mass = 0.5;
+
 		Animator animator = p.Animator;
 
 		animator.Add(Animation.FromFile("C:\\Users\\Me\\source\\repos\\Ultimate-Game-Engine\\Game\\Animations\\Running.anim"));

@@ -5,7 +5,7 @@ namespace Game {
 	public class Player : GameObject {
 		public Animator Animator { get; set; }
 		public Collider Collider { get; set; }
-		public RigidBody Body { get; set; }
+		public PhysicsBody Body { get; set; }
 
 		public Camera Camera { get; private set; }
 
@@ -17,11 +17,11 @@ namespace Game {
 
 			AddComponent(new Animator());
 			AddComponent(new Collider());
-			AddComponent(new RigidBody());
+			AddComponent(new PhysicsBody());
 
 			Animator = GetComponent<Animator>();
 			Collider = GetComponent<Collider>();
-			Body = GetComponent<RigidBody>();
+			Body = GetComponent<PhysicsBody>();
 
 			Camera = new Camera();
 
@@ -30,8 +30,6 @@ namespace Game {
 
 		public override void OnStart()
 		{
-			Body.Acceleration = new Point(0, -0.1);
-
 			Camera.MainCamera = Camera;
 		}
 

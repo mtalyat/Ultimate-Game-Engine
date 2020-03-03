@@ -48,7 +48,7 @@
     <Compile Include="Engine\Scripts\Components\Animator.cs" />
     <Compile Include="Engine\Scripts\Components\Collider.cs" />
     <Compile Include="Engine\Scripts\Components\Component.cs" />
-    <Compile Include="Engine\Scripts\Components\RigidBody.cs" />
+    <Compile Include="Engine\Scripts\Components\PhysicsBody.cs" />
     <Compile Include="Engine\Scripts\Debug.cs" />
     <Compile Include="Engine\Scripts\Elements\Animation.cs" />
     <Compile Include="Engine\Scripts\Elements\Camera.cs" />

@@ -4,3 +4,4 @@ Cloning GameObjects in Instantiation
 RigidBody -> PhysicsBody, and make more physics like
 Death trigger Game GameObject
 NPC Game GameObject
+Fixed Update (Timer)

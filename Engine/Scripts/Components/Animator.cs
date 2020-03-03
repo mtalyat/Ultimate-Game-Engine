@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 namespace UltimateEngine{
 	public class Animator : Component{
-		public override GameObject GameObject { get; set; }
-
 		List<Animation> animations = new List<Animation>();
 
 		private Timer updateTimer;

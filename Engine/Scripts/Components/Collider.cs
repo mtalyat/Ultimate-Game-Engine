@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace UltimateEngine {
 	public class Collider : Component {
-		public override GameObject GameObject { get; set; }
-
 		public bool IsTrigger { get; set; } = false;
 
-		protected RigidBody body { get; private set; }
+		protected PhysicsBody body { get; private set; }
+
+		public Rect BoundsOverride { get; set; } = new Rect(new Point(0, 0), new Size(0, 0));
 
 		const double CollisionBuffer = 0.0;
 
@@ -15,8 +15,13 @@ namespace UltimateEngine {
 
 		}
 
+		public Collider(Rect bounds)
+		{
+			BoundsOverride = bounds;
+		}
+
 		public override void Start(){
-			body = GameObject.GetComponent<RigidBody>();
+			body = GameObject.GetComponent<PhysicsBody>();
 		}
 
 		public override void Update(){

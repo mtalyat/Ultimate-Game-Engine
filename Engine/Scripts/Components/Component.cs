@@ -4,7 +4,8 @@ namespace UltimateEngine {
 	//this class is the base class for components
 	//components are elements that can be added to GameObjects
 	public abstract class Component{
-		public abstract GameObject GameObject { get; set; }
+		//GameObject is assigned when added to the GameObject
+		public GameObject GameObject { get; set; }
 		public string Name
 		{
 			get
