@@ -96,7 +96,7 @@ namespace UltimateEngine{
 		}
 
 		//checks for an intersection when this is moving
-		public Direction Crosses(Rect other, Point translation)
+		public bool Crosses(Rect other, Point translation)
 		{
 			//get the before and after translation
 			Rect before = this;
@@ -122,12 +122,11 @@ namespace UltimateEngine{
 				//check again if it is inside
 				if(Math.Abs(sides[0] + sides[1] + sides[2] + sides[3]) < 4)
 				{
-					//for now
-					return FindSide(other);
+					return true;
 				}
 			}
 
-			return Direction.None;
+			return false;
 		}
 
 		//gets the closest Point on the paremeter to a Point

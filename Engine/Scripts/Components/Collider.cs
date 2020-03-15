@@ -67,16 +67,19 @@ namespace UltimateEngine {
 			return (Velocity * frames + Accleration * AdvMath.Factorial(frames)) / Scene.ScaledFPS;
 		}
 
-		//checks if two GameObjects are colliding
-		public void CheckCollision(Collider c, int frames = 1){
+		public bool WillCollideWith(Collider c, int frames = 1)
+		{
 			Point translation = Translation(frames);
 			Rect other = c.GetBounds() + c.Translation(frames);
 
-			Direction side = GetBounds().Crosses(other, translation);
+			return GetBounds().Crosses(other, translation);
+		}
 
-			if (side != Direction.None)
+		//checks if two GameObjects are colliding
+		public void CheckCollision(Collider c, int frames = 1){
+			if (WillCollideWith(c, frames))
 			{
-				CollideWith(c, side, frames);
+				CollideWith(c, GetBounds().FindSide(c.GetBounds()), frames);
 			}
 		}
 
