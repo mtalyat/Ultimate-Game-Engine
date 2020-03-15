@@ -29,7 +29,6 @@ namespace Game {
 			Body = GetComponent<PhysicsBody>();
 
 			Camera = new Camera();
-
 			InstantiateChild(Camera, (Camera.Bounds.Center * -1) + new Point(3, 3));//kind of centers the player
 
 			Active = this;

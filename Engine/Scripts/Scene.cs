@@ -95,6 +95,9 @@ namespace UltimateEngine{
 					//check for collisions
 					CollideAll();
 
+					//finally draw them all
+					DrawAll();
+
 					//draw Debug stuff on top of Scene
 					if(DebugMode){
 						ScreenBuffer.Draw("dT: " + DeltaTime, 0, 0);
@@ -264,25 +267,22 @@ namespace UltimateEngine{
 		private void UpdateAll(){
 			if (Camera.MainCamera == null) return;
 
-			Point offset = Camera.MainCamera.ScreenPosition;
-
 			for(int i = 0; i < origin.Children.Count; i++){
-				Update(origin.Children[i], offset);
+				Update(origin.Children[i]);
 			}
 		}
 
 		//updates one object
-		private void Update(Transform t, Point offset){
+		private void Update(Transform t){
 			if(t == null) return;
 
 			GameObject go = t.GameObject;
 			//update the GameObject
 			if(go != null){
 				go.Update();
-				ScreenBuffer.Draw(go.Image.RawData, go.Image.Size, go.ScreenPosition - offset);
 
 				foreach(Transform child in t.Children){
-					Update(child, offset);
+					Update(child);
 				}
 			}
 		}
@@ -305,6 +305,18 @@ namespace UltimateEngine{
 					//check if the collision will occur in the next frame
 					one.CheckCollision(two);
 				}
+			}
+		}
+
+		private void DrawAll()
+		{
+			Point offset = Camera.MainCamera.ScreenPosition;
+
+			foreach (Transform child in origin.GetAllChildren())
+			{
+				GameObject go = child.GameObject;
+
+				ScreenBuffer.Draw(go.Image.RawData, go.Image.Size, go.ScreenPosition - offset);
 			}
 		}
 

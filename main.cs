@@ -13,8 +13,6 @@ class MainClass {
 		Scene scene = new Scene(100, 20, "Scene 1");
 		scene.DebugMode = true;
 
-		Camera cam = new Camera();
-
 		Player p = new Player();
 
 		p.Body.Mass = 10;
@@ -45,8 +43,6 @@ class MainClass {
 		scene.Instantiate(p, new Point(2, 2));
 		scene.Instantiate(ground, new Point(-50, 0));
 		scene.Instantiate(box, new Point(20, 3));
-
-		scene.Instantiate(cam);
 
 		scene.Run();
 
