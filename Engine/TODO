@@ -2,6 +2,6 @@ Custom colors, maybe
 Cloning GameObjects in Instantiation
 Death trigger Game GameObject
 NPC Game GameObject
-Collisions based on Physics (momentum) - Find when objects collide, even when both are moving
-Friction!!
 Make update more efficient.. possibly draw, update then collide?
+Physics collisions... when you hit an object that isn't Kinematic, but the object behind it is... 
+... (player on box on ground)
