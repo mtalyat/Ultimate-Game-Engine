@@ -1,7 +1,5 @@
 using System;
-using System.IO;
 using System.Threading;
-
 using UltimateEngine;
 using Game;
 
@@ -12,16 +10,18 @@ class MainClass {
 	}
 
 	public static void Main (string[] args) {
-
-		////////////////////////SCENE 1
-
 		Scene scene = new Scene(100, 20, "Scene 1");
+		scene.DebugMode = true;
 
 		Camera cam = new Camera();
 
 		Player p = new Player();
 
-		p.Body.Mass = 0.5;
+		p.Body.Mass = 10;
+		p.Collider.CoefficientOfFriction = 0.5;
+
+		p.Speed = 5;
+		p.JumpPower = 12;
 
 		Animator animator = p.Animator;
 
@@ -33,24 +33,18 @@ class MainClass {
 		ground.AddComponent(new Collider());
 		ground.Tag = "Ground";
 
-		GameObject plat1 = new GameObject("Platform 1", new Image(new string[] { new string('^', 20) }));
-		plat1.AddComponent(new Collider());
-		plat1.Tag = "Ground";
+		GameObject box = new GameObject("Box", new Image(new string[]
+		{
+			"XXX", "XXX", "XXX", "XXX", "XXX", "XXX", "XXX", "XXX", "XXX", "XXX", "XXX", "XXX"
+		}));
+		//box.AddComponent(new PhysicsBody());
+		//box.GetComponent<PhysicsBody>().IsKinematic = true;
+		box.AddComponent(new Collider());
+		box.Tag = "Ground";
 
-		GameObject plat2 = new GameObject("Platform 2", new Image(new string[] { new string('^', 20) }));
-		plat2.AddComponent(new Collider());
-		plat2.Tag = "Ground";
-
-		GameObject plat3 = new GameObject("Platform 3", new Image(new string[] { new string('^', 20) }));
-		plat3.AddComponent(new Collider());
-		plat3.Tag = "Ground";
-
-		scene.Instantiate(p, new Point(2, 1));
-
+		scene.Instantiate(p, new Point(2, 2));
 		scene.Instantiate(ground, new Point(-50, 0));
-		scene.Instantiate(plat1, new Point(20, 7));
-		scene.Instantiate(plat2, new Point(40, 14));
-		scene.Instantiate(plat3, new Point(70, 14));
+		scene.Instantiate(box, new Point(20, 3));
 
 		scene.Instantiate(cam);
 

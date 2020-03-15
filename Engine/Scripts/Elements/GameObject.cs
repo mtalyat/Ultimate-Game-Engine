@@ -12,7 +12,7 @@ namespace UltimateEngine{
 		//Position
 		public Transform Transform { get; private set; }
 
-		public Point ScreenPosition => Transform.Position.Ceiling();
+		public Point ScreenPosition => Transform.Position.Floor();
 
 		//Image
 		public virtual Image Image { get; set; }
@@ -25,7 +25,7 @@ namespace UltimateEngine{
 		//GameObjects with a higher layer are printed 'on top'
 		public double Layer => Transform.Z;
 
-		private bool started = false;
+		public bool IsStarted { get; private set; } = false;
 
 		private List<Component> components = new List<Component>();
 
@@ -40,7 +40,7 @@ namespace UltimateEngine{
 		#region Starting and Updating
 
 		public void Start(Scene scene){
-			started = true;
+			IsStarted = true;
 			Scene = scene;
 
 			foreach(Component c in components){
@@ -62,8 +62,8 @@ namespace UltimateEngine{
 
 		public virtual void OnStart(){}
 		public virtual void OnUpdate(){}
-		public virtual void OnCollision(GameObject go, int side){}
-		public virtual void OnTrigger(GameObject go, int side){}
+		public virtual void OnCollision(GameObject go, Direction side){}
+		public virtual void OnTrigger(GameObject go, Direction side){}
 
 		public virtual GameObject Clone()
 		{
@@ -89,7 +89,7 @@ namespace UltimateEngine{
 		public void AddComponent(Component c){
 			c.GameObject = this;
 
-			if(started){
+			if(IsStarted){
 				c.Start();
 			}
 

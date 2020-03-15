@@ -45,13 +45,16 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\Scripts\Components\AdvMath.cs" />
     <Compile Include="Engine\Scripts\Components\Animator.cs" />
     <Compile Include="Engine\Scripts\Components\Collider.cs" />
     <Compile Include="Engine\Scripts\Components\Component.cs" />
+    <Compile Include="Engine\Scripts\Elements\Line.cs" />
     <Compile Include="Engine\Scripts\Components\PhysicsBody.cs" />
     <Compile Include="Engine\Scripts\Debug.cs" />
     <Compile Include="Engine\Scripts\Elements\Animation.cs" />
     <Compile Include="Engine\Scripts\Elements\Camera.cs" />
+    <Compile Include="Engine\Scripts\Elements\Direction.cs" />
     <Compile Include="Engine\Scripts\Elements\GameObject.cs" />
     <Compile Include="Engine\Scripts\Elements\Image.cs" />
     <Compile Include="Engine\Scripts\Elements\Point.cs" />
@@ -64,7 +67,6 @@
     <Compile Include="Engine\Scripts\Screen\ScreenBuffer.cs" />
     <Compile Include="Engine\Scripts\Screen\ScreenKey.cs" />
     <Compile Include="Engine\Scripts\Words.cs" />
-    <Compile Include="Game\Scripts\Collectable.cs" />
     <Compile Include="Game\Scripts\Player.cs" />
     <Compile Include="main.cs" />
   </ItemGroup>

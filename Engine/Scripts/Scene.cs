@@ -22,8 +22,7 @@ namespace UltimateEngine{
 
 		private Transform origin = new Transform();
 		private Size screenSize;
-		
-		private Stopwatch watch = new Stopwatch();
+
 		public int DeltaTime { get; private set; } = 0;
 
 		Thread updateThread;
@@ -31,8 +30,6 @@ namespace UltimateEngine{
 
 		ConsoleColor backgroundColor = ConsoleColor.Black;
 		ConsoleColor foregroundColor = ConsoleColor.White;
-
-		const int PredictionFrames = 1;
 
 		public bool Active { get; private set; } = false;
 
@@ -42,14 +39,10 @@ namespace UltimateEngine{
 		public bool DebugMode { get; set; } = false;
 
 		//FPS stuff
-		public int GoalFPS { get; set; } = 30;
+		public static int GoalFPS { get; set; } = 30;
 		public int ActualFPS { get; private set; } = -1;
 		private int framesPassed = 0;
 		private System.Timers.Timer FPSTimer;
-
-		//gravity stuff
-		public double Gravity { get; set; } = 9.8;
-		public double AdjustedGravity => Gravity / GoalFPS;
 
         #region Constructors
 
@@ -92,11 +85,15 @@ namespace UltimateEngine{
 			FPSTimer.Interval = 1000;//1 second
 
 			updateThread = new Thread(new ThreadStart(() => {
+				Stopwatch watch = new Stopwatch();
 				while(Active){
 					watch.Start();
 
 					//update all objects, then update the screen to reflect changes
 					UpdateAll();
+
+					//check for collisions
+					CollideAll();
 
 					//draw Debug stuff on top of Scene
 					if(DebugMode){
@@ -120,22 +117,7 @@ namespace UltimateEngine{
 			//putting collisions in its own thread so it does not slow down update when there are many objects in the Scene
 			collisionsThread = new Thread(new ThreadStart(() => {
 				while (Active){
-					for(int i = 0; i < InScene.Count; i++){
-						Collider one = InScene[i].GetComponent<Collider>();
-
-						if(one == null) continue;
-						if(!one.IsMoving()) continue;
-
-						for(int j = 0; j < InScene.Count; j++){
-							Collider two = InScene[j].GetComponent<Collider>();
-
-							if(two == null) continue;
-							if((two.IsMoving() && j < i) || j == i) continue;//don't check self or any that has been checked
-
-							//check if the collision will occur in the next frame
-							one.CheckCollision(two, PredictionFrames);
-						}
-					}
+					
 				}
 			}));
 
@@ -301,6 +283,27 @@ namespace UltimateEngine{
 
 				foreach(Transform child in t.Children){
 					Update(child, offset);
+				}
+			}
+		}
+
+		private void CollideAll()
+		{
+			for (int i = 0; i < InScene.Count - 1; i++)
+			{
+				Collider one = InScene[i].GetComponent<Collider>();
+
+				if (one == null) continue;
+				if (one.IsKinematic()) continue;
+
+				for (int j = i + 1; j < InScene.Count; j++)
+				{
+					Collider two = InScene[j].GetComponent<Collider>();
+
+					if (two == null) continue;
+
+					//check if the collision will occur in the next frame
+					one.CheckCollision(two);
 				}
 			}
 		}

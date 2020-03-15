@@ -28,9 +28,11 @@ namespace UltimateEngine{
 
         #region Methods
 
-		public Point Round()
+        #region Math
+
+        public Point Round(int digits = 0)
 		{
-			return new Point(Math.Round(X), Math.Round(Y));
+			return new Point(AdvMath.Round(X, digits), AdvMath.Round(Y, digits));
 		}
 
 		public Point Ceiling()
@@ -43,8 +45,15 @@ namespace UltimateEngine{
 			return new Point(Math.Floor(X), Math.Floor(Y));
 		}
 
-		//Gets the magnitude of the Point
-		public double Magnitude()
+		public Point Abs()
+		{
+			return new Point(Math.Abs(X), Math.Abs(Y));
+		}
+
+        #endregion
+
+        //Gets the magnitude of the Point
+        public double Magnitude()
 		{
 			return Math.Sqrt(Math.Pow(X, 2) + Math.Pow(Y, 2));
 		}
@@ -59,6 +68,12 @@ namespace UltimateEngine{
 		public static double Distance(Point one, Point two)
 		{
 			return Math.Sqrt(Math.Pow(one.X - two.X, 2) + Math.Pow(one.Y + two.Y, 2));
+		}
+
+		//Finds the distance between this point and another point
+		public double DistanceFrom(Point other)
+		{
+			return Distance(this, other);
 		}
 
 		//Finds the angle in radians from the first Point to the second Point
@@ -77,7 +92,7 @@ namespace UltimateEngine{
 			return deg * Math.PI / 180;
 		}
 
-        #endregion
+		#endregion
 
         #region Operators
 
@@ -97,8 +112,23 @@ namespace UltimateEngine{
 			return new Point(one.X * two, one.Y * two);
 		}
 
+		public static Point operator*(double one, Point two)
+		{
+			return new Point(one * two.X, one * two.Y);
+		}
+
 		public static Point operator/(Point one, Point two){
 			return new Point(one.X / two.X, one.Y / two.Y);
+		}
+
+		public static Point operator/(Point one, double two)
+		{
+			return new Point(one.X / two, one.Y / two);
+		}
+
+		public static Point operator /(double one, Point two)
+		{
+			return new Point(one / two.X, one / two.Y);
 		}
 
 		public static bool operator==(Point one, Point two){
@@ -110,6 +140,35 @@ namespace UltimateEngine{
 		}
 
 		#endregion
+
+		public bool IsValid()
+		{
+			return !(double.IsNaN(X + Y) || double.IsInfinity(X + Y));
+		}
+
+		public static Point GetDirection(Point velocity)
+		{
+			double x = 0;
+			double y = 0;
+
+			if(velocity.X > 0)
+			{
+				x = 1;
+			} else if (velocity.X < 0)
+			{
+				x = -1;
+			}
+
+			if(velocity.Y > 0)
+			{
+				y = 1;
+			} else if (velocity.Y < 0)
+			{
+				y = -1;
+			}
+
+			return new Point(x, y);
+		}
 
 		#region Overrides
 

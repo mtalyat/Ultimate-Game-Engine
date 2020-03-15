@@ -3,11 +3,16 @@ using UltimateEngine;
 
 namespace Game {
 	public class Player : GameObject {
+		public static Player Active;
+
 		public Animator Animator { get; set; }
 		public Collider Collider { get; set; }
 		public PhysicsBody Body { get; set; }
 
 		public Camera Camera { get; private set; }
+
+		public double Speed { get; set; } = 5;
+		public double JumpPower { get; set; } = 10;
 
 		int jumpLevel = 0;
 		int maxJumps = 1;
@@ -26,6 +31,8 @@ namespace Game {
 			Camera = new Camera();
 
 			InstantiateChild(Camera, (Camera.Bounds.Center * -1) + new Point(3, 3));//kind of centers the player
+
+			Active = this;
 		}
 
 		public override void OnStart()
@@ -37,7 +44,7 @@ namespace Game {
 		{
 			if (Input.IsKeyPressed("D"))
 			{//move right
-				Transform.Position += Point.Right;
+				Body.Velocity = new Point(Speed, Body.Velocity.Y);
 
 				Animator.Set("Running");
 
@@ -48,7 +55,7 @@ namespace Game {
 			}
 			else if (Input.IsKeyPressed("A"))
 			{//move left
-				Transform.Position += Point.Left;
+				Body.Velocity = new Point(Speed * -1, Body.Velocity.Y);
 
 				Animator.Set("Running");
 
@@ -63,7 +70,7 @@ namespace Game {
 
 				if (jumpLevel++ < maxJumps)
 				{
-					Body.Velocity = new Point(0, 1.5);
+					Body.Velocity = new Point(0, JumpPower);
 				}
 			}
 			else
@@ -71,6 +78,7 @@ namespace Game {
 				if (jumpLevel == 0)
 				{
 					Animator.Set("Idle");
+					Body.Velocity = new Point(0, Body.Velocity.Y);
 				}
 			}
 
@@ -83,28 +91,13 @@ namespace Game {
 			}
 		}
 
-		public override void OnCollision(GameObject other, int side){
-			if(other.Tag == "Ground" && side == 1){//top collision
+		public override void OnCollision(GameObject other, Direction side){
+			if(other.Tag == "Ground" && side == Direction.Down){//top collision
 				//reset the jump
 				jumpLevel = 0;
-				if(Body.Velocity.Y < 0)
-				{
-					Body.Velocity = new Point(Body.Velocity.X, 0);
-				}
 			}
-			if(other.Name == "Ground")
-			{
-				ScreenBuffer.SetColors(ConsoleColor.White, ConsoleColor.Black);
-			} else if (other.Name == "Platform 1")
-			{
-				ScreenBuffer.SetColors(ConsoleColor.Yellow, ConsoleColor.Red);
-			} else if (other.Name == "Platform 2")
-			{
-				ScreenBuffer.SetColors(ConsoleColor.DarkBlue, ConsoleColor.Blue);
-			} else if (other.Name == "Platform 3")
-			{
-				ScreenBuffer.SetColors(ConsoleColor.Black, ConsoleColor.DarkYellow);
-			}
+
+			//Debug.Log($"Player collided with {other} on side {side}.");
 		}
 	}
 }

@@ -1,7 +1,6 @@
 Drawing? Animator? Why glitchy... Animate Next in Update, not own timer?
 Custom colors, maybe
 Cloning GameObjects in Instantiation
-RigidBody -> PhysicsBody, and make more physics like
 Death trigger Game GameObject
 NPC Game GameObject
-Fixed Update (Timer)
+Collisions based on Physics (momentum) - Find when objects collide, even when both are moving

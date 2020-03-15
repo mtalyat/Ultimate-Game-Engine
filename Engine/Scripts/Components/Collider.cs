@@ -3,13 +3,17 @@ using System.Collections.Generic;
 
 namespace UltimateEngine {
 	public class Collider : Component {
+		const double Spacing = 0.5;
+
 		public bool IsTrigger { get; set; } = false;
 
 		protected PhysicsBody body { get; private set; }
+		public Point Velocity => (body == null) ? Point.Zero : body.Velocity;
+		protected Point Accleration => (body == null) ? Point.Zero : body.Acceleration;
+
+		public double CoefficientOfFriction { get; set; } = 0.5;
 
 		public Rect BoundsOverride { get; set; } = new Rect(new Point(0, 0), new Size(0, 0));
-
-		const double CollisionBuffer = 0.0;
 
 		public Collider(){
 
@@ -24,23 +28,23 @@ namespace UltimateEngine {
 			body = GameObject.GetComponent<PhysicsBody>();
 		}
 
-		public override void Update(){
-		}
-
-		//get the Factorial of a number
-		private int Factorial(int number){
-			if(number == 1){
-				return 1;
-			}
-
-			return number * Factorial(number - 1);
-		}
+		public override void Update(){}
 
 		//gets the difference between positions
-		public Point GetMovement(int frames){
+		public Point GetMovement(){
 			if(body == null) return Point.Zero;
 
-			return body.Velocity * (double)frames + body.Acceleration * (double)Factorial(frames);
+			return body.Velocity + body.Acceleration;
+		}
+
+		//gets the bounds. Gets the override if it is valid
+		public Rect GetBounds()
+		{
+			if(BoundsOverride.Area() > 0)
+			{
+				return BoundsOverride;
+			}
+			return GameObject.Bounds;
 		}
 
 		//returns true if the Collider is moving
@@ -50,56 +54,97 @@ namespace UltimateEngine {
 			return body.Velocity != Point.Zero;
 		}
 
-		//checks if two GameObjects are colliding
-		public void CheckCollision(Collider c, int frames){
-			int intersect = WillCollide(c, frames);
+		//returns true if the collider is kinematic or has no body
+		public bool IsKinematic()
+		{
+			if (body == null) return true;
 
-			//if the objects are colliding, run collide events
-			if(intersect >= 0){
-				CollideWith(c, intersect);
+			return body.IsKinematic;
+		}
+
+		protected Point Translation(int frames = 1)
+		{
+			return (Velocity * frames + Accleration * AdvMath.Factorial(frames)) / Scene.GoalFPS;
+		}
+
+		//checks if two GameObjects are colliding
+		public void CheckCollision(Collider c, int frames = 1){
+			Point translation = Translation(frames);
+			Rect other = c.GetBounds() + c.Translation(frames);
+
+			Direction side = GetBounds().Crosses(other, translation);
+
+			if (side != Direction.None)
+			{
+				CollideWith(c, side, frames);
 			}
 		}
 
-		//determines if two Colliders will collide with each other in x frames
-		private int WillCollide(Collider c, int frames){
-			return (GameObject.Bounds + GetMovement(frames)).Intersects(c.GameObject.Bounds + c.GetMovement(frames));
-		}
-
 		//runs after collisions have been detected
-		private void CollideWith(Collider c, int side){
+		private void CollideWith(Collider c, Direction side, int frames){
+			Direction oppositeSide = AdvMath.OppositeDirection(side);
+
+			Rect one = GetBounds();
+			Rect two = c.GetBounds();
+
 			//if one of the colliders is a trigger
-			if(IsTrigger || c.IsTrigger){
-				GameObject.OnTrigger(c.GameObject, side);//activate collison for this
-				c.GameObject.OnTrigger(GameObject, side);//activate collison for other object
-			} else {//both are normal
-				Rect one = GameObject.Bounds;
-				Rect two = c.GameObject.Bounds;
+			if (IsTrigger || c.IsTrigger)
+			{
+				if (IsTrigger) GameObject.OnTrigger(c.GameObject, side);//activate collison for this
+				if (c.IsTrigger) c.GameObject.OnTrigger(GameObject, oppositeSide);//activate collison for other object, but opposite side
+			}
+			else
+			{//both are normal
+			 //use momentum and physics to determine what happens when they both collide:
 
-				switch(side){
-					case 0: //right
-						GameObject.Transform.Position = new Point(two.Right + CollisionBuffer, one.Y);
-						break;
-					case 1: //top
-						GameObject.Transform.Position = new Point(one.X, two.Top + CollisionBuffer);
-						break;
-					case 2: //left
-						GameObject.Transform.Position = new Point(two.X - one.Width - CollisionBuffer, one.Y);
-						break;
-					case 3: //bottom
-						GameObject.Transform.Position = new Point(one.X, two.Y - one.Height - CollisionBuffer);
-						break;
-				}
-
-				if(body != null){
-					if(side == 0 || side == 2){
-						body.Velocity = new Point(0, body.Velocity.Y);
-					} else {
-						body.Velocity = new Point(body.Velocity.X, 0);
+				//HOWEVER, if one of them Is Kinematic, or has no PhysicsBody, there is no physics collision
+				if (c.IsKinematic())
+				{
+					//adjust the position so it isn't directly on stuff
+					switch (side)
+					{
+						case Direction.Left:
+							GameObject.Transform.Position = new Point(two.Right + Spacing, one.Y);
+							body.Velocity = new Point(0, body.Velocity.Y);
+							break;
+						case Direction.Right:
+							GameObject.Transform.Position = new Point(two.Left - one.Width - Spacing, one.Y);
+							body.Velocity = new Point(0, body.Velocity.Y);
+							break;
+						case Direction.Down:
+							GameObject.Transform.Position = new Point(one.X, two.Top + Spacing);
+							body.Velocity = new Point(body.Velocity.X, 0);
+							break;
+						case Direction.Up:
+							GameObject.Transform.Position = new Point(one.X, two.Bottom - one.Height - Spacing);
+							body.Velocity = new Point(body.Velocity.X, 0);
+							break;
 					}
+
+					//Debug.Log("After fix: " + GameObject.Transform);
+
+					GameObject.OnCollision(c.GameObject, side);//activate collison for this
+					c.GameObject.OnCollision(GameObject, oppositeSide);//activate collison for other object
+
+					//ok, done with collisions now
+					return;
 				}
+
+				//position the GameObjects to where the predicted bounds were
+				//GameObject.Transform.Position = one.Position;
+				//c.GameObject.Transform.Position = two.Position;
+
+				//get the average elasticity to use for the collisions
+				double averageElasticity = (body.Elasticity + c.body.Elasticity) / 2;
+
+				//get the system velocity
+				Point systemVelocity = (body.Momentum + c.body.Momentum) / (body.Mass + c.body.Mass);
+
+				//get the new velocities based on that, and the average elasticity
+				body.Velocity = (2 * systemVelocity) - (averageElasticity * body.Velocity);
 
 				GameObject.OnCollision(c.GameObject, side);//activate collison for this
-				c.GameObject.OnCollision(GameObject, side);//activate collison for other object
+				c.GameObject.OnCollision(GameObject, oppositeSide);//activate collison for other object
 			}
 		}
 	}
