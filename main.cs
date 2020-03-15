@@ -16,7 +16,7 @@ class MainClass {
 		Player p = new Player();
 
 		p.Body.Mass = 10;
-		p.Collider.CoefficientOfFriction = 0.5;
+		p.Collider.CoefficientOfFriction = 0.2;
 
 		p.Speed = 5;
 		p.JumpPower = 12;
@@ -33,16 +33,31 @@ class MainClass {
 
 		GameObject box = new GameObject("Box", new Image(new string[]
 		{
-			"XXX", "XXX", "XXX", "XXX", "XXX", "XXX", "XXX", "XXX", "XXX", "XXX", "XXX", "XXX"
+			"IMMOVABLE",
+			"-OBJECT--",
+			"---------"
 		}));
-		//box.AddComponent(new PhysicsBody());
-		//box.GetComponent<PhysicsBody>().IsKinematic = true;
+		box.AddComponent(new PhysicsBody());
+		box.GetComponent<PhysicsBody>().IsKinematic = true;
 		box.AddComponent(new Collider());
 		box.Tag = "Ground";
 
-		scene.Instantiate(p, new Point(2, 2));
+		GameObject box2 = new GameObject("Box 2", new Image(new string[]
+		{
+			"MOVABLE",
+			"--BOX--",
+			"-------"
+		}));
+		PhysicsBody pb = new PhysicsBody();
+		pb.Mass = 5;
+		box2.AddComponent(pb);
+		box2.AddComponent(new Collider());
+		box2.Tag = "Ground";
+
+		scene.Instantiate(p, new Point(0, 1.5));
 		scene.Instantiate(ground, new Point(-50, 0));
-		scene.Instantiate(box, new Point(20, 3));
+		scene.Instantiate(box, new Point(-20, 3));
+		scene.Instantiate(box2, new Point(20, 3));
 
 		scene.Run();
 

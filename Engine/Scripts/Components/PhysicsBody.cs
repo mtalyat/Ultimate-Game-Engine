@@ -39,12 +39,22 @@ namespace UltimateEngine
 
         //drag and anti-forces
         public double Drag { get; set; } = 0.5;//not used yet
-        public Point Friction { get; set; } = new Point();//not used yet
 
         //collisions
         public double Elasticity { get; set; } = 1.0;
         public Point Momentum => Velocity * Mass;
-        public bool IsKinematic { get; set; } = false;
+        private bool _isKinematic = false;
+        public bool IsKinematic
+        {
+            get
+            {
+                return _isKinematic;
+            }
+            set
+            {
+                SetKinematic(value);
+            }
+        }
 
         //positioning
         public Point Position
@@ -68,7 +78,8 @@ namespace UltimateEngine
 
         public override void Start()
         {
-            Acceleration = new Point(0, Gravity * GravityScale);
+            if(!IsKinematic)
+                Acceleration = new Point(0, Gravity * GravityScale);
         }
 
         public override void Update()
@@ -76,9 +87,9 @@ namespace UltimateEngine
             //if (GravityScale != 0) AddForce(new Point(0, Gravity * GravityScale) / Scene.GoalFPS);
 
             //update velocity and GameObject position
-            Velocity += (Acceleration / Scene.GoalFPS).Round(2);
+            Velocity += (Acceleration / Scene.ScaledFPS).Round(2);
 
-            Position += (Velocity / Scene.GoalFPS).Round(2);
+            Position += (Velocity / Scene.ScaledFPS).Round(2);
         }
 
         //increases the Velocity based on a force, and the mass of the body
@@ -119,11 +130,24 @@ namespace UltimateEngine
         {
             if (value == _mass) return;
 
-            //Acceleration -= new Point(0, Gravity * _gravityScale * _mass);
-
             _mass = value;
+        }
 
-            //Acceleration += new Point(0, Gravity * _gravityScale * _mass);
+        private void SetKinematic(bool k)
+        {
+            if (_isKinematic == k) return;
+
+            _isKinematic = k;
+
+            if (_isKinematic)//non-moving
+            {
+                GravityScale = 0;
+                Acceleration = Point.Zero;
+                Velocity = Point.Zero;
+            } else//moving
+            {
+                GravityScale = 1;
+            }
         }
 
         #endregion

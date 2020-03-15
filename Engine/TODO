@@ -1,6 +1,7 @@
-Drawing? Animator? Why glitchy... Animate Next in Update, not own timer?
 Custom colors, maybe
 Cloning GameObjects in Instantiation
 Death trigger Game GameObject
 NPC Game GameObject
 Collisions based on Physics (momentum) - Find when objects collide, even when both are moving
+Friction!!
+Make update more efficient.. possibly draw, update then collide?

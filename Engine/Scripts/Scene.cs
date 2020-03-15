@@ -26,7 +26,6 @@ namespace UltimateEngine{
 		public int DeltaTime { get; private set; } = 0;
 
 		Thread updateThread;
-		Thread collisionsThread;
 
 		ConsoleColor backgroundColor = ConsoleColor.Black;
 		ConsoleColor foregroundColor = ConsoleColor.White;
@@ -40,6 +39,7 @@ namespace UltimateEngine{
 
 		//FPS stuff
 		public static int GoalFPS { get; set; } = 30;
+		public static int ScaledFPS => GoalFPS / 5;
 		public int ActualFPS { get; private set; } = -1;
 		private int framesPassed = 0;
 		private System.Timers.Timer FPSTimer;
@@ -103,6 +103,7 @@ namespace UltimateEngine{
 						ScreenBuffer.Draw("dT: " + DeltaTime, 0, 0);
 						ScreenBuffer.Draw("GoalFPS: " + GoalFPS, 0, 1);
 						ScreenBuffer.Draw("ActualFPS: " + ActualFPS, 0, 2);
+						ScreenBuffer.Draw("P. Pos: " + Game.Player.Active.Transform, 0, 3);
 					}
 					
 					ScreenBuffer.Print();
@@ -112,15 +113,8 @@ namespace UltimateEngine{
 
 					watch.Stop();
 					DeltaTime = watch.Elapsed.Milliseconds;
-					Thread.Sleep(Math.Max(0, (1000 / (GoalFPS * 2)) - DeltaTime));//try to make up for when it takes longer to draw objects
+					Thread.Sleep(Math.Max(0, (1000 / (GoalFPS * 1)) - DeltaTime));//try to make up for when it takes longer to draw objects
 					watch.Reset();
-				}
-			}));
-
-			//putting collisions in its own thread so it does not slow down update when there are many objects in the Scene
-			collisionsThread = new Thread(new ThreadStart(() => {
-				while (Active){
-					
 				}
 			}));
 
@@ -128,9 +122,6 @@ namespace UltimateEngine{
 
 			updateThread.Name = "Update";
 			updateThread.Start();
-
-			collisionsThread.Name = "Collisions";
-			collisionsThread.Start();
 
 			FPSTimer.Start();
 		}
@@ -156,14 +147,6 @@ namespace UltimateEngine{
 					Thread.Sleep(1);
 				}
 				updateThread = null;
-			}
-			if(collisionsThread != null)
-			{
-				while (collisionsThread.ThreadState != System.Threading.ThreadState.Stopped)
-				{
-					Thread.Sleep(1);
-				}
-				collisionsThread = null;
 			}
 		}
 
@@ -289,14 +272,15 @@ namespace UltimateEngine{
 
 		private void CollideAll()
 		{
-			for (int i = 0; i < InScene.Count - 1; i++)
+			for (int i = 0; i < InScene.Count; i++)
 			{
 				Collider one = InScene[i].GetComponent<Collider>();
 
 				if (one == null) continue;
 				if (one.IsKinematic()) continue;
 
-				for (int j = i + 1; j < InScene.Count; j++)
+				//check the other objects if this one has a collider and is moving
+				for (int j = 0; j < InScene.Count; j++)
 				{
 					Collider two = InScene[j].GetComponent<Collider>();
 

@@ -45,7 +45,8 @@ namespace Game {
 			{//move right
 				Body.Velocity = new Point(Speed, Body.Velocity.Y);
 
-				Animator.Set("Running");
+				if(jumpLevel == 0)//if on ground
+					Animator.Set("Running");
 
 				if (Animator.FlippedH)
 				{
@@ -56,7 +57,8 @@ namespace Game {
 			{//move left
 				Body.Velocity = new Point(Speed * -1, Body.Velocity.Y);
 
-				Animator.Set("Running");
+				if(jumpLevel == 0)//if on ground
+					Animator.Set("Running");
 
 				if (!Animator.FlippedH)
 				{

@@ -11,7 +11,7 @@ namespace UltimateEngine {
 		public Point Velocity => (body == null) ? Point.Zero : body.Velocity;
 		protected Point Accleration => (body == null) ? Point.Zero : body.Acceleration;
 
-		public double CoefficientOfFriction { get; set; } = 0.5;
+		public double CoefficientOfFriction { get; set; } = 0.1;
 
 		public Rect BoundsOverride { get; set; } = new Rect(new Point(0, 0), new Size(0, 0));
 
@@ -64,7 +64,7 @@ namespace UltimateEngine {
 
 		protected Point Translation(int frames = 1)
 		{
-			return (Velocity * frames + Accleration * AdvMath.Factorial(frames)) / Scene.GoalFPS;
+			return (Velocity * frames + Accleration * AdvMath.Factorial(frames)) / Scene.ScaledFPS;
 		}
 
 		//checks if two GameObjects are colliding
@@ -100,24 +100,28 @@ namespace UltimateEngine {
 				//HOWEVER, if one of them Is Kinematic, or has no PhysicsBody, there is no physics collision
 				if (c.IsKinematic())
 				{
+					//get the normal force for the friction
+					//math in notebook, derived from Frictional Force equation and F = ma where a = g
+					Point normalForce = Velocity * CoefficientOfFriction;
+
 					//adjust the position so it isn't directly on stuff
 					switch (side)
 					{
 						case Direction.Left:
 							GameObject.Transform.Position = new Point(two.Right + Spacing, one.Y);
-							body.Velocity = new Point(0, body.Velocity.Y);
+							body.Velocity = new Point(0, Velocity.Y - normalForce.Y);
 							break;
 						case Direction.Right:
 							GameObject.Transform.Position = new Point(two.Left - one.Width - Spacing, one.Y);
-							body.Velocity = new Point(0, body.Velocity.Y);
+							body.Velocity = new Point(0, Velocity.Y - normalForce.Y);
 							break;
 						case Direction.Down:
 							GameObject.Transform.Position = new Point(one.X, two.Top + Spacing);
-							body.Velocity = new Point(body.Velocity.X, 0);
+							body.Velocity = new Point(Velocity.X - normalForce.X, 0);
 							break;
 						case Direction.Up:
 							GameObject.Transform.Position = new Point(one.X, two.Bottom - one.Height - Spacing);
-							body.Velocity = new Point(body.Velocity.X, 0);
+							body.Velocity = new Point(Velocity.X - normalForce.X, 0);
 							break;
 					}
 
@@ -130,10 +134,6 @@ namespace UltimateEngine {
 					return;
 				}
 
-				//position the GameObjects to where the predicted bounds were
-				//GameObject.Transform.Position = one.Position;
-				//c.GameObject.Transform.Position = two.Position;
-
 				//get the average elasticity to use for the collisions
 				double averageElasticity = (body.Elasticity + c.body.Elasticity) / 2;
 
@@ -142,6 +142,7 @@ namespace UltimateEngine {
 
 				//get the new velocities based on that, and the average elasticity
 				body.Velocity = (2 * systemVelocity) - (averageElasticity * body.Velocity);
+				c.body.Velocity = (2 * systemVelocity) - (averageElasticity * c.body.Velocity);
 
 				GameObject.OnCollision(c.GameObject, side);//activate collison for this
 				c.GameObject.OnCollision(GameObject, oppositeSide);//activate collison for other object
