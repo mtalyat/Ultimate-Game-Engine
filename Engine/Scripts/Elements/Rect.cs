@@ -83,17 +83,10 @@ namespace UltimateEngine{
 
 		//checks for an intersection
 		public bool Intersects(Rect other){
-			double w = (Width + other.Width) / 2;
-			double h = (Height + other.Height) / 2;
-
-			double dx = CenterX - other.CenterX;
-			double dy = CenterY - other.CenterY;
-
-			if(Math.Abs(dx) <= w && Math.Abs(dy) <= h){//intersection detected
-				return true;
-			} else {//no intersection
-				return false;
-			}
+			return Left <= other.Right &&
+				Right >= other.Left &&
+				Top >= other.Bottom &&
+				Bottom <= other.Top;
 		}
 
 		//checks if a Point is inside of the Rect
