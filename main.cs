@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
 using UltimateEngine;
-using Game;
+using UltimateEngine.Basics;
 
 class MainClass {
 	static MainClass(){
@@ -10,59 +10,59 @@ class MainClass {
 	}
 
 	public static void Main (string[] args) {
+		//----------Scene set up
 		Scene scene = new Scene(100, 20, "Scene 1");
 		scene.DEBUG_MODE = true;
 		scene.SLOW_MODE = false;
 
+		//----------Player
 		Player p = new Player();
 
-		p.Body.Mass = 10;
-		p.Body.Elasticity = 0;
-		p.Collider.CoefficientOfFriction = 0.2;
-
-		p.Speed = 5;
-		p.JumpPower = 12;
-
 		Animator animator = p.Animator;
-
 		animator.Add(Animation.FromFile("C:\\Users\\Me\\source\\repos\\Ultimate-Game-Engine\\Game\\Animations\\Running.anim"));
 		animator.Add(Animation.FromFile("C:\\Users\\Me\\source\\repos\\Ultimate-Game-Engine\\Game\\Animations\\Jumping.anim"));
 		animator.Add(Animation.FromFile("C:\\Users\\Me\\source\\repos\\Ultimate-Game-Engine\\Game\\Animations\\Idle.anim"));
 
+		//----------Ground
 		GameObject ground = new GameObject("Ground", new Image(new string[] { new string('^', 200) }));
 		ground.AddComponent(new Collider());
 		ground.Tag = "Ground";
 
-		GameObject box = new GameObject("Box", new Image(new string[]
-		{
+		//----------Immovable box
+		Box immovableBox = new Box("Immovable Box", new Image(new string[]{
 			"IMMOVABLE",
 			"---BOX---",
 			"---------"
 		}));
-		PhysicsBody boxBody = new PhysicsBody();
-		boxBody.IsKinematic = true;
-		box.AddComponent(boxBody);
-		box.AddComponent(new Collider());
-		box.Tag = "Ground";
+		immovableBox.Body.IsKinematic = true;
 
-		GameObject box2 = new GameObject("Box 2", new Image(new string[]
+		//----------Heavy box
+		Box heavyBox = new Box("Heavy Box", new Image(new string[]
 		{
-			"MOVABLE",
-			"--BOX--",
-			"-------"
+			"HEAVY",
+			"-BOX-",
+			"-----"
 		}));
-		PhysicsBody pb = new PhysicsBody();
-		pb.Mass = 5;
-		pb.Elasticity = 0;
-		box2.AddComponent(pb);
-		box2.AddComponent(new Collider());
-		box2.Tag = "Ground";
+		heavyBox.Body.Mass = 25;
+		heavyBox.Collider.CoefficientOfFriction = 0.9;
 
-		scene.Instantiate(p, new Point(0, 1.5));
-		scene.Instantiate(ground, new Point(-50, 0));
-		scene.Instantiate(box, new Point(-20, 3));
-		scene.Instantiate(box2, new Point(20, 3));
+		//----------Light box
+		Box lightBox = new Box("Light Box", new Image(new string[]
+		{
+			"LIGHT",
+			"-BOX-"
+		}));
+		lightBox.Body.Mass = 2;
+		lightBox.Collider.CoefficientOfFriction = 0.2;
 
+		//add all the GameObjects to the Scene
+		scene.Instantiate(p, 0, 1.5);
+		scene.Instantiate(ground, -50, 0);
+		scene.Instantiate(immovableBox, 20, 3);
+		scene.Instantiate(heavyBox, 60, 1.5);
+		scene.Instantiate(lightBox, 100, 1.5);
+
+		//Start the Scene
 		scene.Run();
 
 		//Ensure that the program does not end any time soon

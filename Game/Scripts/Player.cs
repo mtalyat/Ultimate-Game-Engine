@@ -1,7 +1,7 @@
 using System;
 using UltimateEngine;
 
-namespace Game {
+namespace UltimateEngine.Basics {
 	public class Player : GameObject {
 		public static Player Active;
 
@@ -12,7 +12,7 @@ namespace Game {
 		public Camera Camera { get; private set; }
 
 		public double Speed { get; set; } = 5;
-		public double JumpPower { get; set; } = 10;
+		public double JumpPower { get; set; } = 12;
 
 		int jumpLevel = 0;
 		int maxJumps = 1;
@@ -27,6 +27,10 @@ namespace Game {
 			Animator = GetComponent<Animator>();
 			Collider = GetComponent<Collider>();
 			Body = GetComponent<PhysicsBody>();
+
+			Body.Mass = 10;
+			Body.Elasticity = 0;
+			Collider.CoefficientOfFriction = 0.2;
 
 			Camera = new Camera();
 			InstantiateChild(Camera, (Camera.Bounds.Center * -1) + new Point(3, 3));//kind of centers the player
@@ -94,7 +98,7 @@ namespace Game {
 		}
 
 		public override void OnCollision(GameObject other, Direction side){
-			if(other.Tag == "Ground" && side == Direction.Down){//top collision
+			if(side == Direction.Down){//top collision
 				//reset the jump
 				jumpLevel = 0;
 			}

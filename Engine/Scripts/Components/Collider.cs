@@ -134,8 +134,8 @@ namespace UltimateEngine {
 				//only do the calculations for the side that the collision is on
 				if (side == Direction.Down || side == Direction.Up)
 				{// Y axis
-					body.Velocity = new Point(body.Velocity.X, (2 * systemVelocity.X) - (averageElasticity * body.Velocity.Y));
-					c.body.Velocity = new Point(c.body.Velocity.X, (2 * systemVelocity.X) - (averageElasticity * c.body.Velocity.Y));
+					body.Velocity = new Point(body.Velocity.X, (2 * systemVelocity.Y) - (averageElasticity * body.Velocity.Y));
+					c.body.Velocity = new Point(c.body.Velocity.X, (2 * systemVelocity.Y) - (averageElasticity * c.body.Velocity.Y));
 				} else
 				{//X axis
 					body.Velocity = new Point((2 * systemVelocity.X) - (averageElasticity * body.Velocity.X), body.Velocity.Y);
@@ -179,8 +179,6 @@ namespace UltimateEngine {
 					body.Velocity = new Point(Velocity.X - normalForce.X, 0);
 					break;
 			}
-
-			Debug.Log($"Name: {GameObject}, new Pos: {GameObject.Transform}");
 
 			//do not call Collisions again because they should have already been called in Check
 		}

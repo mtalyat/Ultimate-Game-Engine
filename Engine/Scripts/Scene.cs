@@ -106,7 +106,7 @@ namespace UltimateEngine{
 						ScreenBuffer.Draw("dT: " + DeltaTime, 0, 0);
 						ScreenBuffer.Draw("GoalFPS: " + GoalFPS, 0, 1);
 						ScreenBuffer.Draw("ActualFPS: " + ActualFPS, 0, 2);
-						ScreenBuffer.Draw("P. Pos: " + Game.Player.Active.Transform, 0, 3);
+						ScreenBuffer.Draw("P. Pos: " + UltimateEngine.Basics.Player.Active.Transform, 0, 3);
 					}
 					
 					ScreenBuffer.Print();
@@ -192,16 +192,22 @@ namespace UltimateEngine{
 
         #endregion
 
-        #region GameObject Management
+        #region Instantiating
 
         //spawns a new object in the scene
         public GameObject Instantiate(GameObject g){
 			return Instantiate(g, g.Transform.Position);
 		}
 
-		//spawns a new object in the scene with a new position
+		//spawns a new GameObject in the Scene with a new position
 		public GameObject Instantiate(GameObject g, Point position){
 			return Instantiate(g, position, origin);
+		}
+
+		//spawns a new GameObject in the Scene with a new X and Y position
+		public GameObject Instantiate(GameObject g, double x, double y)
+		{
+			return Instantiate(g, new Point(x, y));
 		}
 
 		public GameObject Instantiate(GameObject g, Transform parent)
