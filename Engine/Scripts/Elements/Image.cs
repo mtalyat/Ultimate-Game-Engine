@@ -1,6 +1,7 @@
  using System;
 
 namespace UltimateEngine{
+	[Serializable]
 	public class Image {
 		public Size Size { get; private set; }
 		char[][] data;

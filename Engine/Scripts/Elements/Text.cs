@@ -6,6 +6,7 @@ using System.Text;
 namespace UltimateEngine
 {
     //A GameObject that always displays an object
+    [Serializable]
     public class Text : GameObject
     {
         public object Reference { get; set; }

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace UltimateEngine
 {
+    [Serializable]
     public class PhysicsBody : Component
     {
         public const double Gravity = -9.81;

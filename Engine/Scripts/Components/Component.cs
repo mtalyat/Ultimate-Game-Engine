@@ -3,6 +3,7 @@ using System;
 namespace UltimateEngine {
 	//this class is the base class for components
 	//components are elements that can be added to GameObjects
+	[Serializable]
 	public abstract class Component : SceneObject {
 		//GameObject is assigned when added to the GameObject
 		public GameObject GameObject { get; set; }

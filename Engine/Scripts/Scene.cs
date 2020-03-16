@@ -5,6 +5,7 @@ using System.Threading;
 
 namespace UltimateEngine
 {
+	[Serializable]
 	public class Scene{
 		private static Scene current;
 		public static Scene Current

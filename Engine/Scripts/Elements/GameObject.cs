@@ -1,7 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace UltimateEngine{
+	[Serializable]
 	public class GameObject : SceneObject {
 		public string Name { get; set; } = "";
 		public string Tag { get; set; } = "";
@@ -145,6 +150,18 @@ namespace UltimateEngine{
 
         public override string ToString(){
 			return Name;
+		}
+
+		public GameObject Clone()
+		{
+			IFormatter formatter = new BinaryFormatter();
+			Stream stream = new MemoryStream();
+			using (stream)
+			{
+				formatter.Serialize(stream, this);
+				stream.Seek(0, SeekOrigin.Begin);
+				return (GameObject)formatter.Deserialize(stream);
+			}
 		}
 	}
 }

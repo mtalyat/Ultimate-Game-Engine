@@ -1,6 +1,7 @@
 using System;
 
 namespace UltimateEngine{
+	[Serializable]
 	public class Rect {
 		public Point Position { get; set; } = new Point(0, 0);
 		public double X => Position.X;

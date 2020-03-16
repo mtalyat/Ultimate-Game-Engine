@@ -5,6 +5,7 @@ using System.Text;
 
 namespace UltimateEngine
 {
+    [Serializable]
     public enum Direction
     {
         None = -1,

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 namespace UltimateEngine {
+	[Serializable]
 	public class Collider : Component {
 		const double Spacing = 0.3;
 

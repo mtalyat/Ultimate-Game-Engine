@@ -2,6 +2,7 @@ using System;
 
 namespace UltimateEngine{
 	//a 2D point in space
+	[Serializable]
 	public struct Point {
 		public static readonly Point Zero = new Point(0, 0);
 		public static readonly Point Right = new Point(1, 0);

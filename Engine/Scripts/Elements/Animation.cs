@@ -2,6 +2,7 @@ using System;
 using System.IO;
 
 namespace UltimateEngine {
+	[Serializable]
 	public class Animation {
 		//the extension used for all animations
 		const string extension = ".anim";

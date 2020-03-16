@@ -73,6 +73,8 @@ class MainClass {
 		}));
 		wall.Layer = 2;
 
+		GameObject wall2 = wall.Clone();
+
 		//add all the GameObjects to the Scene
 		scene.Instantiate(p, 0, 1.5);
 		scene.Instantiate(ground, -50, 0);
@@ -81,6 +83,7 @@ class MainClass {
 		scene.Instantiate(lightBox, 100, 1.5);
 		scene.Instantiate(test, -20, 3);
 		scene.Instantiate(wall, 140, 1);
+		scene.Instantiate(wall2, 160, 1);
 
 		//Start the Scene
 		scene.Run();

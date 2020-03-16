@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 namespace UltimateEngine {
+	[Serializable]
 	public class Camera : GameObject {
 		public static Camera MainCamera;
 

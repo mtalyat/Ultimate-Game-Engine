@@ -5,9 +5,22 @@ using System.Text;
 
 namespace UltimateEngine
 {
+    [Serializable]
     public class SceneObject
     {
-        public Scene Scene { get; protected set; }
+        [NonSerialized]
+        private Scene _scene;
+        public Scene Scene
+        {
+            get
+            {
+                return _scene;
+            }
+            protected set
+            {
+                _scene = value;
+            }
+        }
 
         public SceneObject()
         {

@@ -2,6 +2,7 @@ using System;
 using UltimateEngine;
 
 namespace UltimateEngine.Basics {
+	[Serializable]
 	public class Player : GameObject {
 		public static Player Active;
 

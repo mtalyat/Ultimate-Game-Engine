@@ -6,6 +6,7 @@ namespace UltimateEngine{
 	* This class mananges positions and parenting/children of objects in
 	* the scene.
 	*/
+	[Serializable]
 	public class Transform{
 		public static readonly Transform Origin = new Transform{
 			Parent = null,

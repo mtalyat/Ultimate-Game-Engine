@@ -5,6 +5,7 @@ using System.Text;
 
 namespace UltimateEngine
 {
+    [Serializable]
     public class Line
     {
         public Point Start { get; set; }
