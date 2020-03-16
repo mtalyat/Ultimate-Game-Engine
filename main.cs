@@ -11,11 +11,13 @@ class MainClass {
 
 	public static void Main (string[] args) {
 		Scene scene = new Scene(100, 20, "Scene 1");
-		scene.DebugMode = true;
+		scene.DEBUG_MODE = true;
+		scene.SLOW_MODE = false;
 
 		Player p = new Player();
 
 		p.Body.Mass = 10;
+		p.Body.Elasticity = 0;
 		p.Collider.CoefficientOfFriction = 0.2;
 
 		p.Speed = 5;
@@ -34,11 +36,12 @@ class MainClass {
 		GameObject box = new GameObject("Box", new Image(new string[]
 		{
 			"IMMOVABLE",
-			"-OBJECT--",
+			"---BOX---",
 			"---------"
 		}));
-		box.AddComponent(new PhysicsBody());
-		box.GetComponent<PhysicsBody>().IsKinematic = true;
+		PhysicsBody boxBody = new PhysicsBody();
+		boxBody.IsKinematic = true;
+		box.AddComponent(boxBody);
 		box.AddComponent(new Collider());
 		box.Tag = "Ground";
 
@@ -50,6 +53,7 @@ class MainClass {
 		}));
 		PhysicsBody pb = new PhysicsBody();
 		pb.Mass = 5;
+		pb.Elasticity = 0;
 		box2.AddComponent(pb);
 		box2.AddComponent(new Collider());
 		box2.Tag = "Ground";

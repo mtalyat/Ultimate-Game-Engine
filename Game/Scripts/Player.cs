@@ -71,7 +71,8 @@ namespace Game {
 
 				if (jumpLevel++ < maxJumps)
 				{
-					Body.Velocity = new Point(0, JumpPower);
+					Transform.Y += 0.5;
+					Body.Velocity = new Point(Body.Velocity.X, JumpPower);
 				}
 			}
 			else
@@ -97,8 +98,6 @@ namespace Game {
 				//reset the jump
 				jumpLevel = 0;
 			}
-
-			//Debug.Log($"Player collided with {other} on side {side}.");
 		}
 	}
 }

@@ -20,15 +20,16 @@ namespace UltimateEngine{
 		}
 
 		public static void Log(object o){
-			lock (monitor)
+			try
 			{
-				File.AppendAllText(path, o.ToString() + '\n');
+				lock (monitor)
+				{
+					File.AppendAllText(path, o.ToString() + '\n');
+				}
+			} catch(Exception e)
+			{
+				//shouldn't end up here, but sometimes do
 			}
-		}
-
-		public static void LogError(object o)
-		{
-			Log("[ERROR] " + o.ToString());
 		}
 	}
 }

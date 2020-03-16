@@ -26,8 +26,28 @@ namespace UltimateEngine{
 			get => GetPosition();
 			set => SetPosition(value);
 		}
-		public double X => Position.X;
-		public double Y => Position.Y;
+		public double X
+		{
+			get
+			{
+				return Position.X;
+			}
+			set
+			{
+				Position = new Point(value, Position.Y);
+			}
+		}
+		public double Y
+		{
+			get
+			{
+				return Position.Y;
+			}
+			set
+			{
+				Position = new Point(Position.X, value);
+			}
+		}
 
 		//determines where the Transform falls when being drawn
 		//higher number = 'on top'

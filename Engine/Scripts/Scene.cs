@@ -35,7 +35,9 @@ namespace UltimateEngine{
 		List<GameObject> InScene = new List<GameObject>();
 
 		//for debugging
-		public bool DebugMode { get; set; } = false;
+		public bool DEBUG_MODE { get; set; } = false;
+		public bool SLOW_MODE { get; set; } = false;
+		public bool PAUSED { get; set; } = false;
 
 		//FPS stuff
 		public static int GoalFPS { get; set; } = 30;
@@ -94,12 +96,13 @@ namespace UltimateEngine{
 
 					//check for collisions
 					CollideAll();
+					FixAll();
 
 					//finally draw them all
 					DrawAll();
 
 					//draw Debug stuff on top of Scene
-					if(DebugMode){
+					if(DEBUG_MODE){
 						ScreenBuffer.Draw("dT: " + DeltaTime, 0, 0);
 						ScreenBuffer.Draw("GoalFPS: " + GoalFPS, 0, 1);
 						ScreenBuffer.Draw("ActualFPS: " + ActualFPS, 0, 2);
@@ -114,6 +117,25 @@ namespace UltimateEngine{
 					watch.Stop();
 					DeltaTime = watch.Elapsed.Milliseconds;
 					Thread.Sleep(Math.Max(0, (1000 / (GoalFPS * 1)) - DeltaTime));//try to make up for when it takes longer to draw objects
+
+					if (SLOW_MODE) Thread.Sleep(1000);
+
+					if (PAUSED)
+					{
+						ScreenBuffer.Draw(Words.StringArrayToJaggedCharArray(new string[]
+						{
+							" ________ ",
+							"|        |",
+							"| PAUSED |",
+							"|________|"
+						}), new Size(10, 4), new Point(ScreenBuffer.Size) / 2 + 2);
+						ScreenBuffer.Print();
+						while (PAUSED)
+						{
+							Thread.Sleep(1);
+						}
+					}
+
 					watch.Reset();
 				}
 			}));
@@ -282,12 +304,40 @@ namespace UltimateEngine{
 				//check the other objects if this one has a collider and is moving
 				for (int j = 0; j < InScene.Count; j++)
 				{
+					if (i == j) continue;//don't check self
+
 					Collider two = InScene[j].GetComponent<Collider>();
 
 					if (two == null) continue;
 
 					//check if the collision will occur in the next frame
 					one.CheckCollision(two);
+				}
+			}
+		}
+
+		//iterates through the objects again and makes sure none of them are inside of one another
+		//all objects should already have their velocities fixed, so all of these collisions will be kinematic
+		private void FixAll()
+		{
+			for (int i = 0; i < InScene.Count; i++)
+			{
+				Collider one = InScene[i].GetComponent<Collider>();
+
+				if (one == null) continue;
+				if (one.IsKinematic()) continue;
+
+				//check the other objects if this one has a collider and is moving
+				for (int j = 0; j < InScene.Count; j++)
+				{
+					if (i == j) continue;//don't check self
+
+					Collider two = InScene[j].GetComponent<Collider>();
+
+					if (two == null) continue;
+
+					//find the one that is moving, and have it be fixed
+					one.CheckFix(two);
 				}
 			}
 		}

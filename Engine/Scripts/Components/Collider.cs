@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace UltimateEngine {
 	public class Collider : Component {
-		const double Spacing = 0.5;
+		const double Spacing = 0.3;
 
 		public bool IsTrigger { get; set; } = false;
 
@@ -67,24 +67,36 @@ namespace UltimateEngine {
 			return (Velocity * frames + Accleration * AdvMath.Factorial(frames)) / Scene.ScaledFPS;
 		}
 
-		public bool WillCollideWith(Collider c, int frames = 1)
+		public bool WillCollideWith(Collider c)
 		{
-			Point translation = Translation(frames);
-			Rect other = c.GetBounds() + c.Translation(frames);
+			Point translation = Translation();
+			Rect other = c.GetBounds() + c.Translation();
 
 			return GetBounds().Crosses(other, translation);
 		}
 
 		//checks if two GameObjects are colliding
-		public void CheckCollision(Collider c, int frames = 1){
-			if (WillCollideWith(c, frames))
+		public void CheckCollision(Collider c){
+			if (WillCollideWith(c))
 			{
-				CollideWith(c, GetBounds().FindSide(c.GetBounds()), frames);
+				CollideWith(c, GetBounds().FindSide(c.GetBounds()));
+			}
+		}
+
+		//checks if two objects are intersecting, and fixes it if it needs to
+		public void CheckFix(Collider c)
+		{
+			Rect bounds1 = GetBounds();
+			Rect bounds2 = c.GetBounds();
+
+			if (bounds1.Intersects(bounds2))
+			{
+				FixWith(c, bounds1, bounds2);
 			}
 		}
 
 		//runs after collisions have been detected
-		private void CollideWith(Collider c, Direction side, int frames){
+		private void CollideWith(Collider c, Direction side){
 			Direction oppositeSide = AdvMath.OppositeDirection(side);
 
 			Rect one = GetBounds();
@@ -103,32 +115,7 @@ namespace UltimateEngine {
 				//HOWEVER, if one of them Is Kinematic, or has no PhysicsBody, there is no physics collision
 				if (c.IsKinematic())
 				{
-					//get the normal force for the friction
-					//math in notebook, derived from Frictional Force equation and F = ma where a = g
-					Point normalForce = Velocity * CoefficientOfFriction;
-
-					//adjust the position so it isn't directly on stuff
-					switch (side)
-					{
-						case Direction.Left:
-							GameObject.Transform.Position = new Point(two.Right + Spacing, one.Y);
-							body.Velocity = new Point(0, Velocity.Y - normalForce.Y);
-							break;
-						case Direction.Right:
-							GameObject.Transform.Position = new Point(two.Left - one.Width - Spacing, one.Y);
-							body.Velocity = new Point(0, Velocity.Y - normalForce.Y);
-							break;
-						case Direction.Down:
-							GameObject.Transform.Position = new Point(one.X, two.Top + Spacing);
-							body.Velocity = new Point(Velocity.X - normalForce.X, 0);
-							break;
-						case Direction.Up:
-							GameObject.Transform.Position = new Point(one.X, two.Bottom - one.Height - Spacing);
-							body.Velocity = new Point(Velocity.X - normalForce.X, 0);
-							break;
-					}
-
-					//Debug.Log("After fix: " + GameObject.Transform);
+					FixWith(c, one, two);
 
 					GameObject.OnCollision(c.GameObject, side);//activate collison for this
 					c.GameObject.OnCollision(GameObject, oppositeSide);//activate collison for other object
@@ -144,12 +131,58 @@ namespace UltimateEngine {
 				Point systemVelocity = (body.Momentum + c.body.Momentum) / (body.Mass + c.body.Mass);
 
 				//get the new velocities based on that, and the average elasticity
-				body.Velocity = (2 * systemVelocity) - (averageElasticity * body.Velocity);
-				c.body.Velocity = (2 * systemVelocity) - (averageElasticity * c.body.Velocity);
+				//only do the calculations for the side that the collision is on
+				if (side == Direction.Down || side == Direction.Up)
+				{// Y axis
+					body.Velocity = new Point(body.Velocity.X, (2 * systemVelocity.X) - (averageElasticity * body.Velocity.Y));
+					c.body.Velocity = new Point(c.body.Velocity.X, (2 * systemVelocity.X) - (averageElasticity * c.body.Velocity.Y));
+				} else
+				{//X axis
+					body.Velocity = new Point((2 * systemVelocity.X) - (averageElasticity * body.Velocity.X), body.Velocity.Y);
+					c.body.Velocity = new Point((2 * systemVelocity.X) - (averageElasticity * c.body.Velocity.X), c.body.Velocity.Y);
+				}
+				//body.Velocity = (2 * systemVelocity) - (averageElasticity * body.Velocity);
+				//c.body.Velocity = (2 * systemVelocity) - (averageElasticity * c.body.Velocity);
 
 				GameObject.OnCollision(c.GameObject, side);//activate collison for this
 				c.GameObject.OnCollision(GameObject, oppositeSide);//activate collison for other object
 			}
+		}
+
+		//fixes a collision
+		//basically, Kinematic collisions only
+		private void FixWith(Collider c, Rect one, Rect two)
+		{
+			Direction side = one.FindSide(two);
+
+			//get the normal force for the friction
+			//math in notebook, derived from Frictional Force equation and F = ma where a = g
+			Point normalForce = Velocity * CoefficientOfFriction;
+
+			//adjust the position so it isn't directly on stuff
+			switch (side)
+			{
+				case Direction.Left:
+					GameObject.Transform.Position = new Point(two.Right + Spacing, one.Y);
+					body.Velocity = new Point(0, Velocity.Y - normalForce.Y);
+					break;
+				case Direction.Right:
+					GameObject.Transform.Position = new Point(two.Left - one.Width - Spacing, one.Y);
+					body.Velocity = new Point(0, Velocity.Y - normalForce.Y);
+					break;
+				case Direction.Down:
+					GameObject.Transform.Position = new Point(one.X, two.Top + Spacing);
+					body.Velocity = new Point(Velocity.X - normalForce.X, 0);
+					break;
+				case Direction.Up:
+					GameObject.Transform.Position = new Point(one.X, two.Bottom - one.Height - Spacing);
+					body.Velocity = new Point(Velocity.X - normalForce.X, 0);
+					break;
+			}
+
+			Debug.Log($"Name: {GameObject}, new Pos: {GameObject.Transform}");
+
+			//do not call Collisions again because they should have already been called in Check
 		}
 	}
 }

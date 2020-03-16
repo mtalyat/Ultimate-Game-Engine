@@ -100,8 +100,18 @@ namespace UltimateEngine{
 			return new Point(one.X + two.X, one.Y + two.Y);
 		}
 
+		public static Point operator +(Point one, double two)
+		{
+			return new Point(one.X + two, one.Y + two);
+		}
+
 		public static Point operator-(Point one, Point two){
 			return new Point(one.X - two.X, one.Y - two.Y);
+		}
+
+		public static Point operator -(Point one, double two)
+		{
+			return new Point(one.X - two, one.Y - two);
 		}
 
 		public static Point operator*(Point one, Point two){
@@ -129,6 +139,16 @@ namespace UltimateEngine{
 		public static Point operator /(double one, Point two)
 		{
 			return new Point(one / two.X, one / two.Y);
+		}
+
+		public static bool operator >(Point one, Point two)
+		{
+			return one.Magnitude() > two.Magnitude();
+		}
+
+		public static bool operator <(Point one, Point two)
+		{
+			return one.Magnitude() < two.Magnitude();
 		}
 
 		public static bool operator==(Point one, Point two){
