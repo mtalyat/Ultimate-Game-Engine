@@ -116,7 +116,7 @@ namespace UltimateEngine{
         public void SetZ(double z){
 			layer = z;
 
-			Parent.UpdateChild(this);
+			if(Parent != null) Parent.UpdateChild(this);
 		}
 
 		//Brings this Transform to the front of the drawing order

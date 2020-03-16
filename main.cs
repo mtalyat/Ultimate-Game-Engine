@@ -24,7 +24,7 @@ class MainClass {
 		animator.Add(Animation.FromFile("C:\\Users\\Me\\source\\repos\\Ultimate-Game-Engine\\Game\\Animations\\Idle.anim"));
 
 		//----------Ground
-		GameObject ground = new GameObject("Ground", new Image(new string[] { new string('^', 200) }));
+		GameObject ground = new GameObject("Ground", new Image(new string[] { new string('^', 300) }));
 		ground.AddComponent(new Collider());
 		ground.Tag = "Ground";
 
@@ -55,12 +55,32 @@ class MainClass {
 		lightBox.Body.Mass = 2;
 		lightBox.Collider.CoefficientOfFriction = 0.2;
 
+		//----------Collectable
+		Collectable test = new Collectable("Test", new Image(new string[]
+		{
+			"Test"
+		}));
+
+		//----------Wall
+		GameObject wall = new GameObject("Wall", new Image(new string[]
+		{
+			"WALLWALLWALL",
+			"WALLWALLWALL",
+			"WALLWALLWALL",
+			"WALLWALLWALL",
+			"WALLWALLWALL",
+			"WALLWALLWALL"
+		}));
+		wall.Layer = 2;
+
 		//add all the GameObjects to the Scene
 		scene.Instantiate(p, 0, 1.5);
 		scene.Instantiate(ground, -50, 0);
 		scene.Instantiate(immovableBox, 20, 3);
 		scene.Instantiate(heavyBox, 60, 1.5);
 		scene.Instantiate(lightBox, 100, 1.5);
+		scene.Instantiate(test, -20, 3);
+		scene.Instantiate(wall, 140, 1);
 
 		//Start the Scene
 		scene.Run();

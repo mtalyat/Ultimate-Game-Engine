@@ -1,9 +1,10 @@
 using System;
-using System.Threading;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 
-namespace UltimateEngine{
+namespace UltimateEngine
+{
 	public class Scene{
 		private static Scene current;
 		public static Scene Current
@@ -236,7 +237,7 @@ namespace UltimateEngine{
 		}
 
 		//removes a GameObject from the scene
-		public void Delete(GameObject g){
+		public void Destroy(GameObject g){
 			g.Transform.RemoveFromParent();
 
 			int index = InScene.FindIndex(o => o.Name == g.Name);

@@ -63,11 +63,13 @@
     <Compile Include="Engine\Scripts\Elements\Text.cs" />
     <Compile Include="Engine\Scripts\Elements\Transform.cs" />
     <Compile Include="Engine\Scripts\Scene.cs" />
+    <Compile Include="Engine\Scripts\SceneObject.cs" />
     <Compile Include="Engine\Scripts\Screen\Input.cs" />
     <Compile Include="Engine\Scripts\Screen\ScreenBuffer.cs" />
     <Compile Include="Engine\Scripts\Screen\ScreenKey.cs" />
     <Compile Include="Engine\Scripts\Words.cs" />
     <Compile Include="Game\Scripts\Box.cs" />
+    <Compile Include="Game\Scripts\Collectable.cs" />
     <Compile Include="Game\Scripts\Player.cs" />
     <Compile Include="main.cs" />
   </ItemGroup>

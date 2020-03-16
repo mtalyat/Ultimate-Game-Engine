@@ -2,12 +2,9 @@ using System;
 using System.Collections.Generic;
 
 namespace UltimateEngine{
-	public class GameObject{
+	public class GameObject : SceneObject {
 		public string Name { get; set; } = "";
 		public string Tag { get; set; } = "";
-
-		//the Scene the GameObject is in
-		public Scene Scene { get; private set; }
 
 		//Position
 		public Transform Transform { get; private set; }
@@ -23,7 +20,17 @@ namespace UltimateEngine{
 		}
 
 		//GameObjects with a higher layer are printed 'on top'
-		public double Layer => Transform.Z;
+		public double Layer
+		{
+			get
+			{
+				return Transform.Z;
+			}
+			set
+			{
+				Transform.Z = value;
+			}
+		}
 
 		public bool IsStarted { get; private set; } = false;
 
@@ -34,14 +41,14 @@ namespace UltimateEngine{
 			Image = image ?? new Image();
 			Transform = new Transform(this);
 
-			Scene = Scene.Current;
+			SetScene(Scene.Current);
 		}
 
 		#region Starting and Updating
 
 		public void Start(Scene scene){
 			IsStarted = true;
-			Scene = scene;
+			SetScene(scene);
 
 			foreach(Component c in components){
 				c.Start();
@@ -64,22 +71,6 @@ namespace UltimateEngine{
 		public virtual void OnUpdate(){}
 		public virtual void OnCollision(GameObject go, Direction side){}
 		public virtual void OnTrigger(GameObject go, Direction side){}
-
-		public virtual GameObject Clone()
-		{
-			GameObject go = new GameObject();
-
-			go.Name = Name;
-			go.Tag = Tag;
-			go.Image = new Image(Image);
-			go.Transform = new Transform(Transform, go);
-			go.Transform.Position = Transform.Position;
-			go.Scene = Scene;
-
-			go.components = new List<Component>(components);
-
-			return go;
-		}
 
 		#endregion
 
@@ -122,9 +113,22 @@ namespace UltimateEngine{
 			}
 		}
 
-		#endregion
+        #endregion
 
-		protected void InstantiateChild(GameObject child)
+        #region Scene Interaction
+
+		//sets the Scene for this and all of its components
+		public override void SetScene(Scene scene)
+		{
+			Scene = scene;
+
+			foreach(Component c in components)
+			{
+				c.SetScene(scene);
+			}
+		}
+
+        protected void InstantiateChild(GameObject child)
 		{
 			InstantiateChild(child, new Point(0, 0));
 		}
@@ -137,7 +141,9 @@ namespace UltimateEngine{
 			Scene.Instantiate(child, position, this.Transform);
 		}
 
-		public override string ToString(){
+        #endregion
+
+        public override string ToString(){
 			return Name;
 		}
 	}
