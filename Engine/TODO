@@ -5,3 +5,5 @@ Copy Size to reflect all functions and operators of Point
 Animator->run animation, rest on "idle" image ex. chest opening, then staying open
 Animator/animation-> speed
 Transparent images?
+Remove children with tag, of type...
+UI Elements

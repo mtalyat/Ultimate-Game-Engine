@@ -188,6 +188,15 @@ namespace UltimateEngine{
 			Children.Add(child);
 		}
 
+		//inserts several children using AddChild
+		public void AddChildren(Transform[] childs)
+		{
+			for(int i = childs.Length - 1; i >= 0; i--)
+			{
+				AddChild(childs[i]);
+			}
+		}
+
 		//removes a child
 		public void RemoveChild(Transform child){
 			Children.Remove(child);
@@ -208,6 +217,15 @@ namespace UltimateEngine{
 			}
 
 			return trans.ToArray();
+		}
+
+		public Transform[] RemoveAllChildren()
+		{
+			Transform[] ts = Children.ToArray();
+
+			Children.Clear();
+
+			return ts;
 		}
 
         #endregion
