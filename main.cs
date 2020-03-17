@@ -16,17 +16,10 @@ class MainClass {
 
 		Ground ground = new Ground('M', 200);
 
-		Player player = new Player("Player", new Image(new string[]{
-			" (_) ",
-			" -|- ",
-			" / \\ ",
-		}));
-
-		Platform test = new Platform('^', 10);
+		Player player = new Player();
 
 		scene.Instantiate(ground, -100, 0);
 		scene.Instantiate(player, 0, 1.5);
-		scene.Instantiate(test, 0, 5);
 
 		//Start the Scene
 		scene.Run();

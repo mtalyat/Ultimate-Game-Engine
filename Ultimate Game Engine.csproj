@@ -66,6 +66,7 @@
     <Compile Include="Engine\Scripts\Elements\Text.cs" />
     <Compile Include="Engine\Scripts\Elements\Transform.cs" />
     <Compile Include="Engine\Scripts\Elements\User Interface\UIElement.cs" />
+    <Compile Include="Engine\Scripts\Resources.cs" />
     <Compile Include="Engine\Scripts\Scene.cs" />
     <Compile Include="Engine\Scripts\Elements\SceneObject.cs" />
     <Compile Include="Engine\Scripts\Screen\Input.cs" />
@@ -145,10 +146,9 @@
     <None Include=".vs\VSWorkspaceState.json" />
     <None Include="Engine\Log" />
     <None Include="Engine\TODO" />
-    <None Include="Basics\Animations\Idle.anim" />
-    <None Include="Basics\Animations\Jumping.anim" />
-    <None Include="Basics\Animations\Running.anim" />
-    <None Include="Basics\Images\Coin" />
+    <None Include="Resources\Animations\Idle.anim" />
+    <None Include="Resources\Animations\Jumping.anim" />
+    <None Include="Resources\Animations\Running.anim" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".git\objects\info\" />
@@ -157,6 +157,8 @@
     <Folder Include=".vs\Ultimate Game Engine\v16\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Images\Box.txt" />
+    <Content Include="Resources\Images\Coin.txt" />
     <Content Include="favicon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />

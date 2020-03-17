@@ -77,6 +77,10 @@ namespace UltimateEngine
 
         }
 
+        public override void Wake()
+        {
+        }
+
         public override void Start()
         {
             if(!IsKinematic)

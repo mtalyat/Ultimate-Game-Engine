@@ -27,6 +27,11 @@ namespace UltimateEngine {
 			BoundsOverride = bounds;
 		}
 
+		public override void Wake()
+		{
+			
+		}
+
 		public override void Start(){
 			body = GameObject.GetComponent<PhysicsBody>();
 		}

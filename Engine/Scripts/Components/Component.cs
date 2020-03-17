@@ -19,6 +19,9 @@ namespace UltimateEngine {
 
 		}
 
+		//called before the GameObject's start
+		public abstract void Wake();
+
 		//called on the GameObject's start, or when the GameObject is instantiated
 		public abstract void Start();
 

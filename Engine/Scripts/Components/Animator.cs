@@ -9,25 +9,49 @@ namespace UltimateEngine{
 
 		[NonSerialized]
 		private Timer updateTimer;
-		public int Speed => (int)updateTimer.Interval;
+		int _speed = 100;
+		public int Speed
+		{
+			get
+			{
+				return _speed;
+			}
+			set
+			{
+				_speed = value;
+				if (updateTimer != null) updateTimer.Interval = value;
+			}
+		}
 
-		public int Index { get; private set; } = 0;
+		public int Index { get; private set; } = -1;
 		public Animation Current { get; private set; }
 
 		public bool FlippedH { get; private set; } = false;
 		public bool FlippedV { get; private set; } = false;
 
-		public Animator(int speed = 100){
-			updateTimer = new Timer(speed);
+		public Animator(){
+			
+		}
+
+		private void StartTimer()
+		{
+			updateTimer = new Timer(_speed);
 			updateTimer.Elapsed += OnElapsedEvent;
 			updateTimer.Start();
-
-			Set(0);
 		}
 
 		//called by the updateTimer to change Images
 		private void OnElapsedEvent(object source, ElapsedEventArgs e){
 			Next();
+		}
+
+		public override void Wake()
+		{
+			if (updateTimer == null)
+			{
+				StartTimer();
+				Set(0);
+			}
 		}
 
 		public override void Start(){
@@ -36,7 +60,7 @@ namespace UltimateEngine{
 
 		//updates the Image of the GameObject
 		public override void Update(){
-			if(Current != null)
+			if (Current != null)
 				GameObject.Image = Current.Current;
 		}
 

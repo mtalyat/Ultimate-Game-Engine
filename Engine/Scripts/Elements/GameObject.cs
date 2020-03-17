@@ -52,9 +52,19 @@ namespace UltimateEngine
 
 		#region Starting and Updating
 
-		public void Start(Scene scene){
-			IsStarted = true;
+		public void Wake(Scene scene)
+		{
 			SetScene(scene);
+
+			foreach (Component c in components)
+			{
+				c.Wake();
+			}
+			OnWake();
+		}
+
+		public void Start(){
+			IsStarted = true;
 
 			foreach(Component c in components){
 				c.Start();
@@ -73,6 +83,7 @@ namespace UltimateEngine
 
 		#region Virtuals
 
+		public virtual void OnWake() { }
 		public virtual void OnStart() { }
 		public virtual void OnUpdate() { }
 		public virtual void PreCollision(Collider c, Direction side) { }

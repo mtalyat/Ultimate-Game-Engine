@@ -144,6 +144,7 @@ namespace UltimateEngine
 				}
 			}));
 
+			WakeAll();
 			StartAll();
 
 			updateThread.Name = "Update";
@@ -271,12 +272,40 @@ namespace UltimateEngine
 			return InScene.FindAll(g => g.GetComponent<T>() != null).ToArray();
 		}
 
-        #endregion
+		#endregion
 
-        #region Updating and Starting
+		#region Updating and Starting
 
-        //starts all of the GameObjects already in the Scene before the program is ran
-        private void StartAll(){
+		//Wakes all of the gameobjects/assigns their Scene object
+		private void WakeAll()
+		{
+			foreach (Transform t in origin.GetAllChildren())
+			{
+				Wake(t);
+			}
+		}
+
+		//starts a single GameObject
+		private void Wake(Transform t)
+		{
+			if (t == null) return;
+
+			GameObject go = t.GameObject;
+
+			//update the GameObject
+			if (go != null)
+			{
+				go.Wake(this);
+
+				foreach (Transform child in t.Children)
+				{
+					Wake(child);
+				}
+			}
+		}
+
+		//starts all of the GameObjects already in the Scene before the program is ran
+		private void StartAll(){
 			foreach(Transform t in origin.GetAllChildren()){
 				Start(t);
 			}
@@ -290,7 +319,7 @@ namespace UltimateEngine
 
 			//update the GameObject
 			if(go != null){
-				go.Start(this);
+				go.Start();
 
 				foreach(Transform child in t.Children){
 					Start(child);

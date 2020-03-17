@@ -1,4 +1,5 @@
- using System;
+using System;
+using System.IO;
 
 namespace UltimateEngine{
 	[Serializable]
@@ -130,6 +131,16 @@ namespace UltimateEngine{
 			}
 
 			return output;
+		}
+
+		public static Image FromFile(string path)
+		{
+			if (File.Exists(path))
+			{
+				return new Image(File.ReadAllLines(path));
+			}
+
+			return null;
 		}
 	}
 }
