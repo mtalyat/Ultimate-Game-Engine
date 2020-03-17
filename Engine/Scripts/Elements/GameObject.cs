@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace UltimateEngine{
+namespace UltimateEngine
+{
 	[Serializable]
 	public class GameObject : SceneObject {
 		public string Name { get; set; } = "";
 		public string Tag { get; set; } = "";
+		public bool Visible { get; set; } = true;
 
 		//Position
 		public Transform Transform { get; private set; }
@@ -133,17 +134,17 @@ namespace UltimateEngine{
 			}
 		}
 
-        protected void InstantiateChild(GameObject child)
+        protected GameObject InstantiateChild(GameObject child)
 		{
-			InstantiateChild(child, new Point(0, 0));
+			return InstantiateChild(child, new Point(0, 0));
 		}
 
 		//Instantiates a child GameObject with this GameObject as the parent, into the scene
-		protected void InstantiateChild(GameObject child, Point position)
+		protected GameObject InstantiateChild(GameObject child, Point position)
 		{
-			if (Scene == null) return;
+			if (Scene == null) return null;
 
-			Scene.Instantiate(child, position, this.Transform);
+			return Scene.Instantiate(child, position, this.Transform);
 		}
 
         #endregion

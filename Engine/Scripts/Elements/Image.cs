@@ -4,13 +4,14 @@ namespace UltimateEngine{
 	[Serializable]
 	public class Image {
 		public Size Size { get; private set; }
-		char[][] data;
-		public char[][] RawData { get => data; }
+        public char[][] RawData { get; private set; }
 
-		const string horizontalFlips = "/\\<>{}[]()bdpqszSZ";
+        const string horizontalFlips = "/\\<>{}[]()bdpqszSZ";
 		const string verticalFlips = "/\\.'bpv^dq";
 
-		public Image(){
+        #region Constructors
+
+        public Image(){
 			Initialize(new Size(0, 0));
 		}
 
@@ -20,23 +21,25 @@ namespace UltimateEngine{
 
 		public Image(Image i){
 			Size = i.Size;
-			data = new char[Size.Height][];
-			Array.Copy(i.RawData, 0, data, 0, Size.Height);
+			RawData = new char[Size.Height][];
+			Array.Copy(i.RawData, 0, RawData, 0, Size.Height);
 		}
 
 		public Image(string str)
 		{
 			Size = new Size(str.Length, 1);
-			data = new char[1][] { str.ToCharArray() };
+			RawData = new char[1][] { str.ToCharArray() };
 		}
 
 		public Image(string[] strs){
 			SetData(strs);
 		}
 
-		//sets data to a string[]
-		private void SetData(string[] strs){
-			data = new char[strs.Length][];
+        #endregion
+
+        //sets data to a string[]
+        private void SetData(string[] strs){
+			RawData = new char[strs.Length][];
 
 			int maxWidth = 0;
 			//find the widest string
@@ -48,7 +51,7 @@ namespace UltimateEngine{
 
 			//set each part of data to the string
 			for(int i = 0; i < strs.Length; i++){
-				data[i] = Words.Fill(strs[i], ' ', maxWidth).ToCharArray();
+				RawData[i] = Words.Fill(strs[i], ' ', maxWidth).ToCharArray();
 			}
 
 			//set the size
@@ -64,11 +67,11 @@ namespace UltimateEngine{
 		//sets up data for a new Image
 		private void Initialize(Size s){
 			//set the data[][] to the correct Height and Width, and fill with spaces
-			data = new char[s.Height][];
+			RawData = new char[s.Height][];
 			for(int i = 0; i < s.Height; i++){
-				data[i] = new char[s.Width];
+				RawData[i] = new char[s.Width];
 				for(int j = 0; j < s.Width; j++){
-					data[i][j] = ' ';
+					RawData[i][j] = ' ';
 				}
 			}
 		}
@@ -77,10 +80,10 @@ namespace UltimateEngine{
 		public void FlipHorizontal(){
 			for(int i = 0; i < Size.Height; i++){
 				for(int j = 0; j < Size.Width / 2; j++){
-					char temp = data[i][Size.Width - 1 - j];
+					char temp = RawData[i][Size.Width - 1 - j];
 
-					data[i][Size.Width - 1 - j] = Swap(data[i][j], horizontalFlips);
-					data[i][j] = Swap(temp, horizontalFlips);
+					RawData[i][Size.Width - 1 - j] = Swap(RawData[i][j], horizontalFlips);
+					RawData[i][j] = Swap(temp, horizontalFlips);
 				}
 			}
 		}
@@ -90,15 +93,15 @@ namespace UltimateEngine{
 			char[] temp = new char[Size.Width];
 			for(int i = 0; i < Size.Height / 2; i++){
 				int k = Size.Height - 1 - i;
-				Array.Copy(data[k], temp, Size.Width);
+				Array.Copy(RawData[k], temp, Size.Width);
 
-				Array.Copy(data[i], data[k], Size.Width);
-				Array.Copy(temp, data[i], Size.Width);
+				Array.Copy(RawData[i], RawData[k], Size.Width);
+				Array.Copy(temp, RawData[i], Size.Width);
 
 				//then go through the array and flip the characters
 				for(int j = 0; j < Size.Width; j++){
-					data[i][j] = Swap(data[i][j], verticalFlips);
-					data[k][j] = Swap(data[k][j], verticalFlips);
+					RawData[i][j] = Swap(RawData[i][j], verticalFlips);
+					RawData[k][j] = Swap(RawData[k][j], verticalFlips);
 				}
 			}
 		}
@@ -122,7 +125,7 @@ namespace UltimateEngine{
 		public override string ToString(){
 			string output = "";
 
-			foreach(char[] array in data){
+			foreach(char[] array in RawData){
 				output += new string(array) + "\n";
 			}
 

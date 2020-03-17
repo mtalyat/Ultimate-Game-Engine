@@ -10,24 +10,24 @@ namespace UltimateEngine
     public class Text : GameObject
     {
         public object Reference { get; set; }
-        public string String { get; set; }
+        public string FormatString { get; set; }
 
         public override Image Image { get => new Image(GetVisual()); }
 
-        public Text(object r, string s = "")
+        public Text(object reference, string formatString = "")
         {
-            Reference = r;
-            String = s;
+            Reference = reference;
+            FormatString = formatString;
         }
 
         private string GetVisual()
         {
-            if (string.IsNullOrEmpty(String))
+            if (string.IsNullOrEmpty(FormatString))
             {
                 return Reference.ToString();
             } else
             {
-                return string.Format(String, Reference);
+                return string.Format(FormatString, Reference);
             }
         }
     }

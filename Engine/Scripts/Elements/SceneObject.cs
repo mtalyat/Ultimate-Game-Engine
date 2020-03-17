@@ -32,6 +32,8 @@ namespace UltimateEngine
             Scene = scene;
         }
 
+        #region Instantiating/Destroying
+
         protected void Instantiate(GameObject go, Point position, Transform parent = null)
         {
             Scene.Instantiate(go, position, parent);
@@ -51,5 +53,26 @@ namespace UltimateEngine
         {
             Scene.Destroy(go);
         }
+
+        #endregion
+
+        #region Finding
+
+        public GameObject FindGameObjectByName(string name)
+        {
+            return Scene.FindGameObjectByName(name);
+        }
+
+        public GameObject[] FindGameObjectsWithTag(string tag)
+        {
+            return Scene.FindGameObjectsWithTag(tag);
+        }
+
+        public GameObject[] FindGameObjectsWithComponent<T>()
+        {
+            return Scene.FindGameObjectsWithComponent<T>();
+        }
+
+        #endregion
     }
 }

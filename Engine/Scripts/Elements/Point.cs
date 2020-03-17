@@ -53,6 +53,18 @@ namespace UltimateEngine{
 
         #endregion
 
+		public bool IsInRange(Point center, double radius)
+		{
+			double result = Math.Sqrt(Math.Pow(X - center.X, 2) + Math.Pow(Y - center.Y, 2));
+			return result < radius;
+		}
+
+		public bool IsInRange(Point center, Point radii)
+		{
+			return Math.Pow(X - center.X, 2) / Math.Pow(radii.X, 2) +
+				Math.Pow(Y - center.Y, 2) / Math.Pow(radii.Y, 2) <= 1;
+		}
+
         //Gets the magnitude of the Point
         public double Magnitude()
 		{

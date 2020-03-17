@@ -3,3 +3,6 @@ Cloning GameObjects in Instantiation (reflection?)
 PAUSE system, using the Input class... able to unpaused (Escape), and quit (Enter)
 Add the /// for all 'complete' functions and classes
 Copy Size to reflect all functions and operators of Point
+Animator->run animation, rest on "idle" image ex. chest opening, then staying open
+Animator/animation-> speed
+Transparent images?

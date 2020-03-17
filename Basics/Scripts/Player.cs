@@ -33,10 +33,8 @@ namespace UltimateEngine.Basics {
 			Body.Elasticity = 0;
 			Collider.CoefficientOfFriction = 0.2;
 
-			Camera = new Camera();
-			InstantiateChild(Camera, (Camera.Bounds.Center * -1) + new Point(3, 3));//kind of centers the player
-
-			Active = this;
+			Camera cam = new Camera();
+			Camera = (Camera)InstantiateChild(cam, (cam.Bounds.Center * -1) + new Point(3, 3));//kind of centers the player
 		}
 
 		public override void OnStart()

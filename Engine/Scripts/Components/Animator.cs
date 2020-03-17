@@ -3,9 +3,11 @@ using System.Timers;
 using System.Collections.Generic;
 
 namespace UltimateEngine{
+	[Serializable]
 	public class Animator : Component{
 		List<Animation> animations = new List<Animation>();
 
+		[NonSerialized]
 		private Timer updateTimer;
 		public int Speed => (int)updateTimer.Interval;
 

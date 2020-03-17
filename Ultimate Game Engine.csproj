@@ -49,6 +49,7 @@
     <Compile Include="Engine\Scripts\Components\Animator.cs" />
     <Compile Include="Engine\Scripts\Components\Collider.cs" />
     <Compile Include="Engine\Scripts\Components\Component.cs" />
+    <Compile Include="Basics\Scripts\InteractableGameObject.cs" />
     <Compile Include="Engine\Scripts\Elements\Line.cs" />
     <Compile Include="Engine\Scripts\Components\PhysicsBody.cs" />
     <Compile Include="Engine\Scripts\Debug.cs" />
@@ -63,14 +64,14 @@
     <Compile Include="Engine\Scripts\Elements\Text.cs" />
     <Compile Include="Engine\Scripts\Elements\Transform.cs" />
     <Compile Include="Engine\Scripts\Scene.cs" />
-    <Compile Include="Engine\Scripts\SceneObject.cs" />
+    <Compile Include="Engine\Scripts\Elements\SceneObject.cs" />
     <Compile Include="Engine\Scripts\Screen\Input.cs" />
     <Compile Include="Engine\Scripts\Screen\ScreenBuffer.cs" />
     <Compile Include="Engine\Scripts\Screen\ScreenKey.cs" />
     <Compile Include="Engine\Scripts\Words.cs" />
-    <Compile Include="Game\Scripts\Box.cs" />
-    <Compile Include="Game\Scripts\Collectable.cs" />
-    <Compile Include="Game\Scripts\Player.cs" />
+    <Compile Include="Basics\Scripts\Box.cs" />
+    <Compile Include="Basics\Scripts\Collectable.cs" />
+    <Compile Include="Basics\Scripts\Player.cs" />
     <Compile Include="main.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -141,10 +142,10 @@
     <None Include=".vs\VSWorkspaceState.json" />
     <None Include="Engine\Log" />
     <None Include="Engine\TODO" />
-    <None Include="Game\Animations\Idle.anim" />
-    <None Include="Game\Animations\Jumping.anim" />
-    <None Include="Game\Animations\Running.anim" />
-    <None Include="Game\Images\Coin" />
+    <None Include="Basics\Animations\Idle.anim" />
+    <None Include="Basics\Animations\Jumping.anim" />
+    <None Include="Basics\Animations\Running.anim" />
+    <None Include="Basics\Images\Coin" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".git\objects\info\" />

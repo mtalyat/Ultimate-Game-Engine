@@ -27,6 +27,7 @@ namespace UltimateEngine
 
 		public int DeltaTime { get; private set; } = 0;
 
+		[NonSerialized]
 		Thread updateThread;
 
 		ConsoleColor backgroundColor = ConsoleColor.Black;
@@ -46,6 +47,7 @@ namespace UltimateEngine
 		public static int ScaledFPS => GoalFPS / 5;
 		public int ActualFPS { get; private set; } = -1;
 		private int framesPassed = 0;
+		[NonSerialized]
 		private System.Timers.Timer FPSTimer;
 
         #region Constructors
@@ -108,7 +110,7 @@ namespace UltimateEngine
 						ScreenBuffer.Draw("dT: " + DeltaTime, 0, 0);
 						ScreenBuffer.Draw("GoalFPS: " + GoalFPS, 0, 1);
 						ScreenBuffer.Draw("ActualFPS: " + ActualFPS, 0, 2);
-						ScreenBuffer.Draw("P. Pos: " + UltimateEngine.Basics.Player.Active.Transform, 0, 3);
+						ScreenBuffer.Draw("P. Pos: " + Basics.Player.Active.Transform, 0, 3);
 					}
 					
 					ScreenBuffer.Print();
@@ -194,7 +196,7 @@ namespace UltimateEngine
 
         #endregion
 
-        #region Instantiating
+        #region Instantiating/Deleting
 
         //spawns a new object in the scene
         public GameObject Instantiate(GameObject g){
@@ -223,8 +225,10 @@ namespace UltimateEngine
 		}
 
 		//spawns a new object in the scene with a new position and parent
-		public GameObject Instantiate(GameObject g, Point position, Transform parent){
-			if (g == null) return null;
+		public GameObject Instantiate(GameObject original, Point position, Transform parent){
+			if (original == null) return null;
+
+			GameObject g = original.Clone();
 
 			g.Transform.SetParent(parent);
 			g.Transform.LocalPosition = position;
@@ -248,12 +252,31 @@ namespace UltimateEngine
 			}
 		}
 
-		#endregion
+        #endregion
 
-		#region Updating and Starting
+        #region GameObject Management
 
-		//starts all of the GameObjects already in the Scene before the program is ran
-		private void StartAll(){
+		public GameObject FindGameObjectByName(string name)
+		{
+			return InScene.Find(g => g.Name == name);
+		}
+
+		public GameObject[] FindGameObjectsWithTag(string tag)
+		{
+			return InScene.FindAll(g => g.Tag.Contains(tag)).ToArray();
+		}
+
+		public GameObject[] FindGameObjectsWithComponent<T>()
+		{
+			return InScene.FindAll(g => g.GetComponent<T>() != null).ToArray();
+		}
+
+        #endregion
+
+        #region Updating and Starting
+
+        //starts all of the GameObjects already in the Scene before the program is ran
+        private void StartAll(){
 			foreach(Transform t in origin.GetAllChildren()){
 				Start(t);
 			}
@@ -358,7 +381,9 @@ namespace UltimateEngine
 			{
 				GameObject go = child.GameObject;
 
-				ScreenBuffer.Draw(go.Image.RawData, go.Image.Size, go.ScreenPosition - offset);
+				//only draw if it is visible
+				if(go.Visible)
+					ScreenBuffer.Draw(go.Image.RawData, go.Image.Size, go.ScreenPosition - offset);
 			}
 		}
 
