@@ -45,6 +45,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Basics\Scripts\Ground.cs" />
+    <Compile Include="Basics\Scripts\Platform.cs" />
     <Compile Include="Engine\Scripts\AdvMath.cs" />
     <Compile Include="Engine\Scripts\Components\Animator.cs" />
     <Compile Include="Engine\Scripts\Components\Collider.cs" />
@@ -152,6 +154,7 @@
     <Folder Include=".git\objects\pack\" />
     <Folder Include=".git\refs\tags\" />
     <Folder Include=".vs\Ultimate Game Engine\v16\" />
+    <Folder Include="Engine\Scripts\Elements\User Interface\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

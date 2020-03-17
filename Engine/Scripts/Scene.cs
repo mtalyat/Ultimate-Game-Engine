@@ -332,6 +332,7 @@ namespace UltimateEngine
 				if (one == null) continue;
 				if (one.IsKinematic()) continue;
 
+				int count = 0;
 				//check the other objects if this one has a collider and is moving
 				for (int j = 0; j < InScene.Count; j++)
 				{
@@ -342,7 +343,11 @@ namespace UltimateEngine
 					if (two == null) continue;
 
 					//check if the collision will occur in the next frame
-					one.CheckCollision(two);
+					if (one.CheckCollision(two)) count++;
+				}
+				if(count == 0 && one.Ignore != null)
+				{
+					one.Ignore = null;
 				}
 			}
 		}

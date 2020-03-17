@@ -40,6 +40,8 @@ namespace UltimateEngine.Basics {
 		public override void OnStart()
 		{
 			Camera.MainCamera = Camera;
+
+			Active = this;
 		}
 
 		public override void OnUpdate()

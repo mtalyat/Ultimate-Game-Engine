@@ -73,10 +73,11 @@ namespace UltimateEngine
 
 		#region Virtuals
 
-		public virtual void OnStart(){}
-		public virtual void OnUpdate(){}
-		public virtual void OnCollision(GameObject go, Direction side){}
-		public virtual void OnTrigger(GameObject go, Direction side){}
+		public virtual void OnStart() { }
+		public virtual void OnUpdate() { }
+		public virtual void PreCollision(Collider c, Direction side) { }
+		public virtual void OnCollision(GameObject go, Direction side) { }
+		public virtual void OnTrigger(GameObject go, Direction side) { }
 
 		#endregion
 

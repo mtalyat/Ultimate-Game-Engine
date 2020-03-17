@@ -14,8 +14,7 @@ class MainClass {
 		Scene scene = new Scene(100, 20, "Scene 1");
 		scene.DEBUG_MODE = true;
 
-		GameObject ground = new GameObject("Ground", new Image(new string('M', 200)));
-		ground.AddComponent(new Collider());
+		Ground ground = new Ground('M', 200);
 
 		Player player = new Player("Player", new Image(new string[]{
 			" (_) ",
@@ -23,17 +22,11 @@ class MainClass {
 			" / \\ ",
 		}));
 
-		InteractableGameObject test = new InteractableGameObject(img: new Image(new string[]
-		{
-			"TEST",
-			"TEST",
-			"TEST",
-			"TEST"
-		}));
+		Platform test = new Platform('^', 10);
 
 		scene.Instantiate(ground, -100, 0);
-		Player.Active = (Player)scene.Instantiate(player, 0, 1.5);
-		scene.Instantiate(test, 30, 1);
+		scene.Instantiate(player, 0, 1.5);
+		scene.Instantiate(test, 0, 5);
 
 		//Start the Scene
 		scene.Run();
