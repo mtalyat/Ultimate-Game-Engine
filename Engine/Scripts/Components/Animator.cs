@@ -5,6 +5,8 @@ using System.Collections.Generic;
 namespace UltimateEngine{
 	[Serializable]
 	public class Animator : Component{
+		bool transparent = false;
+
 		List<Animation> animations = new List<Animation>();
 
 		[NonSerialized]
@@ -72,6 +74,8 @@ namespace UltimateEngine{
 
 		//adds an Animation
 		public void Add(Animation anim){
+			anim.SetTransparency(transparent);
+
 			animations.Add(anim);
 
 			//set Current if first animation in the Animator
@@ -125,6 +129,14 @@ namespace UltimateEngine{
 				animations[i].FlipVertical();
 			}
 			FlippedV = !FlippedV;
+		}
+
+		public void SetTransparency(bool trans)
+		{
+			foreach(Animation anim in animations)
+			{
+				anim.SetTransparency(trans);
+			}
 		}
 	}
 }

@@ -107,8 +107,8 @@ namespace UltimateEngine{
 		}
 
 		//draws a char array onto the screen
-		public static void Draw(char[][] array, Size s, int x, int y){
-			//adjust to whatever the offset is
+		public static void Draw(char[][] array, Size s, int x, int y)
+		{
 			if(!IsInView(x, y, s.Width, s.Height)){
 				return;//do not copy
 			}
@@ -120,6 +120,38 @@ namespace UltimateEngine{
 				int toIndex = Math.Max(0, x);
 
 				Array.Copy(array[s.Height - 1 - i], fromIndex, data[y + i], toIndex, Math.Min(s.Width - fromIndex, Size.Width - 1 - toIndex));
+			}
+		}
+
+		public static void TransparentDraw(char[][] array, Size s, Point p)
+		{
+			TransparentDraw(array, s, (int)p.X, (int)p.Y);
+		}
+
+		//draws a char array, but with transparency
+		//MUCH SLOWER
+		public static void TransparentDraw(char[][] array, Size s, int x, int y)
+		{
+			Debug.Log("T");
+			if (!IsInView(x, y, s.Width, s.Height))
+			{
+				return;//do not copy
+			}
+
+			//copy each letter character by character
+			for (int i = 0; i < s.Height; i++)
+			{
+				if (i + y < 0 || i + y >= Size.Height) continue;
+
+				int fromIndex = Math.Max(0, x * -1);
+				int toIndex = Math.Max(0, x);
+
+				for (int j = 0; j < Math.Min(s.Width - fromIndex, Size.Width - 1 - toIndex); j++)
+				{
+					char c = array[s.Height - 1 - i][fromIndex + j];
+					if (!char.IsWhiteSpace(c))
+						data[y + i][toIndex + j] = c;
+				}
 			}
 		}
 

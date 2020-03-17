@@ -15,7 +15,7 @@ class MainClass {
 		scene.DEBUG_MODE = true;
 		scene.SLOW_MODE = false;
 
-		Ground ground = new Ground("M   .:X###", 100, ".'*", 4, new Image[]{
+		Ground ground = new Ground("M   .:X###", 300, ".'*", 4, new Image[]{
 			new Image(new string[]
 			{
 				" _ ",
@@ -34,6 +34,7 @@ class MainClass {
 		}, 4);
 
 		Player player = new Player();
+		player.Animator.SetTransparency(true);
 
 		scene.Instantiate(ground, -ground.Bounds.CenterX, 0);
 		scene.Instantiate(player, 0, 10);

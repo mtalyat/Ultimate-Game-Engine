@@ -43,7 +43,7 @@ namespace UltimateEngine
 		public bool PAUSED { get; set; } = false;
 
 		//FPS stuff
-		public static int GoalFPS { get; set; } = 30;
+		public static int GoalFPS { get; set; } = 60;
 		public static int ScaledFPS => GoalFPS / 5;
 		public int ActualFPS { get; private set; } = -1;
 		private int framesPassed = 0;
@@ -416,8 +416,16 @@ namespace UltimateEngine
 				GameObject go = child.GameObject;
 
 				//only draw if it is visible
-				if(go.Visible)
-					ScreenBuffer.Draw(go.Image.RawData, go.Image.Size, go.ScreenPosition - offset);
+				if (go.Visible)
+				{
+					if (go.Image.SupportsTransparency)
+					{   //supports transparency
+						ScreenBuffer.TransparentDraw(go.Image.RawData, go.Image.Size, go.ScreenPosition - offset);
+					} else
+					{
+						ScreenBuffer.Draw(go.Image.RawData, go.Image.Size, go.ScreenPosition - offset);
+					}
+				}
 			}
 		}
 

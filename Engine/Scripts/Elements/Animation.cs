@@ -4,6 +4,8 @@ using System.IO;
 namespace UltimateEngine {
 	[Serializable]
 	public class Animation {
+		bool transparent = false;
+
 		//the extension used for all animations
 		const string extension = ".anim";
 
@@ -53,6 +55,14 @@ namespace UltimateEngine {
 				images[i].FlipVertical();
 			}
 			FlippedV = !FlippedV;
+		}
+
+		public void SetTransparency(bool trans)
+		{
+			foreach(Image i in images)
+			{
+				i.SetTransparency(trans);
+			}
 		}
 
 		//parses an animation from a file

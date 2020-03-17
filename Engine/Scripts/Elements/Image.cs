@@ -4,6 +4,9 @@ using System.IO;
 namespace UltimateEngine{
 	[Serializable]
 	public class Image {
+		private bool _transparent = false;
+		public bool SupportsTransparency => _transparent;
+
 		public Size Size { get; private set; }
         public char[][] RawData { get; private set; }
 
@@ -130,6 +133,11 @@ namespace UltimateEngine{
 			}
 			//char was not in the list
 			return c;
+		}
+
+		public void SetTransparency(bool trans)
+		{
+			_transparent = trans;
 		}
 
 		public override string ToString(){
