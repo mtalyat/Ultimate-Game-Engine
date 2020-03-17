@@ -6,9 +6,9 @@ using System.Text;
 namespace UltimateEngine.Basics
 {
     [Serializable]
-    public class Platform : Ground
+    public class Platform : GameObject
     {
-        public Platform(char display, int length, string name = "Platform") : base(display, length, name)
+        public Platform(char display, int length, string name = "Platform") : base(name, new Image(new string(display, length)))
         {
             
         }

@@ -107,6 +107,15 @@ namespace UltimateEngine{
 			}
 		}
 
+		//draws an Image on this Image
+		public void DrawImage(Image image, int left, int top)
+		{
+			for(int i = 0; i < image.Size.Height; i++)
+			{
+				Array.Copy(image.RawData[i], 0, RawData[i + top], left, image.Size.Width);
+			}
+		}
+
 		//'swaps' a char based on a string with combos
 		private char Swap(char c, string list){
 			for(int i = 0; i < list.Length; i++){

@@ -13,13 +13,30 @@ class MainClass {
 		//----------Scene set up
 		Scene scene = new Scene(100, 20, "Scene 1");
 		scene.DEBUG_MODE = true;
+		scene.SLOW_MODE = false;
 
-		Ground ground = new Ground('M', 200);
+		Ground ground = new Ground("M   .:X###", 100, ".'*", 4, new Image[]{
+			new Image(new string[]
+			{
+				" _ ",
+				"{O}",
+				"c| ",
+				" | "
+			}),
+			new Image(new string[]
+			{
+				" __ ",
+				"() )",
+				"( ()",
+				" || ",
+				" || "
+			})
+		}, 4);
 
 		Player player = new Player();
 
-		scene.Instantiate(ground, -100, 0);
-		scene.Instantiate(player, 0, 1.5);
+		scene.Instantiate(ground, -ground.Bounds.CenterX, 0);
+		scene.Instantiate(player, 0, 10);
 
 		//Start the Scene
 		scene.Run();
