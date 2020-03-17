@@ -57,7 +57,7 @@ namespace UltimateEngine.Basics
             }
 
             //add the accents, below the first layer of the ground
-            int accentAmount = (int)Math.Sqrt(length * (accentDepth - 1)) * 2;
+            int accentAmount = length;
 
             for(int i = 0; i < accentAmount; i++)
             {
