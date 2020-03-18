@@ -45,5 +45,15 @@ namespace UltimateEngine
 
             return (Direction)(((int)dir + 2) % 4);
         }
+
+        public static double RadiansToDegrees(double rad)
+        {
+            return rad * 180 / Math.PI;
+        }
+
+        public static double DegreesToRadians(double deg)
+        {
+            return deg * Math.PI / 180;
+        }
     }
 }
