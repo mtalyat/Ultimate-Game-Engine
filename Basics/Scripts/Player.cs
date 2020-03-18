@@ -51,7 +51,7 @@ namespace UltimateEngine.Basics {
 
 		public override void OnStart()
 		{
-			Animator.Set("Idle");
+			Animator.Play("Idle");
 		}
 
 		public override void OnUpdate()
@@ -61,7 +61,7 @@ namespace UltimateEngine.Basics {
 				Body.Velocity = new Point(Speed, Body.Velocity.Y);
 
 				if(jumpLevel == 0)//if on ground
-					Animator.Set("Running");
+					Animator.Play("Running");
 
 				if (Animator.FlippedH)
 				{
@@ -73,7 +73,7 @@ namespace UltimateEngine.Basics {
 				Body.Velocity = new Point(Speed * -1, Body.Velocity.Y);
 
 				if(jumpLevel == 0)//if on ground
-					Animator.Set("Running");
+					Animator.Play("Running");
 
 				if (!Animator.FlippedH)
 				{
@@ -82,7 +82,7 @@ namespace UltimateEngine.Basics {
 			}
 			else if (Input.IsKeyDown("W"))
 			{//jump
-				Animator.Set("Jumping");
+				Animator.Play("Jumping");
 
 				if (jumpLevel++ < maxJumps)
 				{
@@ -94,7 +94,7 @@ namespace UltimateEngine.Basics {
 			{//standing
 				if (jumpLevel == 0)
 				{
-					Animator.Set("Idle");
+					Animator.Play("Idle");
 					Body.Velocity = new Point(0, Body.Velocity.Y);
 				}
 			}

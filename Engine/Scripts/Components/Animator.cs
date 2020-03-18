@@ -26,6 +26,7 @@ namespace UltimateEngine{
 		}
 
 		public int Index { get; private set; } = -1;
+		private int nextIndex = -1;
 		public Animation Current { get; private set; }
 
 		public bool FlippedH { get; private set; } = false;
@@ -52,7 +53,7 @@ namespace UltimateEngine{
 			if (updateTimer == null)
 			{
 				StartTimer();
-				Set(0);
+				Play(0);
 			}
 		}
 
@@ -69,7 +70,14 @@ namespace UltimateEngine{
 		//advances to the Next Image of the Current Animation
 		public void Next(){
 			if(Current != null)
+			{
 				Current.Next();
+				if(nextIndex >= 0 && Current.Index == 0)
+				{
+					Play(nextIndex);
+					nextIndex = -1;
+				}
+			}
 		}
 
 		//adds an Animation
@@ -81,7 +89,7 @@ namespace UltimateEngine{
 			//set Current if first animation in the Animator
 			if(animations.Count == 1)
 			{
-				Set(0);
+				Play(0);
 			}
 		}
 
@@ -102,17 +110,35 @@ namespace UltimateEngine{
 			animations.Remove(Get(name));
 		}
 
-		//sets the current animation by name
-		public void Set(string name){
-			Set(animations.FindIndex(a => a.Name == name));
+		//plays the current animation by name
+		public void Play(string name){
+			Play(animations.FindIndex(a => a.Name == name));
 		}
 
-		//sets the current animation by index
-		public void Set(int index){
+		//plays the current animation by index
+		public void Play(int index){
 			if(index == Index || index < 0 || index >= animations.Count) return;//if already playing or out of range, stop
 
 			Index = index;
 			Current = animations[index];
+			//might remove this:
+			Current.Reset();
+		}
+
+		//plays an animation, runs it once, and then switches to another animation
+		public void PlayOnce(string name, string after = "")
+		{
+			PlayOnce(animations.FindIndex(a => a.Name == name),
+				animations.FindIndex(a => a.Name == after));
+		}
+
+		//plays an animaion, runs it once, and then switches to another animation
+		public void PlayOnce(int index, int after)
+		{
+			int next = after < 0 ? Index : after;
+
+			Play(index);
+			nextIndex = next;
 		}
 
 		//flips the animations left and right
