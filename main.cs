@@ -103,11 +103,6 @@ class MainClass {
 		//Start the Scene
 		scene.Run();
 
-		Input.WaitForKey("F", new Action(() =>
-		{
-			Debug.Log("Success");
-		}));
-
 		//Ensure that the program does not end any time soon
 		Thread.Sleep(int.MaxValue);
 	}

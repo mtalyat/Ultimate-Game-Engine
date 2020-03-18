@@ -28,7 +28,7 @@ namespace UltimateEngine{
 				}
 			} catch(Exception e)
 			{
-				//shouldn't end up here, but sometimes do
+				Debug.Log("Exception caught: " + e.Message);
 			}
 		}
 	}

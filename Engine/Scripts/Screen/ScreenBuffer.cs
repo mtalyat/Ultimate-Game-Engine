@@ -131,7 +131,6 @@ namespace UltimateEngine{
 		//MUCH SLOWER
 		public static void TransparentDraw(char[][] array, Size s, int x, int y)
 		{
-			Debug.Log("T");
 			if (!IsInView(x, y, s.Width, s.Height))
 			{
 				return;//do not copy

@@ -85,38 +85,38 @@ namespace UltimateEngine{
 				Keys[index].KeyDownState = KEYDOWNREFRESH;
 				return false;
 			} else {//'new' key
-				//check for if looking for specific key
-				if(lookingForKey != "")
+
+				//check for pause, and exit before all else
+				if (Scene.Current != null && key.Name == PauseKeyName)
 				{
-					if(lookingForKey == key.Name)
-					{
-						//found the key, run the action and turn input back to normal
-						lookingForKey = "";
-
-						onFound();
-					}
+					//toggle the pause
+					if (Scene.Current.PAUSED)
+						Resume();
+					else
+						Pause();
+				}
+				else if (Scene.Current != null && key.Name == ExitKeyName && Scene.Current.PAUSED)
+				{
+					Resume();
+					Scene.Current.Stop();
+					Environment.Exit(0);
 				} else
-				{   //not looking for any key so just do normal input
-					key.KeyDownState = KEYDOWNFRESH;
-					Keys.Add(key);
-
-					//check to pause
-					if (Scene.Current != null)
+				{
+					//check for key if looking for specific key
+					if (lookingForKey != "")
 					{
-						if (key.Name == PauseKeyName)
+						if (lookingForKey == key.Name)
 						{
-							//toggle the pause
-							if (Scene.Current.PAUSED)
-								Resume();
-							else
-								Pause();
+							//found the key, run the action and turn input back to normal
+							lookingForKey = "";
+
+							onFound();
 						}
-						else if (key.Name == ExitKeyName && Scene.Current.PAUSED)
-						{
-							Resume();
-							Scene.Current.Stop();
-							Environment.Exit(0);
-						}
+					}
+					else
+					{   //not looking for any key so just do normal input
+						key.KeyDownState = KEYDOWNFRESH;
+						Keys.Add(key);
 					}
 				}
 
