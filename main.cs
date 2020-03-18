@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using UltimateEngine;
+using UltimateEngine.UI;
 using UltimateEngine.Basics;
 
 class MainClass {
@@ -97,8 +98,8 @@ class MainClass {
 		Player player = new Player();
 		player.Animator.SetTransparency(true);
 
-		scene.Instantiate(ground, -ground.Bounds.CenterX, 0);
-		scene.Instantiate(player, 0, 10);
+		//ground = (Ground)scene.Instantiate(ground, -ground.Bounds.CenterX, 0);
+		//player = (Player)scene.Instantiate(player, 0, 10);
 
 		//Start the Scene
 		scene.Run();

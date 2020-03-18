@@ -59,6 +59,7 @@ namespace UltimateEngine {
 
 		public void SetTransparency(bool trans)
 		{
+			transparent = trans;
 			foreach(Image i in images)
 			{
 				i.SetTransparency(trans);

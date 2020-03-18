@@ -146,7 +146,7 @@ namespace UltimateEngine{
 			}
 
 			//get the world position
-			Point w = LocalPosition - Parent.Position;
+			Point w = Parent.Position + LocalPosition;
 
 			//remove self from old parent
 			Parent.Children.Remove(this);
@@ -173,6 +173,7 @@ namespace UltimateEngine{
 		public void AddChild(Transform child){
 			if(Children.Count <= 0){//if list is empty
 				Children.Add(child);
+				child.Parent = this;
 				return;
 			}
 
@@ -180,12 +181,14 @@ namespace UltimateEngine{
 			for(int i = 0; i < Children.Count; i++){
 				if(child.Z <= Children[i].Z){
 					Children.Insert(i, child);
+					child.Parent = this;
 					return;
 				}
 			}
 
 			//made it this far, then the new transform goes at the end
 			Children.Add(child);
+			child.Parent = this;
 		}
 
 		//inserts several children using AddChild

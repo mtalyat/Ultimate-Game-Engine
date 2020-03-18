@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace UltimateEngine {
 	[Serializable]
 	public class Camera : GameObject {
-		public static Camera MainCamera { get; private set; }
+		public static Camera MainCamera { get; set; }
 
 		static List<Camera> allCameras = new List<Camera>();
 		public static int CameraCount => allCameras.Count;
@@ -40,16 +40,11 @@ namespace UltimateEngine {
 
 			if(index < 0)
 			{
-				SetMainCamera(allCameras[0]);
+				MainCamera = allCameras[0];
 			} else
 			{
-				SetMainCamera(allCameras[(index + 1) % CameraCount]);
+				MainCamera = allCameras[(index + 1) % CameraCount];
 			}
-		}
-
-		public static void SetMainCamera(Camera camera)
-		{
-			//move all of the children
 		}
 	}
 }

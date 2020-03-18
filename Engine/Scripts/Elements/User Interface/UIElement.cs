@@ -5,8 +5,19 @@ using System.Text;
 
 namespace UltimateEngine.UI
 {
+    [Serializable]
     class UIElement : GameObject
     {
+        public override Point ScreenPosition
+        {
+            get
+            {
+                if(Transform.Parent.GameObject == Camera.MainCamera)
+                    return Transform.LocalPosition.Floor();
+                return Transform.Position.Floor();
+            }
+        }
+
         public UIElement(string name = "UI Element", Image img = null) : base(name, img)
         {
 
@@ -14,7 +25,12 @@ namespace UltimateEngine.UI
 
         public override void OnStart()
         {
-            Transform.SetParent(Camera.MainCamera.Transform);
+
+        }
+
+        public override void OnUpdate()
+        {
+            
         }
     }
 }

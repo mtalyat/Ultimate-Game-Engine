@@ -150,7 +150,6 @@ namespace UltimateEngine
 						ScreenBuffer.Draw("dT: " + DeltaTime, 0, 0);
 						ScreenBuffer.Draw("GoalFPS: " + GoalFPS, 0, 1);
 						ScreenBuffer.Draw("ActualFPS: " + ActualFPS, 0, 2);
-						ScreenBuffer.Draw("P. Pos: " + Basics.Player.Active.Transform, 0, 3);
 					}
 
 					ScreenBuffer.Print();
@@ -254,6 +253,13 @@ namespace UltimateEngine
 
 			InScene.Add(g);
 
+			//instantiate all of the children as well
+			for(int i = 0; i < original.Transform.Children.Count; i++)
+			{
+				Transform child = original.Transform.Children[i];
+				g.Transform.AddChild(Instantiate(child.GameObject, child.LocalPosition, g.Transform).Transform);
+			}
+
 			if(Active)
 				Start(g.Transform);
 
@@ -292,7 +298,7 @@ namespace UltimateEngine
 
 		#endregion
 
-		#region Updating and Starting
+		#region Updating, Starting, Colliding and Drawing
 
 		//Wakes all of the gameobjects/assigns their Scene object
 		private void WakeAll()
@@ -339,8 +345,9 @@ namespace UltimateEngine
 			if(go != null){
 				go.Start();
 
-				foreach(Transform child in t.Children){
-					Start(child);
+				for(int i = 0; i < t.Children.Count; i++)
+				{
+					Start(t.Children[i]);
 				}
 			}
 		}
@@ -425,24 +432,42 @@ namespace UltimateEngine
 			}
 		}
 
+		//draws all of the GameObjects in view
 		private void DrawAll()
 		{
 			Point offset = Camera.MainCamera.ScreenPosition;
 
-			foreach (Transform child in origin.GetAllChildren())
+			for(int i = 0; i < origin.Children.Count; i++)
 			{
-				GameObject go = child.GameObject;
+				Draw(origin.Children[i], offset);
+			}
 
-				//only draw if it is visible
-				if (go.Visible)
+			//finish by drawing the UI
+			for(int i = 0; i < Camera.MainCamera.Transform.Children.Count; i++)
+			{
+				Draw(Camera.MainCamera.Transform.Children[i], new Point());//offset is (0, 0) because it is relative to the screen
+			}
+		}
+
+		private void Draw(Transform t, Point offset)
+		{
+			if (t == null) return;
+
+			GameObject go = t.GameObject;
+			//update the GameObject
+			if (go != null)
+			{
+				//draw the Camera last
+				if (go == Camera.MainCamera) return;
+
+				if(go.Image.SupportsTransparency)
+					ScreenBuffer.TransparentDraw(go.Image.RawData, go.Image.Size, go.ScreenPosition - offset);
+				else
+					ScreenBuffer.Draw(go.Image.RawData, go.Image.Size, go.ScreenPosition - offset);
+
+				foreach (Transform child in t.Children)
 				{
-					if (go.Image.SupportsTransparency)
-					{   //supports transparency
-						ScreenBuffer.TransparentDraw(go.Image.RawData, go.Image.Size, go.ScreenPosition - offset);
-					} else
-					{
-						ScreenBuffer.Draw(go.Image.RawData, go.Image.Size, go.ScreenPosition - offset);
-					}
+					Draw(child, offset);
 				}
 			}
 		}

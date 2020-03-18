@@ -37,12 +37,13 @@ namespace UltimateEngine.Basics {
 			Animator.Add(Resources.GetAnimation("Running"));
 			Animator.Add(Resources.GetAnimation("Jumping"));
 
-			Camera cam = new Camera();
-			Camera = (Camera)InstantiateChild(cam, (cam.Bounds.Center * -1) + new Point(3, 3));//kind of centers the player
+			Camera = new Camera("Player Camera");
 		}
 
 		public override void OnWake()
 		{
+			Camera = (Camera)InstantiateChild(Camera, (Camera.Bounds.Center * -1) + new Point(3, 3));//kind of centers the player
+
 			Camera.MainCamera = Camera;
 
 			Active = this;
