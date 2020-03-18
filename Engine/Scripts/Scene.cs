@@ -107,13 +107,10 @@ namespace UltimateEngine
 					CollideAll();
 					FixAll();
 
-					while (goDraw)
-					{
-						Thread.Sleep(1);
-					}
+					while (goDraw) Thread.Sleep(0);
 
 					//finally draw them all
-					//DrawAll();
+					DrawAll();
 					goDraw = true;
 
 					//A frame has passed, so update that for the FPS
@@ -121,7 +118,7 @@ namespace UltimateEngine
 
 					watch.Stop();
 					DeltaTime = watch.Elapsed.Milliseconds;
-					if(FRAMERATE_LIMIT) Thread.Sleep(Math.Max(0, (1000 / (GoalFPS * 1)) - DeltaTime));//try to make up for when it takes longer to draw objects
+					Thread.Sleep(Math.Max(0, (GoalFPS / 4) - DeltaTime));
 
 					if (SLOW_MODE) Thread.Sleep(1000);
 
@@ -137,7 +134,7 @@ namespace UltimateEngine
 				{
 					while (!goDraw)
 					{
-						Thread.Sleep(1);
+						Thread.Sleep(0);
 					}
 
 					goDraw = false;
