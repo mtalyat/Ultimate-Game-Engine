@@ -9,6 +9,7 @@ namespace UltimateEngine{
 
 		static Debug(){
 			path = Path.Combine(new string[] { Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName, "Engine", "Log" });
+			Reset();
 		}
 
 		public static void Reset(){

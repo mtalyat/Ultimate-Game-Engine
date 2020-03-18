@@ -1,9 +1,22 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace UltimateEngine{
 	static class ScreenBuffer{
+		//for fullscreen stuff
+		[DllImport("kernel32.dll", ExactSpelling = true)]
+		private static extern IntPtr GetConsoleWindow();
+		private static IntPtr ThisConsole = GetConsoleWindow();
+		[DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+		private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+		private const int HIDE = 0;
+		private const int MAXIMIZE = 3;
+		private const int MINIMIZE = 6;
+		private const int RESTORE = 9;
+
 		public static bool ClearAfterPrint { get; set; } = true;
 
 		private static char[][] data;
@@ -25,31 +38,70 @@ namespace UltimateEngine{
 		private static string clearString = "";
 
 		static ScreenBuffer(){
+			Console.CursorVisible = false;
 			Initialize(new Size(100, 20));
 
 			//skip for now
 			//PlayIntro();
 		}
 
-		public static void Initialize(Size s, string title = "Ultimate Game Engine"){
+		public static void Initialize(Size s, string title = "Ultimate Game Engine", bool fullScreen = false){
+			if (fullScreen)
+			{
+				InitializeAtFullScreen(title);
+				return;
+			}
+
 			Title = title;
 
 			Console.Clear();//get rid of the warnings and info
 
-			Size = s;
+			//fix the size so it is only even numbers
+			Size = s - (s % 2);
 
-			data = new char[s.Height][];
-			for(int i = 0; i < s.Height; i++){
-				data[i] = new char[s.Width];
-				for(int j = 0; j < s.Width; j++){
+			data = new char[Size.Height][];
+			for(int i = 0; i < Size.Height; i++){
+				data[i] = new char[Size.Width];
+				for(int j = 0; j < Size.Width; j++){
 					data[i][j] = ' ';
 				}
 			}
 
-			if(s.Width > 0 && s.Height > 0)
+			if(Size.Width > 0 && Size.Height > 0)
 			{
 				SetBufferToSize();
 				SetClearString();
+			}
+		}
+
+		public static void InitializeAtFullScreen(string title = "Ultimate Game Engine")
+		{
+			Title = title;
+
+			Console.Clear();//get rid of the warnings and info
+
+			Size = new Size(Console.LargestWindowWidth - 1, Console.LargestWindowHeight - 1);
+			Size -= Size % 2;
+
+			data = new char[Size.Height][];
+			for (int i = 0; i < Size.Height; i++)
+			{
+				data[i] = new char[Size.Width];
+				for (int j = 0; j < Size.Width; j++)
+				{
+					data[i][j] = ' ';
+				}
+			}
+
+			if (Size.Width > 0 && Size.Height > 0)
+			{
+				SetBufferToSize();
+				SetClearString();
+
+				//keep the CursorVisibility
+				bool show = Console.CursorVisible;
+				ShowWindow(ThisConsole, MAXIMIZE);
+				Console.CursorVisible = show;
 			}
 		}
 

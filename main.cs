@@ -5,14 +5,9 @@ using UltimateEngine.UI;
 using UltimateEngine.Basics;
 
 class MainClass {
-	static MainClass(){
-		Debug.Reset();
-		Console.CursorVisible = false;
-	}
-
 	public static void Main (string[] args) {
 		//----------Scene set up
-		Scene scene = new Scene(100, 20, "Scene 1");
+		Scene scene = new Scene("Scene 1");
 		scene.DEBUG_MODE = true;
 		scene.SLOW_MODE = false;
 		scene.FRAMERATE_LIMIT = true;

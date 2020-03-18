@@ -23,7 +23,9 @@ namespace UltimateEngine
 		public string Name { get; set; } = "";
 
 		private Transform origin = new Transform();
+
 		private Size screenSize;
+		public bool FullScreen { get; private set; } = false;
 
 		public int DeltaTime { get; private set; } = 0;
 
@@ -58,7 +60,8 @@ namespace UltimateEngine
         public Scene(string name = "Untitled Scene")
 		{
 			Name = name;
-			SetScreenSize(1000, 1000);//ensure largest size possibe
+			FullScreen = true;
+			SetScreenSize(1000, 1000);//ensure largest size possible
 
 			if (current == null) SetCurrentScene(this);
 		}
@@ -110,7 +113,6 @@ namespace UltimateEngine
 					while (goDraw) Thread.Sleep(0);
 
 					//finally draw them all
-					DrawAll();
 					goDraw = true;
 
 					//A frame has passed, so update that for the FPS
@@ -118,7 +120,7 @@ namespace UltimateEngine
 
 					watch.Stop();
 					DeltaTime = watch.Elapsed.Milliseconds;
-					Thread.Sleep(Math.Max(0, (GoalFPS / 4) - DeltaTime));
+					if(FRAMERATE_LIMIT) Thread.Sleep(Math.Max(0, (GoalFPS / 4) - DeltaTime));
 
 					if (SLOW_MODE) Thread.Sleep(1000);
 
@@ -479,7 +481,7 @@ namespace UltimateEngine
 
 			current = scene;
 
-			ScreenBuffer.Initialize(current.screenSize, current.Name);
+			ScreenBuffer.Initialize(current.screenSize, current.Name, current.FullScreen);
 			ScreenBuffer.SetColors(current.foregroundColor, current.backgroundColor);
 		}
 
@@ -494,7 +496,7 @@ namespace UltimateEngine
 
 			current = newScene;
 
-			ScreenBuffer.Initialize(current.screenSize, current.Name);
+			ScreenBuffer.Initialize(current.screenSize, current.Name, current.FullScreen);
 			ScreenBuffer.SetColors(current.foregroundColor, current.backgroundColor);
 
 			current.Run();

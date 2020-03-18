@@ -172,6 +172,16 @@ namespace UltimateEngine{
 			return !one.Equals(two);
 		}
 
+		public static Point operator %(Point one, Point two)
+		{
+			return new Point(one.X % two.X, one.Y % two.Y);
+		}
+
+		public static Point operator %(Point one, double two)
+		{
+			return new Point(one.X % two, one.Y % two);
+		}
+
 		#endregion
 
 		public bool IsValid()
