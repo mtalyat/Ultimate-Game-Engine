@@ -14,6 +14,7 @@ class MainClass {
 		Scene scene = new Scene(100, 20, "Scene 1");
 		scene.DEBUG_MODE = true;
 		scene.SLOW_MODE = false;
+		scene.FRAMERATE_LIMIT = true;
 
 		Ground ground = new Ground("M   .:X###", 300, ".'*", 4, new Image[]{
 			new Image(new string[]
@@ -30,8 +31,68 @@ class MainClass {
 				"( ()",
 				" || ",
 				" || "
+			}),
+			new Image(new string[]
+			{
+				"|", "|"
+			}),
+			new Image(new string[]
+			{
+				"|", "|"
+			}),
+			new Image(new string[]
+			{
+				"|", "|"
+			}),
+			new Image(new string[]
+			{
+				"|", "|"
+			}),
+			new Image(new string[]
+			{
+				"|", "|"
+			}),
+			new Image(new string[]
+			{
+				"|", "|"
+			}),
+			new Image(new string[]
+			{
+				"|"
+			}),
+			new Image(new string[]
+			{
+				"|"
+			}),
+			new Image(new string[]
+			{
+				"|"
+			}),
+			new Image(new string[]
+			{
+				"|"
+			}),
+			new Image(new string[]
+			{
+				"|"
+			}),
+			new Image(new string[]
+			{
+				"|"
+			}),
+			new Image(new string[]
+			{
+				"|"
+			}),
+			new Image(new string[]
+			{
+				"|"
+			}),
+			new Image(new string[]
+			{
+				"|"
 			})
-		}, 4);
+		}, 5);
 
 		Player player = new Player();
 		player.Animator.SetTransparency(true);
@@ -41,6 +102,11 @@ class MainClass {
 
 		//Start the Scene
 		scene.Run();
+
+		Input.WaitForKey("F", new Action(() =>
+		{
+			Debug.Log("Success");
+		}));
 
 		//Ensure that the program does not end any time soon
 		Thread.Sleep(int.MaxValue);

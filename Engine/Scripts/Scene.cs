@@ -29,6 +29,8 @@ namespace UltimateEngine
 
 		[NonSerialized]
 		Thread updateThread;
+		[NonSerialized]
+		Thread drawingThread;
 
 		ConsoleColor backgroundColor = ConsoleColor.Black;
 		ConsoleColor foregroundColor = ConsoleColor.White;
@@ -40,6 +42,7 @@ namespace UltimateEngine
 		//for debugging
 		public bool DEBUG_MODE { get; set; } = false;
 		public bool SLOW_MODE { get; set; } = false;
+		public bool FRAMERATE_LIMIT { get; set; } = true;
 		public bool PAUSED { get; set; } = false;
 
 		//FPS stuff
@@ -90,6 +93,8 @@ namespace UltimateEngine
 			FPSTimer.Elapsed += FPSTimer_Elapsed;
 			FPSTimer.Interval = 1000;//1 second
 
+			bool goDraw = false;
+
 			updateThread = new Thread(new ThreadStart(() => {
 				Stopwatch watch = new Stopwatch();
 				while(Active){
@@ -102,45 +107,55 @@ namespace UltimateEngine
 					CollideAll();
 					FixAll();
 
-					//finally draw them all
-					DrawAll();
-
-					//draw Debug stuff on top of Scene
-					if(DEBUG_MODE){
-						ScreenBuffer.Draw("dT: " + DeltaTime, 0, 0);
-						ScreenBuffer.Draw("GoalFPS: " + GoalFPS, 0, 1);
-						ScreenBuffer.Draw("ActualFPS: " + ActualFPS, 0, 2);
-						ScreenBuffer.Draw("P. Pos: " + Basics.Player.Active.Transform, 0, 3);
+					while (goDraw)
+					{
+						Thread.Sleep(1);
 					}
-					
-					ScreenBuffer.Print();
+
+					//finally draw them all
+					//DrawAll();
+					goDraw = true;
 
 					//A frame has passed, so update that for the FPS
 					framesPassed++;
 
 					watch.Stop();
 					DeltaTime = watch.Elapsed.Milliseconds;
-					Thread.Sleep(Math.Max(0, (1000 / (GoalFPS * 1)) - DeltaTime));//try to make up for when it takes longer to draw objects
+					if(FRAMERATE_LIMIT) Thread.Sleep(Math.Max(0, (1000 / (GoalFPS * 1)) - DeltaTime));//try to make up for when it takes longer to draw objects
 
 					if (SLOW_MODE) Thread.Sleep(1000);
 
-					if (PAUSED)
-					{
-						ScreenBuffer.Draw(Words.StringArrayToJaggedCharArray(new string[]
-						{
-							" ________ ",
-							"|        |",
-							"| PAUSED |",
-							"|________|"
-						}), new Size(10, 4), new Point(ScreenBuffer.Size) / 2 + 2);
-						ScreenBuffer.Print();
-						while (PAUSED)
-						{
-							Thread.Sleep(1);
-						}
-					}
+					while (PAUSED) Thread.Sleep(1);
 
 					watch.Reset();
+				}
+			}));
+
+			drawingThread = new Thread(new ThreadStart(() =>
+			{
+				while (Active)
+				{
+					while (!goDraw)
+					{
+						Thread.Sleep(1);
+					}
+
+					goDraw = false;
+
+					DrawAll();
+
+					//draw Debug stuff on top of Scene
+					if (DEBUG_MODE)
+					{
+						ScreenBuffer.Draw("dT: " + DeltaTime, 0, 0);
+						ScreenBuffer.Draw("GoalFPS: " + GoalFPS, 0, 1);
+						ScreenBuffer.Draw("ActualFPS: " + ActualFPS, 0, 2);
+						ScreenBuffer.Draw("P. Pos: " + Basics.Player.Active.Transform, 0, 3);
+					}
+
+					ScreenBuffer.Print();
+
+					while (PAUSED) Thread.Sleep(1);
 				}
 			}));
 
@@ -149,6 +164,9 @@ namespace UltimateEngine
 
 			updateThread.Name = "Update";
 			updateThread.Start();
+
+			drawingThread.Name = "Drawing";
+			drawingThread.Start();
 
 			FPSTimer.Start();
 		}

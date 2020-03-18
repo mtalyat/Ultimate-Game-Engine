@@ -157,6 +157,7 @@
     <Folder Include=".vs\Ultimate Game Engine\v16\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Engine\Scripts\Screen\Intro.txt" />
     <Content Include="Resources\Images\Box.txt" />
     <Content Include="Resources\Images\Coin.txt" />
     <Content Include="favicon.ico" />

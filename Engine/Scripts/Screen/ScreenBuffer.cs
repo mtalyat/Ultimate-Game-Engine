@@ -1,8 +1,11 @@
 using System;
+using System.IO;
 using System.Text;
 
 namespace UltimateEngine{
 	static class ScreenBuffer{
+		public static bool ClearAfterPrint { get; set; } = true;
+
 		private static char[][] data;
 
 		public static string Title
@@ -22,7 +25,10 @@ namespace UltimateEngine{
 		private static string clearString = "";
 
 		static ScreenBuffer(){
-			Initialize(new Size(0, 0));
+			Initialize(new Size(100, 20));
+
+			//skip for now
+			//PlayIntro();
 		}
 
 		public static void Initialize(Size s, string title = "Ultimate Game Engine"){
@@ -51,20 +57,13 @@ namespace UltimateEngine{
 		public static void Print(){
 			string output = "";
 
-			//need a Camera to display stuff
-			if(Camera.MainCamera != null)
+			for (int i = Size.Height - 1; i >= 0; i--)
 			{
-				for (int i = Size.Height - 1; i >= 0; i--)
-				{
-					//update the display for the current frame
-					output += new string(data[i]) + "\n";
+				//update the display for the current frame
+				output += new string(data[i]) + "\n";
 
-					//reset the display for the next frame
-					data[i] = new string(' ', Size.Width).ToCharArray();
-				}
-			} else
-			{
-				output = "No Main Camera found!";
+				//reset the display for the next frame
+				if (ClearAfterPrint) data[i] = new string(' ', Size.Width).ToCharArray();
 			}
 
 			Console.SetCursorPosition(0, 0);
@@ -197,6 +196,30 @@ namespace UltimateEngine{
 		//returns true if any part of a string will be in view when drawn
 		private static bool IsInView(int x, int y, int xlength, int ylength = 1){
 			return x + xlength >= 0 && x < Size.Width && y + ylength >= 0 && y < Size.Height;
+		}
+
+		private static void PlayIntro()
+		{
+			ClearAfterPrint = false;
+			Random random = new Random();
+
+			string[] lines = File.ReadAllLines(Path.Combine(new string[] { Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName, "Engine", "Scripts", "Screen", "Intro.txt" }));
+
+			for(int y = 0; y < lines.Length; y++)
+			{
+				for(int x = 0; x < lines[y].Length; x++)
+				{
+					Draw(lines[y][x], x, y);
+					Print();
+
+					System.Threading.Thread.Sleep(1);
+				}
+			}
+
+			System.Threading.Thread.Sleep(2000);
+
+			ClearAfterPrint = true;
+			Print();
 		}
 	}
 }

@@ -5,6 +5,11 @@ using System.Diagnostics;
 
 namespace UltimateEngine{
 	static class Input {
+		public static string PauseKeyName { get; set; } = "Escape";
+		public static string ExitKeyName { get; set; } = "Enter";
+		private static string lookingForKey = "";
+		private static Action onFound;
+
 		public static bool Active { get; set; } = false;
 		public static List<ScreenKey> Keys { get; private set; } = new List<ScreenKey>();
 
@@ -80,8 +85,41 @@ namespace UltimateEngine{
 				Keys[index].KeyDownState = KEYDOWNREFRESH;
 				return false;
 			} else {//'new' key
-				key.KeyDownState = KEYDOWNFRESH;
-				Keys.Add(key);
+				//check for if looking for specific key
+				if(lookingForKey != "")
+				{
+					if(lookingForKey == key.Name)
+					{
+						//found the key, run the action and turn input back to normal
+						lookingForKey = "";
+
+						onFound();
+					}
+				} else
+				{   //not looking for any key so just do normal input
+					key.KeyDownState = KEYDOWNFRESH;
+					Keys.Add(key);
+
+					//check to pause
+					if (Scene.Current != null)
+					{
+						if (key.Name == PauseKeyName)
+						{
+							//toggle the pause
+							if (Scene.Current.PAUSED)
+								Resume();
+							else
+								Pause();
+						}
+						else if (key.Name == ExitKeyName && Scene.Current.PAUSED)
+						{
+							Resume();
+							Scene.Current.Stop();
+							Environment.Exit(0);
+						}
+					}
+				}
+
 				return true;
 			}
 		}
@@ -122,6 +160,43 @@ namespace UltimateEngine{
 			return false;
 		}
 
-		#endregion
+		public static void WaitForKey(string name, Action onInput)
+		{
+			lookingForKey = name;
+			onFound = onInput;
+		}
+
+        #endregion
+
+        private static void Pause()
+		{
+			ScreenBuffer.ClearAfterPrint = false;
+			Thread.Sleep(10);
+
+			Scene.Current.PAUSED = true;
+			Thread.Sleep(10);
+
+			int width = 26 + Math.Max(PauseKeyName.Length, ExitKeyName.Length);
+
+			//display pause and options
+			ScreenBuffer.Draw(Words.StringArrayToJaggedCharArray(Words.Fill(new string[]
+			{
+				"                                       ",
+				" PAUSED                                ",
+				"                                       ",
+			   $" PRESS '{PauseKeyName}' TO RESUME.     ",
+			    "                                       ",
+			   $" PRESS '{ExitKeyName}' TO END PROGRAM. ",
+			    "                                       "
+			}, ' ', width)), new Size(width, 7), 0, ScreenBuffer.Size.Height - 7);
+
+			ScreenBuffer.Print();
+		}
+
+		private static void Resume()
+		{
+			ScreenBuffer.ClearAfterPrint = true;
+			Scene.Current.PAUSED = false;
+		}
 	}
 }
