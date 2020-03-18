@@ -219,6 +219,16 @@ namespace UltimateEngine{
 			return trans.ToArray();
 		}
 
+		public Transform[] GetChildrenWithTag(string tag)
+		{
+			return Children.FindAll(t => t.GameObject.Tag == tag).ToArray();
+		}
+
+		public Transform[] GetChildrenOfType<T>()
+		{
+			return Children.FindAll(t => t.GameObject is T).ToArray();
+		}
+
 		public Transform[] RemoveAllChildren()
 		{
 			Transform[] ts = Children.ToArray();
@@ -226,6 +236,24 @@ namespace UltimateEngine{
 			Children.Clear();
 
 			return ts;
+		}
+
+		public Transform[] RemoveChildrenWithTag(string tag)
+		{
+			Transform[] childs = Children.FindAll(t => t.GameObject.Tag == tag).ToArray();
+
+			Children.RemoveAll(t => t.GameObject.Tag == tag);
+
+			return childs; 
+		}
+
+		public Transform[] RemoveChildrenOfType<T>()
+		{
+			Transform[] childs = Children.FindAll(t => t.GameObject is T).ToArray();
+
+			Children.RemoveAll(t => t.GameObject is T);
+
+			return childs;
 		}
 
         #endregion
