@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Basics\Scripts\Ground.cs" />
+    <Compile Include="Basics\Scripts\MovingPlatform.cs" />
     <Compile Include="Basics\Scripts\Platform.cs" />
     <Compile Include="Engine\Scripts\AdvMath.cs" />
     <Compile Include="Engine\Scripts\Components\Animator.cs" />

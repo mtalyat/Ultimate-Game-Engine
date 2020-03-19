@@ -27,83 +27,18 @@ class MainClass {
 				"( ()",
 				" || ",
 				" || "
-			}),
-			new Image(new string[]
-			{
-				"|", "|"
-			}),
-			new Image(new string[]
-			{
-				"|", "|"
-			}),
-			new Image(new string[]
-			{
-				"|", "|"
-			}),
-			new Image(new string[]
-			{
-				"|", "|"
-			}),
-			new Image(new string[]
-			{
-				"|", "|"
-			}),
-			new Image(new string[]
-			{
-				"|", "|"
-			}),
-			new Image(new string[]
-			{
-				"|"
-			}),
-			new Image(new string[]
-			{
-				"|"
-			}),
-			new Image(new string[]
-			{
-				"|"
-			}),
-			new Image(new string[]
-			{
-				"|"
-			}),
-			new Image(new string[]
-			{
-				"|"
-			}),
-			new Image(new string[]
-			{
-				"|"
-			}),
-			new Image(new string[]
-			{
-				"|"
-			}),
-			new Image(new string[]
-			{
-				"|"
-			}),
-			new Image(new string[]
-			{
-				"|"
 			})
 		}, 1);
 
 		Player player = new Player();
 		player.Animator.SetTransparency(true);
 
-		MessageBox test = new MessageBox("This is a test message. Testing, 1, 2, 3, can anybody hear me? Shed the irony, it's really gonna feel me. Something something.. just like me.. something something.");
-
 		ground = (Ground)scene.Instantiate(ground, -ground.Bounds.CenterX, 0);
 		player = (Player)scene.Instantiate(player, 0, 10);
-		test = (MessageBox)scene.Instantiate(test, player.Camera.Transform, new Point(1, 1));
+		test = (MovingPlatform)scene.Instantiate(test);
 
 		//Start the Scene
 		scene.Run();
-
-		Thread.Sleep(2000);
-		test.Show();
 
 		//Ensure that the program does not end any time soon
 		Thread.Sleep(int.MaxValue);

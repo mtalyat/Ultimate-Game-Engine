@@ -8,9 +8,11 @@ namespace UltimateEngine.Basics
     [Serializable]
     public class Platform : GameObject
     {
+        protected Collider collider;
         public Platform(char display, int length, string name = "Platform") : base(name, new Image(new string(display, length)))
         {
-            
+            collider = new Collider();
+            AddComponent(collider);
         }
 
         public override void PreCollision(Collider c, Direction side)

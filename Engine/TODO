@@ -4,3 +4,6 @@
 - Copy Size to reflect all operators of Point
 
 - Queue WaitForKey Inputs... maybe
+
+- Fix platform collisions, reset ignoring collisions when it doesn't hit the 
+specific object and not just any object
