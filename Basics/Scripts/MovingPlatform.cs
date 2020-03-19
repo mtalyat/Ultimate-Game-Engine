@@ -9,8 +9,10 @@ namespace UltimateEngine.Basics
     [Serializable]
     public class MovingPlatform : Platform
     {
-        public Point StartPoint { get; set; }
-        public Point StopPoint { get; set; }
+        public Point StopOffset { get; private set; }
+        public Point StartPoint { get; private set; }
+        public Point StopPoint { get; private set; }
+
         private int _speed = 1;
         public int Speed
         {
@@ -21,7 +23,7 @@ namespace UltimateEngine.Basics
             set
             {
                 _speed = Math.Max(1, value);
-                if (moveTimer != null) moveTimer.Interval = 100 / value;
+                if (moveTimer != null) moveTimer.Interval = 200 / value;
             }
         }
         //the time paused between moving in milliseconds
@@ -35,16 +37,18 @@ namespace UltimateEngine.Basics
         [NonSerialized]
         Timer moveTimer;
 
-        public MovingPlatform(char display, int length, Point start, Point stop, int speed, int pause, string name = "Moving Platform") : base(display, length, name)
+        public MovingPlatform(char display, int length, Point stopOffset, int speed, int pause, string name = "Moving Platform") : base(display, length, name)
         {
-            StartPoint = start;
-            StopPoint = stop;
+            StopOffset = stopOffset;
             Speed = speed;
             Pause = pause;
         }
 
         public override void OnWake()
         {
+            StartPoint = Transform.Position;
+            StopPoint = StartPoint + StopOffset;
+
             moveTimer = new Timer(Speed);
             moveTimer.Elapsed += MoveTimer_Elapsed;
             moveTimer.Start();
@@ -60,9 +64,9 @@ namespace UltimateEngine.Basics
             if(wait == 0 && progress < 180)
             {
                 progress++;
-                Point newPos = StartPoint + (Math.Cos(AdvMath.DegreesToRadians(progress)) * (StopPoint - StartPoint));
+                Point newPos = StartPoint + (Math.Cos(AdvMath.DegreesToRadians(progress)) * StopOffset / 2) + StopOffset / 2;
                 movement = newPos - Transform.Position;
-                Transform.Position = newPos;
+                Transform.LocalPosition = newPos;
             } else if (wait < Pause && progress == 180)
             {
                 wait++;
@@ -70,16 +74,14 @@ namespace UltimateEngine.Basics
             } else if (wait == Pause && progress > 0)
             {
                 progress--;
-                Point newPos = StartPoint + (Math.Cos(AdvMath.DegreesToRadians(progress)) * (StopPoint - StartPoint));
+                Point newPos = StartPoint + (Math.Cos(AdvMath.DegreesToRadians(progress)) * StopOffset / 2) + StopOffset / 2;
                 movement = newPos - Transform.Position;
-                Transform.Position = newPos;
+                Transform.LocalPosition = newPos;
             } else if (wait > 0 && progress == 0)
             {
                 wait--;
                 movement = new Point();
             }
-
-            Debug.Log($"W: {wait}\nP: {progress}");
         }
     }
 }

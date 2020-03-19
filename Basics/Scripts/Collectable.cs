@@ -5,6 +5,7 @@ using System.Text;
 
 namespace UltimateEngine.Basics
 {
+    [Serializable]
     public class Collectable : GameObject
     {
         public Collectable(string name = "Collectable", Image img = null) : base(name, img)

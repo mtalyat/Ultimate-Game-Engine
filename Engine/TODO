@@ -7,3 +7,7 @@
 
 - Fix platform collisions, reset ignoring collisions when it doesn't hit the 
 specific object and not just any object
+
+- Fix collisions if Player is not Instantiated first
+
+- Fix UI (MessageBox, specifically) not showing after setting Player's Z

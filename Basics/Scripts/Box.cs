@@ -5,6 +5,7 @@ using System.Text;
 
 namespace UltimateEngine.Basics
 {
+    [Serializable]
     public class Box : GameObject
     {
         public Animator Animator { get; set; }

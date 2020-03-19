@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace UltimateEngine
+namespace UltimateEngine.UI
 {
     //A GameObject that always displays an object
     [Serializable]
-    public class Text : GameObject
+    public class Text : UIElement
     {
         public object Reference { get; set; }
         public string FormatString { get; set; }

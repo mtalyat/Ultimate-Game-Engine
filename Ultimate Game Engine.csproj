@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Basics\Scripts\Ground.cs" />
+    <Compile Include="Basics\Scripts\Items\Coin.cs" />
+    <Compile Include="Basics\Scripts\Items\Sign.cs" />
     <Compile Include="Basics\Scripts\MovingPlatform.cs" />
     <Compile Include="Basics\Scripts\Platform.cs" />
     <Compile Include="Engine\Scripts\AdvMath.cs" />
@@ -64,7 +66,7 @@
     <Compile Include="Engine\Scripts\Elements\Point.cs" />
     <Compile Include="Engine\Scripts\Elements\Rect.cs" />
     <Compile Include="Engine\Scripts\Elements\Size.cs" />
-    <Compile Include="Engine\Scripts\Elements\Text.cs" />
+    <Compile Include="Engine\Scripts\Elements\User Interface\Text.cs" />
     <Compile Include="Engine\Scripts\Elements\Transform.cs" />
     <Compile Include="Engine\Scripts\Elements\User Interface\MessageBox.cs" />
     <Compile Include="Engine\Scripts\Elements\User Interface\UIElement.cs" />

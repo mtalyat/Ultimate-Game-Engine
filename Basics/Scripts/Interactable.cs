@@ -2,17 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UltimateEngine.UI;
 
 namespace UltimateEngine.Basics
 {
     [Serializable]
     public class Interactable : GameObject
     {
-        public String InteractKeyName { get; set; } = "E";
+        string _keyName = "E";
+        public string InteractKeyName
+        {
+            get
+            {
+                return _keyName;
+            }
+            set
+            {
+                _keyName = value;
+                displayText.Image = new Image($"'{value}'");
+            }
+        }
         public Point Range { get; set; } = new Point(4, 4);
         bool inRange = false;
 
-        Text displayText;
+        GameObject displayText;
 
         public Interactable(string name = "Interactable GameObject", Image img = null) : base(name, img)
         {
@@ -21,7 +34,8 @@ namespace UltimateEngine.Basics
                 Range = new Point(img.Size);
             }
 
-            displayText = (Text)InstantiateChild(new Text(InteractKeyName, "'{0}'"), new Point(Bounds.CenterX - 1, Bounds.Top + 1));
+            displayText = InstantiateChild(new GameObject("Display Text", new Image($"'{InteractKeyName}'")),
+                new Point(Bounds.CenterX - 1, Bounds.Top + 1));
             displayText.Visible = false;
         }
 

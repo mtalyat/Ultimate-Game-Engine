@@ -34,19 +34,19 @@ namespace UltimateEngine
 
         #region Instantiating/Destroying
 
-        protected void Instantiate(GameObject go, Point position, Transform parent = null)
+        protected GameObject Instantiate(GameObject go, Point position, Transform parent = null)
         {
-            Scene.Instantiate(go, position, parent);
+            return Scene.Instantiate(go, position, parent);
         }
 
-        protected void Instantiate(GameObject go, Transform parent = null)
+        protected GameObject Instantiate(GameObject go, Transform parent = null)
         {
-            Scene.Instantiate(go, parent);
+            return Scene.Instantiate(go, parent);
         }
 
-        protected void Instantiate(GameObject go, double x, double y)
+        protected GameObject Instantiate(GameObject go, double x, double y)
         {
-            Scene.Instantiate(go, x, y);
+            return Scene.Instantiate(go, x, y);
         }
 
         protected void Destroy(GameObject go)

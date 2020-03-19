@@ -21,7 +21,7 @@ namespace UltimateEngine.Basics
 
         public override void OnWake()
         {
-            Transform.SendToBack();
+            Transform.Z = -1;
         }
 
         private Image CreateImage(string pattern, int length, string accents, int accentDepth, Image[] plants, int multiplyPlants)

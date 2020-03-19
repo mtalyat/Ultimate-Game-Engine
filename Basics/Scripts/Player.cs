@@ -47,6 +47,8 @@ namespace UltimateEngine.Basics {
 			Camera.MainCamera = Camera;
 
 			Active = this;
+
+			//Transform.Z = 2;
 		}
 
 		public override void OnStart()

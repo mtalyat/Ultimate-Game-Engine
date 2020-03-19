@@ -204,6 +204,7 @@ namespace UltimateEngine{
 		//removes a child
 		public void RemoveChild(Transform child){
 			Children.Remove(child);
+			child.Parent = null;
 		}
 
 		//updates a child when Z changes

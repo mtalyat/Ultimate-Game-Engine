@@ -245,9 +245,25 @@ namespace UltimateEngine{
 		/// <summary>
 		/// Compares a Point's magnitude to another Point's magnitude.
 		/// </summary>
+		public static bool operator >=(Point one, Point two)
+		{
+			return one.Magnitude() >= two.Magnitude();
+		}
+
+		/// <summary>
+		/// Compares a Point's magnitude to another Point's magnitude.
+		/// </summary>
 		public static bool operator <(Point one, Point two)
 		{
 			return one.Magnitude() < two.Magnitude();
+		}
+
+		/// <summary>
+		/// Compares a Point's magnitude to another Point's magnitude.
+		/// </summary>
+		public static bool operator <=(Point one, Point two)
+		{
+			return one.Magnitude() <= two.Magnitude();
 		}
 
 		public static bool operator==(Point one, Point two){

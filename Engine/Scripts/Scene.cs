@@ -152,6 +152,7 @@ namespace UltimateEngine
 						ScreenBuffer.Draw("dT: " + DeltaTime, 0, 0);
 						ScreenBuffer.Draw("GoalFPS: " + GoalFPS, 0, 1);
 						ScreenBuffer.Draw("ActualFPS: " + ActualFPS, 0, 2);
+						if (Basics.Player.Active != null) ScreenBuffer.Draw("P. Pos: " + Basics.Player.Active.Transform.Position, 0, 3);
 					}
 
 					ScreenBuffer.Print();
@@ -415,7 +416,8 @@ namespace UltimateEngine
 		//all objects should already have their velocities fixed, so all of these collisions will be kinematic
 		private void FixAll()
 		{
-			for (int i = 0; i < InScene.Count; i++)
+			//run through backwards compared to the collisions, so placement is correct
+			for (int i = InScene.Count - 1; i >= 0; i--)
 			{
 				Collider one = InScene[i].GetComponent<Collider>();
 
