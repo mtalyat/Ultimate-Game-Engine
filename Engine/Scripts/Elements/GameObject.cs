@@ -15,7 +15,7 @@ namespace UltimateEngine
 		//Position
 		public Transform Transform { get; private set; }
 
-		public virtual Point ScreenPosition => Transform.Position.Floor();
+		public virtual Point ScreenPosition => Transform.Position.Floor() - Camera.MainCamera.ScreenPosition;
 
 		//Image
 		public virtual Image Image { get; set; }

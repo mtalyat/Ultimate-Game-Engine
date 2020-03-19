@@ -23,6 +23,11 @@ namespace UltimateEngine{
 			return new Size(Math.Abs(one.Width + two.Width), Math.Abs(one.Height + two.Height));
 		}
 
+		public static Size operator +(Size one, int two)
+		{
+			return new Size(Math.Abs(one.Width + two), Math.Abs(one.Height + two));
+		}
+
 		public static Size operator-(Size one, Size two)
 		{
 			return new Size(Math.Abs(one.Width - two.Width), Math.Abs(one.Height - two.Height));
@@ -31,6 +36,11 @@ namespace UltimateEngine{
 		public static Size operator*(Size one, Size two)
 		{
 			return new Size(one.Width * two.Width, one.Height * two.Height);
+		}
+
+		public static Size operator *(Size one, int two)
+		{
+			return new Size(one.Width * two, one.Height * two);
 		}
 
 		public static Size operator/(Size one, Size two)

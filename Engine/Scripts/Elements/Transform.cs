@@ -64,7 +64,8 @@ namespace UltimateEngine{
 
 		//local position is the position based on the parenting
 		//if no parent, the transform is based on the origin: (0, 0)
-		public Point LocalPosition { get; set; } = new Point(0, 0);
+		private Point _local = new Point();
+		public Point LocalPosition { get => _local; set => _local = value; }
 		public double LocalX => LocalPosition.X;
 		public double LocalY => LocalPosition.Y;
 

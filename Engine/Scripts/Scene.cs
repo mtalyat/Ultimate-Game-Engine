@@ -120,7 +120,10 @@ namespace UltimateEngine
 
 					watch.Stop();
 					DeltaTime = watch.Elapsed.Milliseconds;
-					if(FRAMERATE_LIMIT) Thread.Sleep(Math.Max(0, (GoalFPS / 4) - DeltaTime));
+					if (FRAMERATE_LIMIT)
+					{
+						Thread.Sleep(Math.Max(0, (int)((double)GoalFPS / 4.5) - DeltaTime * 2));
+					}
 
 					if (SLOW_MODE) Thread.Sleep(1000);
 
@@ -259,8 +262,11 @@ namespace UltimateEngine
 				g.Transform.AddChild(Instantiate(child.GameObject, child.LocalPosition, g.Transform).Transform);
 			}
 
-			if(Active)
+			if (Active)
+			{
+				Wake(g.Transform);
 				Start(g.Transform);
+			}
 
 			return g;
 		}
@@ -302,9 +308,9 @@ namespace UltimateEngine
 		//Wakes all of the gameobjects/assigns their Scene object
 		private void WakeAll()
 		{
-			foreach (Transform t in origin.GetAllChildren())
+			for(int i = 0; i < origin.Children.Count; i++)
 			{
-				Wake(t);
+				Wake(origin.Children[i]);
 			}
 		}
 
@@ -434,39 +440,41 @@ namespace UltimateEngine
 		//draws all of the GameObjects in view
 		private void DrawAll()
 		{
-			Point offset = Camera.MainCamera.ScreenPosition;
-
 			for(int i = 0; i < origin.Children.Count; i++)
 			{
-				Draw(origin.Children[i], offset);
+				Draw(origin.Children[i]);
 			}
 
 			//finish by drawing the UI
 			for(int i = 0; i < Camera.MainCamera.Transform.Children.Count; i++)
 			{
-				Draw(Camera.MainCamera.Transform.Children[i], new Point());//offset is (0, 0) because it is relative to the screen
+				Draw(Camera.MainCamera.Transform.Children[i]);
 			}
 		}
 
-		private void Draw(Transform t, Point offset)
+		private void Draw(Transform t)
 		{
 			if (t == null) return;
 
 			GameObject go = t.GameObject;
+
 			//update the GameObject
 			if (go != null)
 			{
-				//draw the Camera last
-				if (go == Camera.MainCamera) return;
+				//don't need to draw if it is not visible
+				if (!go.Visible) return;
 
-				if(go.Image.SupportsTransparency)
-					ScreenBuffer.TransparentDraw(go.Image.RawData, go.Image.Size, go.ScreenPosition - offset);
+				//draw the Camera last
+				if (go is Camera) return;
+
+				if (go.Image.SupportsTransparency)
+					ScreenBuffer.TransparentDraw(go.Image.RawData, go.Image.Size, go.ScreenPosition);
 				else
-					ScreenBuffer.Draw(go.Image.RawData, go.Image.Size, go.ScreenPosition - offset);
+					ScreenBuffer.Draw(go.Image.RawData, go.Image.Size, go.ScreenPosition);
 
 				foreach (Transform child in t.Children)
 				{
-					Draw(child, offset);
+					Draw(child);
 				}
 			}
 		}

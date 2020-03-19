@@ -6,7 +6,7 @@ using System.Text;
 namespace UltimateEngine.Basics
 {
     [Serializable]
-    public class InteractableGameObject : GameObject
+    public class Interactable : GameObject
     {
         public String InteractKeyName { get; set; } = "E";
         public Point Range { get; set; } = new Point(4, 4);
@@ -14,7 +14,7 @@ namespace UltimateEngine.Basics
 
         Text displayText;
 
-        public InteractableGameObject(string name = "Interactable GameObject", Image img = null) : base(name, img)
+        public Interactable(string name = "Interactable GameObject", Image img = null) : base(name, img)
         {
             if(img != null)
             {

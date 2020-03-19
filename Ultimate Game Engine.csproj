@@ -51,7 +51,7 @@
     <Compile Include="Engine\Scripts\Components\Animator.cs" />
     <Compile Include="Engine\Scripts\Components\Collider.cs" />
     <Compile Include="Engine\Scripts\Components\Component.cs" />
-    <Compile Include="Basics\Scripts\InteractableGameObject.cs" />
+    <Compile Include="Basics\Scripts\Interactable.cs" />
     <Compile Include="Engine\Scripts\Elements\Line.cs" />
     <Compile Include="Engine\Scripts\Components\PhysicsBody.cs" />
     <Compile Include="Engine\Scripts\Debug.cs" />
@@ -65,6 +65,7 @@
     <Compile Include="Engine\Scripts\Elements\Size.cs" />
     <Compile Include="Engine\Scripts\Elements\Text.cs" />
     <Compile Include="Engine\Scripts\Elements\Transform.cs" />
+    <Compile Include="Engine\Scripts\Elements\User Interface\MessageBox.cs" />
     <Compile Include="Engine\Scripts\Elements\User Interface\UIElement.cs" />
     <Compile Include="Engine\Scripts\Resources.cs" />
     <Compile Include="Engine\Scripts\Scene.cs" />

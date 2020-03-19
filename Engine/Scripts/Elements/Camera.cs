@@ -6,6 +6,8 @@ namespace UltimateEngine {
 	public class Camera : GameObject {
 		public static Camera MainCamera { get; set; }
 
+		public override Point ScreenPosition => Transform.Position.Floor();
+
 		static List<Camera> allCameras = new List<Camera>();
 		public static int CameraCount => allCameras.Count;
 

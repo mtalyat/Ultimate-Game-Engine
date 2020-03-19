@@ -38,12 +38,12 @@ namespace UltimateEngine.Basics {
 			Animator.Add(Resources.GetAnimation("Jumping"));
 
 			Camera = new Camera("Player Camera");
+			Transform.AddChild(Camera.Transform);
 		}
 
 		public override void OnWake()
 		{
-			Camera = (Camera)InstantiateChild(Camera, (Camera.Bounds.Center * -1) + new Point(3, 3));//kind of centers the player
-
+			Camera.Transform.LocalPosition = new Point(ScreenBuffer.Size) / -2 + 3;
 			Camera.MainCamera = Camera;
 
 			Active = this;
